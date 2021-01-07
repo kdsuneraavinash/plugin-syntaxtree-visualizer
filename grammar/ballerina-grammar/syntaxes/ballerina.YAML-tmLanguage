@@ -1,0 +1,868 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Ballerina
+scopeName: source.ballerina
+fileTypes: [bal]
+uuid: c01f5512-489a-41bd-ba5d-caf4b55ae3b3
+
+variables:
+  identifier: "(?:'?(?:(?:{{letter}})|\\\\(?:{{nonLetter}})|\\\\)+)"
+  letter: "[^ (){}\\[\\]\\-?*=><?;\"',.\\s\\\\]"
+  nonLetter: "[ (){}\\[\\]\\-?*=><?;\"',.\\s]"
+
+monarchVariables:
+  typeScope: 'type'
+  annotationScope: 'type'
+  numberScope: 'number'
+  xmlTagAngle: 'tag'
+  xmlAttribute: 'variable.parameter'
+  xmlTag: 'tag'
+
+tmlVariables:
+  typeScope: 'storage.type.ballerina'
+  annotationScope: 'storage.type.annotation.ballerina'
+  numberScope: 'constant.numeric.decimal.ballerina'
+  xmlTagAngle: 'punctuation.definition.tag.begin.xml.ballerina'
+  xmlAttribute: 'entity.other.attribute-name.xml.ballerina'
+  xmlTag: 'entity.name.tag.xml.ballerina'
+
+patterns:
+- include: '#serviceDefinition'
+- include: '#functionDefinition'
+- include: '#typeDefinition'
+- include: '#annotationDefinition'
+- include: '#documentationDef'
+- include: '#mdDocumentation'
+- include: '#objectDec'
+- include: '#record'
+- include: '#annotationAttachment'
+- include: '#recordLiteral'
+- include: '#comment'
+- include: '#code'
+
+repository:
+  annotationAttachment:
+    patterns:
+    - match: '@((?:{{identifier}}):)?(?:{{identifier}})'
+      name: '{{annotationScope}}'
+
+  annotationDefinition:
+    patterns:
+    - begin: '\bannotation\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: ';'
+      patterns:
+      - include: '#typeDescription'
+
+  booleans:
+    patterns:
+    - match: '\b(true|false)\b'
+      name: constant.language.boolean.ballerina
+
+  butExp:
+    patterns:
+    - begin: '\bbut\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '\}'
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina.documentation }
+      patterns:
+      - include: '#butExpBody'
+      - include: '#comment'
+
+  butExpBody:
+    patterns:
+    - begin: \{
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina.documentation }
+      end: '(?=\})'
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina.documentation }
+      patterns:
+      - include: '#parameter'
+      - include: '#butClause'
+      - include: '#comment'
+
+  butClause:
+    patterns:
+    - begin: '=>'
+      beginCaptures:
+        '0': { name:  keyword.operator.ballerina }
+      end: ',|(?=\})'
+      patterns:
+      - include: '#code'
+
+  call:
+    patterns:
+    - match: ({{identifier}})\s*(?=\()
+      name: entity.name.function.ballerina
+
+  comment:
+    patterns:
+    - name: comment.ballerina
+      match: \/\/.*
+
+  constrainType:
+    patterns:
+    - begin: '<'
+      end: '>'
+      beginCaptures:
+        '0': { name: punctuation.definition.parameters.begin.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.parameters.end.ballerina }
+      patterns:
+      - include: '#comment'
+      - include: '#constrainType'
+      - name: '{{typeScope}}'
+        match: \b({{identifier}})\b
+
+  tupleType:
+    patterns:
+    - begin: '\['
+      end: '(?=\]|;)'
+      patterns:
+      - include: '#comment'
+      - include: '#constrainType'
+      - name: '{{typeScope}}'
+        match: \b({{identifier}})\b
+
+  defaultValue:
+    patterns:
+    - begin: '[=:]'
+      beginCaptures:
+        '0': { name:  keyword.operator.ballerina }
+      end: (?=[,)])
+      patterns:
+        - include: '#code'
+
+  documentationDef:
+    patterns:
+    - begin: \b(?:documentation|deprecated)\b
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '\}'
+      endCaptures:
+        '0': { name: delimiter.curly }
+      patterns:
+      - include: '#documentationBody'
+      - include: '#comment'
+  
+  documentationBody:
+    patterns:
+    - begin: \{
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina.documentation }
+      end: '(?=\})'
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina.documentation }
+      patterns:
+      - match: (P|R|T|F|V)({{)(.*)(}})
+        captures:
+          '1': {name: keyword.other.ballerina.documentation}
+          '2': {name: keyword.other.ballerina.documentation}
+          '3': {name: variable.parameter.ballerina.documentation}
+          '4': {name: keyword.other.ballerina.documentation}
+
+      - name: comment.block.code.ballerina.documentation
+        begin: \```
+        end: \```
+
+      - name: comment.block.code.ballerina.documentation
+        begin: \``
+        end: \``
+
+      - name: comment.block.code.ballerina.documentation
+        begin: \`
+        end: \`
+
+      - name: comment.block.ballerina.documentation
+        match: .
+
+  errorDestructure:
+    patterns:
+    - begin: 'error'
+      end: '(?==>)'
+      beginCaptures:
+        '0': { name: '{{typeScope}}' }
+      patterns:
+      - include: '#code'
+
+  callableUnitBody:
+    patterns:
+    - begin: '\{'
+      end: '(?=\})'
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#workerDef'
+      - include: '#code'
+
+  functionDefinition:
+    patterns:
+    - begin: '\bfunction\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '\}|(?=;|=)'
+      endCaptures:
+        '0': { name:  punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#functionParameters'
+      - include: '#functionReturns'
+      - name: keyword.ballerina
+        match: 'extern\b'
+      - include: '#functionName'
+      - include: '#callableUnitBody'
+      - include: '#comment'
+
+  functionName:
+    patterns:
+    - name: entity.name.function.ballerina
+      match: '{{identifier}}'
+
+  functionParameters:
+    patterns:
+    - begin: '\('
+      end: '\)'
+      beginCaptures:
+        '0': { name: delimiter.parenthesis }
+      endCaptures:
+        '0': { name: delimiter.parenthesis }
+      patterns:
+      - match: public
+        name: keyword
+      - include: '#annotationAttachment'
+      - include: '#recordLiteral'
+      - include: '#parameter'
+      - include: '#parameterTuple'
+      - include: '#defaultValue'
+      - include: '#comment'
+
+  functionReturns:
+    patterns:
+    - begin: '\breturns\b'
+      beginCaptures:
+        '0': { name: keyword.ballerina }
+      end: (?=\{|;|,|=)
+      endCaptures:
+        '0': { name: curly }
+      patterns:
+        - include: '#record'
+        - include: '#objectDec'
+        - include: '#tupleType'
+        - match: '{{identifier}}'
+          name: '{{typeScope}}'
+        - include: '#comment'
+
+  functionType:
+    patterns:
+    - begin: '\bfunction\b'
+      beginCaptures:
+        '0': { name: keyword.ballerina }
+      end: (?=\,)|(?=\|)|(?=\:)|(?==>)|(?=\))|(?=\])
+      patterns:
+      - include: '#comment'
+      - include: '#functionTypeParamList'
+      - include: '#functionTypeReturns'
+
+  functionTypeParamList:
+    patterns:
+    - begin: '\('
+      end: '\)'
+      beginCaptures:
+        '0': { name: delimiter.parenthesis }
+      endCaptures:
+        '0': { name: delimiter.parenthesis }
+      patterns:
+      - match: public
+        name: keyword
+      - include: '#annotationAttachment'
+      - include: '#recordLiteral'
+      - include: '#record'
+      - include: '#objectDec'
+      - include: '#functionType'
+      - include: '#constrainType'
+      - include: '#parameterTuple'
+      - include: '#functionTypeType'
+      - include: '#comment'
+
+  functionTypeType:
+    patterns:
+    - begin: '{{identifier}}'
+      beginCaptures:
+        '0': { name: '{{typeScope}}' }
+      end: (?=\,)|(?:\|)|(?=\])|(?=\))
+
+  functionTypeReturns:
+    patterns:
+    - begin: '\breturns\b'
+      beginCaptures:
+        '0': { name: 'keyword' }
+      end: (?=\,)|(?:\|)|(?=\])|(?=\))
+      patterns:
+      - include: '#functionTypeReturnsParameter'
+      - include: '#comment'
+
+  functionTypeReturnsParameter:
+    patterns:
+    - begin: ((?=record|object|function)|(?:{{identifier}}))
+      beginCaptures:
+        '0': { name: '{{typeScope}}' }
+      end: (?=\,)|(?:\|)|(?:\:)|(?==>)|(?=\))|(?=\])
+      patterns:
+      - include: '#record'
+      - include: '#objectDec'
+      - include: '#functionType'
+      - include: '#constrainType'
+      - include: '#defaultValue'
+      - include: '#comment'
+      - include: '#parameterTuple'
+      - match: '{{identifier}}'
+        name: variable.parameter.ballerina
+
+  maps:
+    patterns:
+    - begin: \{
+      end: \}
+      patterns:
+      - include: '#code'
+
+  matchStatementPatternClause:
+    patterns:
+    - begin: '=>'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '((\})|;|,)'
+      patterns:
+      - include: '#callableUnitBody'
+      - include: '#code'
+
+  matchStatement:
+    patterns:
+    - begin: '\bmatch\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '\}'
+      patterns:
+      - include: '#matchStatementBody'
+      - include: '#comment'
+      - include: '#code'
+
+  matchStatementBody:
+    patterns:
+    - begin: \{
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina.documentation }
+      end: (?=\})
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina.documentation }
+      patterns:
+      - include: '#literal'
+      - include: '#matchBindingPattern'
+      - include: '#matchStatementPatternClause'
+      - include: '#comment'
+
+  matchBindingPattern:
+    patterns:
+    - begin: 'var'
+      beginCaptures:
+        '0': { name: '{{typeScope}}' }
+      end: '(?==>)'
+      patterns:
+      - include: '#errorDestructure'
+      - match: '{{identifier}}'
+        name: variable.parameter.ballerina
+
+  mdDocumentation:
+    patterns:
+    - include: '#mdDocumentationReturnParamDescription'
+    - include: '#mdDocumentationParamDescription'
+    - match: '#.*'
+      name: comment.mddocs.ballerina
+
+  mdDocumentationParamDescription:
+    patterns:
+    - begin: '(#)(?: ?)(\+)(?: *)({{identifier}})?(?: *)(-)?(.*)'
+      beginCaptures:
+        '1': { name:  comment.mddocs.ballerina }
+        '2': { name:  keyword.ballerina }
+        '3': { name:  variable.parameter.ballerina }
+        '4': { name:  keyword.ballerina }
+        '5': { name:  comment.mddocs.paramdesc.ballerina }
+      end: '(?=[^#\r\n]|(?:# ?\+))'
+      patterns:
+      - match: '#.*'
+        name: comment.mddocs.paramdesc.ballerina
+
+  mdDocumentationReturnParamDescription:
+    patterns:
+    - begin: '(#)(?: ?)(\+)(?: *)(return)(?: *)(-)?(.*)'
+      beginCaptures:
+        '1': { name:  comment.mddocs.ballerina }
+        '2': { name:  keyword.ballerina }
+        '3': { name:  keyword.ballerina }
+        '4': { name:  keyword.ballerina }
+        '5': { name:  comment.mddocs.returnparamdesc.ballerina }
+      end: '(?=[^#\r\n]|(?:# ?\+))'
+      patterns:
+      - match: '#.*'
+        name: comment.mddocs.returnparamdesc.ballerina
+
+  numbers:
+    patterns:
+    - match: '\b0[xX][\da-f]+\b|\b\d+(?:\.(?:\d+|$))?'
+      name: '{{numberScope}}'
+
+  objectBody:
+    patterns:
+    - begin: '\{'
+      end: '(?=\})'
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#mdDocumentation'
+      - include: '#documentationDef'
+      - include: '#functionDefinition'
+      - include: '#annotationAttachment'
+      - match: (public|private|extern|resource|remote)
+        name: keyword.ballerina
+      - include: '#comment'
+      - include: '#variableDefInline'
+      - include: '#variableDef'
+      - include: '#code'
+
+  objectDec:
+    patterns:
+    - begin: '\bobject\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '\}'
+      endCaptures:
+        '0': { name: delimiter.curly }
+      patterns:
+      - include: '#objectBody'
+      - include: '#comment'
+
+  objectInitBody:
+    patterns:
+    - begin: '\{'
+      end: '(?=\})'
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#comment'
+      - include: '#code'
+
+  objectInitParameters:
+    patterns:
+    - begin: '\('
+      end: '\)'
+      beginCaptures:
+        '0': { name: punctuation.definition.parameters.begin.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.parameters.end.ballerina }
+      patterns:
+      - include: '#code'
+      - match: \b({{identifier}})\b
+        name: variable.parameter.ballerina
+
+  objectMemberFunctionDec:
+    patterns:
+    - begin: '\bfunction\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '(?=(?:\}|;))'
+      endCaptures:
+        '0': { name:  punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#functionReceiver'
+      - include: '#functionParameters'
+      - include: '#functionReturns'
+      - include: '#functionName'
+      - include: '#callableUnitBody'
+      - include: '#comment'
+
+  paranthesised:
+    patterns:
+    - begin: \(
+      end: \)
+      patterns:
+      - include: '#comment'
+      - include: '#code'
+
+  paranthesisedBracket:
+    patterns:
+    - begin: \[
+      end: \]
+      patterns:
+      - include: '#comment'
+      - include: '#code'
+
+  record:
+    patterns:
+    - begin: '\brecord\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '\}'
+      endCaptures:
+        '0': { name: delimiter.curly }
+      patterns:
+      - include: '#recordBody'
+      - include: '#comment'
+
+  recordBody:
+    patterns:
+    - begin: '\{'
+      end: '(?=\})'
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#annotationAttachment'
+      - include: '#comment'
+      - include: '#variableDefInline'
+      - include: '#variableDef'
+      - include: '#code'
+
+  recordLiteral:
+    patterns:
+    - begin: '\{'
+      end: '\}'
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#code'
+
+  serviceBody:
+    patterns:
+    - begin: '\{'
+      end: '(?=\})'
+      beginCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#comment'
+      - include: '#mdDocumentation'
+      - include: '#documentationDef'
+      - include: '#annotationAttachment'
+      - include: '#functionDefinition'
+      - include: '#recordLiteral'
+      - include: '#code'
+
+  serviceDefinition:
+    patterns:
+    - begin: '\bservice\b'
+      end: '\}|;|='
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      endCaptures:
+        '0': { name: punctuation.definition.block.ballerina }
+      patterns:
+      - include: '#comment'
+      - include: '#serviceBody'
+      - include: '#serviceOn'
+      - include: '#serviceName'
+
+  serviceName:
+    patterns:
+    - name: entity.name.function.ballerina
+      match: '{{identifier}}'
+
+  serviceOn:
+    patterns:
+    - begin: 'on'
+      end: '(?={)'
+      beginCaptures:
+        '0': { name: keyword.ballerina }
+      patterns:
+      - include: "#code"
+
+  strings:
+    patterns:
+    - begin: \"
+      end: \"
+      beginCaptures:
+        '0': { name: string.begin.ballerina }
+      endCaptures:
+        '0': { name: string.end.ballerina }
+      patterns:
+        - name: constant.character.escape.ballerina
+          match: \\.
+        - name: string
+          match: '.'
+
+  stringTemplate:
+    patterns:
+    - begin: '(\bstring)(\s*)(`)'
+      beginCaptures:
+        '1': { name: 'keyword.ballerina' }
+        '2': { name: '' }
+        '3': { name: 'string.template.ballerina' }
+      end: '`'
+      endCaptures:
+        '0': { name: 'string.template.ballerina' }
+      patterns:
+      - name: constant.character.escape.ballerina
+        match: \\.
+      - include: '#templateVariable'
+      - name: string
+        match: '.'
+
+  typeDefinition:
+    patterns:
+    - begin: '\btype\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: ';'
+      endCaptures:
+        '0': { name: source.ballerina }
+      patterns:
+      - include: '#comment'
+      - include: '#typeDescription'
+
+  typeDescription:
+    patterns:
+    - begin: '{{identifier}}'
+      beginCaptures:
+        '0': { name: entity.name.function.ballerina }
+      end: '(?=;)'
+      endCaptures:
+        '0': { name: source.ballerina }
+      patterns:
+      - include: '#comment'
+      - include: '#objectDec'
+      - include: '#record'
+      - include: '#literal'
+      - match: '{{identifier}}'
+        name: '{{typeScope}}'
+
+  variableDef:
+    patterns:
+    - begin: '(?:{{identifier}})(?: |\t)|(?=\()'
+      beginCaptures:
+        '0': { name: '{{typeScope}}' }
+      end: '(?:{{identifier}})|(?=\,)|(?=;)|\.\.\.'
+      endCaptures:
+        '0': { name: source.ballerina }
+      patterns:
+      - include: '#tupleType'
+      - include: '#constrainType'
+      - include: '#comment'
+
+  variableDefInline:
+    patterns:
+    - begin: '(?=record)|(?=object)'
+      end: '(?=;)'
+      patterns:
+      - include: '#record'
+      - include: '#objectDec'
+      - match: '{{identifier}}'
+        name: source.ballerina
+
+  workerDef:
+    patterns:
+    - begin: '\bworker\b'
+      beginCaptures:
+        '0': { name:  keyword.ballerina }
+      end: '\}'
+      patterns:
+      - include: '#workerBody'
+
+  workerBody:
+    patterns:
+    - begin: '\{'
+      end: (?=\})
+      patterns:
+      - include: '#code'
+
+  parameter:
+    patterns:
+    - begin: ((?=record|object|function)|(?:{{identifier}}))
+      beginCaptures:
+        '0': { name: '{{typeScope}}' }
+      end: (?:\,)|(?:\|)|(?:\:)|(?==>)|(?=\))|(?=\])
+      patterns:
+      - include: '#record'
+      - include: '#objectDec'
+      - include: '#functionType'
+      - include: '#constrainType'
+      - include: '#defaultValue'
+      - include: '#comment'
+      - include: '#parameterTuple'
+      - match: '{{identifier}}'
+        name: variable.parameter.ballerina
+
+  parameterTuple:
+    patterns:
+    - begin: '\['
+      end: (?=\,)|(?=\|)|(?=\:)|(?==>)|(?=\))
+      patterns:
+      - include: '#record'
+      - include: '#objectDec'
+      - include: '#parameterTupleType'
+      - include: '#parameterTupleEnd'
+      - include: '#comment'
+  
+  parameterTupleType:
+    patterns:
+    - begin: '{{identifier}}'
+      beginCaptures:
+        '0': { name: '{{typeScope}}' }
+      end: (?:\,)|(?:\|)|(?=\])
+
+  parameterTupleEnd:
+    patterns:
+    - begin: '\]'
+      end: (?=\,)|(?=\|)|(?=\:)|(?==>)|(?=\))
+      patterns:
+      - match: '{{identifier}}'
+        name: variable.parameter.ballerina
+
+  types:
+    patterns:
+    - name: '{{typeScope}}'
+      match: \b(boolean|int|float|string|decimal|handle|var|any|anydata|byte|future|typedesc)\b
+
+    - name: '{{typeScope}}'
+      match: \b(map|json|xml|error|never|readonly|distinct)\b
+
+    - name: '{{typeScope}}'
+      match: \b(stream)\b
+
+  xml:
+    patterns:
+    - begin: '(\bxml)(\s*)(`)'
+      beginCaptures:
+        '1': { name: 'keyword.ballerina' }
+        '2': { name: '' }
+        '3': { name: 'string.template.ballerina' }
+      end: '`'
+      endCaptures:
+        '0': { name: 'string.template.ballerina' }
+      patterns:
+      - include: '#xmlTag'
+      - include: '#xmlComment'
+      - include: '#templateVariable'
+      - name: text.xml.ballerina
+        match: '.'
+
+  xmlTag:
+    patterns:
+    - begin: '(<\/?\??)\s*([-_a-zA-Z0-9]+)'
+      beginCaptures:
+        '1': { name: '{{xmlTagAngle}}' }
+        '2': { name: '{{xmlTag}}' }
+      end: '\??\/?>'
+      endCaptures:
+        '0': { name: '{{xmlTagAngle}}' }
+      patterns:
+      - include: '#xmlSingleQuotedString'
+      - include: '#xmlDoubleQuotedString'
+      - name: '{{xmlAttribute}}'
+        match: '([a-zA-Z-]+)'
+
+  xmlComment:
+    patterns:
+    - begin: '<!--'
+      beginCaptures:
+        '0': { name: comment.block.xml.ballerina }
+      end: '-->'
+      endCaptures:
+        '0': { name: comment.block.xml.ballerina }
+      name: 'comment.block.xml.ballerina'
+
+  xmlSingleQuotedString:
+    patterns:
+    - begin: \'
+      end: \'
+      beginCaptures:
+        '0': { name: string.begin.ballerina }
+      endCaptures:
+        '0': { name: string.end.ballerina }
+      patterns:
+        - name: constant.character.escape.ballerina
+          match: \\.
+        - name: string
+          match: '.'
+
+  xmlDoubleQuotedString:
+    patterns:
+    - begin: \"
+      end: \"
+      beginCaptures:
+        '0': { name: string.begin.ballerina }
+      endCaptures:
+        '0': { name: string.end.ballerina }
+      patterns:
+        - name: constant.character.escape.ballerina
+          match: \\.
+        - name: string
+          match: '.'
+
+  templateVariable:
+    patterns:
+    - begin: '\${'
+      beginCaptures:
+        '0': { name: 'constant.character.escape.ballerina'}
+      end: '}'
+      endCaptures:
+        '0': { name: 'constant.character.escape.ballerina'}
+      patterns:
+      - include: '#code'
+
+  keywords:
+    patterns:
+    - name: keyword.control.ballerina
+      match: \b(if|else|fork|join|while|foreach|in|return|returns|break|transaction|transactional|retry|commit|rollback|continue|typeof|enum|wait|check|checkpanic|panic|trap|match)\b
+
+    - name: keyword.other.ballerina
+      match: \b(public|private|function|external|type|record|object|remote|abstract|client|true|false|fail|import|version)\b
+
+    - name: keyword.other.ballerina
+      match: \b(as|on|resource|listener|const|final|is|null|lock|annotation|source|worker|parameter|field|isolated)\b
+
+    - name: keyword.other.ballerina
+      match: \b(xmlns|table|key|let|new|from|where|select|start|flush|default|do|base16|base64|conflict)\b
+
+    - name: keyword.other.ballerina
+      match: \b(limit|outer|equals|order|by|ascending|descending|class|variable|module|service)\b
+
+    - name: keyword.operator.ballerina
+      match: (!|%|\+|\-|~=|===|==|=|!=|!==|<|>|&|\||\?:|\.\.\.|\?|<=|=>|>=|&&|\|\||~|>>|>>>)
+
+    - include: '#types'
+
+  literal:
+    patterns:
+    - include: '#booleans'
+    - include: '#numbers'
+    - include: '#strings'
+    - include: '#maps'
+
+  code:
+    patterns:
+    - include: '#booleans'
+    - include: '#matchStatement'
+    - include: '#butExp'
+    - include: '#xml'
+    - include: '#stringTemplate'
+    - include: '#keywords'
+    - include: '#strings'
+    - include: '#comment'
+    - include: '#annotationAttachment'
+    - match: '{{identifier}}'
+    - include: '#maps'
+    - include: '#paranthesised'
+    - include: '#paranthesisedBracket'
+    - include: '#numbers'

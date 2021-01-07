@@ -1,0 +1,14 @@
+dist
+out
+node_modules
+.vscode-test/
+*.vsix
+resources/jslibs
+!.vscode
+coverage
+extractedDistribution
+
+# gradle
+.gradle
+!gradle-wrapper.jar
+build
