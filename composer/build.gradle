@@ -21,7 +21,6 @@ apply from: "$rootDir/gradle/jsProject.gradle"
 
 configurations {
     composer
-    fonts
 }
 
 task composerBuild {
@@ -37,7 +36,6 @@ task composerBuild {
     inputs.files(src.matching(patternSet))
 
     outputs.dir("packages/distribution/build")
-    outputs.dir("packages/font/build")
     outputs.cacheIf { true }
     doFirst {
         exec {
@@ -52,13 +50,6 @@ task composerBuild {
             into './../resources/jslibs'
             include 'composer.js'
             include 'themes/**'
-        }
-        copy {
-            from './packages/font/build'
-            into './../resources/jslibs'
-            include '*.js'
-            include 'codepoints.json'
-            include 'font/'
         }
     }
 }
@@ -98,7 +89,6 @@ task testComposer() {
 }
 
 artifacts.add('composer', file("packages/distribution/build/"))
-artifacts.add('fonts', file("packages/font/build/"))
 
 check {
     dependsOn testComposer
