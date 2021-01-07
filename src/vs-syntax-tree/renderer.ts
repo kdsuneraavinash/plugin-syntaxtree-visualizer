@@ -16,10 +16,13 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
             overflow-x: auto;
             position: relative;
             height: 100%;
+            text-align: center;
+            margin-top: 2%;
         }
 
         #treeBody {
-            height: 100%;
+            display: inline-block;
+            position: relative;
         }
     `;
     const scripts = `
