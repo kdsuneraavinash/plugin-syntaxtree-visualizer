@@ -8,7 +8,7 @@ export function retrieveGraph (responseTree: JSON){
     console.log(responseTree);
     nodeArray = [];
     treeMapper(responseTree, {}, 0);
-    return updateSyntaxTree("xxx");
+    return updateSyntaxTree("");
 }
 
 export function updateSyntaxTree (nodeID: string){

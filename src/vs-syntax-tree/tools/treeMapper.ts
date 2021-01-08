@@ -40,7 +40,7 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                 childNode = {
                     nodeID: `p${++nodeCount}`,
                     value: obj[props].isMissing ? obj[props].kind : props,
-                    kind: props,
+                    kind: nodeArray.length ? props : "Compilation Unit",
                     leadingMinutiae: obj[props].leadingMinutiae,
                     trailingMinutiae: obj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
@@ -57,8 +57,8 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     nodeID: `p${++nodeCount}`,
                     value: obj[props].kind,
                     kind: obj[props].kind,
-                    leadingMinutiae: obj[props].leadingMinutiae,
-                    trailingMinutiae: obj[props].trailingMinutiae,
+                    leadingMinutiae: parentObj.leadingMinutiae,
+                    trailingMinutiae: parentObj.trailingMinutiae,
                     parentID: parentObj.nodeID,
                     didCollapse: treeLevel < 2 ? true : false,
                     children: []

@@ -42,9 +42,14 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
             function renderTree(){
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
-                        webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
-                            resolve(result);
-                        });
+                        if(!response.parseSuccess){
+                            document.getElementById("treeBody").innerHTML = "Oops! Something went wrong!";
+                        }
+                        else {
+                            webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
+                                resolve(result);
+                            });
+                        }
                     });
                 })
             }
