@@ -40,6 +40,7 @@ function TreeNode(props: TreeNodeProps) {
                 <div
                     style = {{
                         color: "white",
+                        flexGrow: 1,
                         fontSize: 14,
                         textAlign: "center",
                         width: "auto"
