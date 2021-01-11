@@ -21,19 +21,6 @@
 import { LanguageClient } from "vscode-languageclient";
 import { Uri } from "vscode";
 
-export interface BallerinaProject {
-    path?: string;
-    version?: string;
-    author?: string;
-    packageName?: string;
-}
-
-export interface GetBallerinaProjectParams {
-    documentIdentifier: {
-        uri: string;
-    };
-}
-
 export interface BallerinaSyntaxTree {
     kind: String;
     topLevelNodes: any[];
