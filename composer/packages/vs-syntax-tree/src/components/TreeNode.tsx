@@ -44,6 +44,7 @@ function TreeNode(props: TreeNodeProps) {
                         textAlign: "center",
                         width: "auto"
                     }}
+                    // tslint:disable-next-line: no-empty
                     onClick = {props.node.ifParent ? onClickNode : () => {}}
                     onMouseLeave = {undoHoverNode}
                     onMouseOver = {onHoverNode}
