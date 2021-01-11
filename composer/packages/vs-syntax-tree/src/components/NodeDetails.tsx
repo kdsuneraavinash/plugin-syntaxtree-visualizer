@@ -12,6 +12,7 @@ function NodeDetails (props: TreeNodeDetailsProps){
                 minHeight: 190,
                 padding: 10,
                 position: "absolute",
+                textAlign: "left",
                 top: props.node.y > window.innerHeight - 250 ? props.node.y - 180 : props.node.y + (props.node.height/1.25),
                 zIndex: 1
             }}

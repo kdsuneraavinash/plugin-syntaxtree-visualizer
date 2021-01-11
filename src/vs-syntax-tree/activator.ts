@@ -90,7 +90,25 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
     const context = <vscode.ExtensionContext> ballerinaExtInstance.context;
     const langClient = <ExtendedLangClient> ballerinaExtInstance.langClient;
     const syntaxTreeCommand = vscode.commands.registerCommand('ballerina.visualizeSyntaxTree', () => {
-        validateForVisualization(context, langClient);
+        ballerinaExtInstance.onReady()
+        .then(() => {
+            const { experimental } = langClient.initializeResult!.capabilities;
+            const serverProvidesExamples = experimental && experimental.examplesProvider;
+
+            if (!serverProvidesExamples) {
+                ballerinaExtInstance.showMessageServerMissingCapability();
+                return;
+            }
+
+            validateForVisualization(context, langClient);
+        })
+		.catch((e) => {
+			if (!ballerinaExtInstance.isValidBallerinaHome()) {
+				ballerinaExtInstance.showMessageInvalidBallerinaHome();
+			} else {
+				ballerinaExtInstance.showPluginActivationError();
+            }
+		});
     });
     
     context.subscriptions.push(syntaxTreeCommand);
