@@ -24,7 +24,7 @@ function TreeNode(props: TreeNodeProps) {
                 style = {{
                     backgroundColor: props.node.nodeColor,
                     borderRadius: 10,
-                    boxShadow: props.node.ifParent ? "2px 4px 2px #9E9E9E" : "none",
+                    boxShadow: props.node.isCollapsible ? "2px 4px 2px #9E9E9E" : "none",
                     cursor: "default",
                     display: "flex",
                     flexDirection: "row",

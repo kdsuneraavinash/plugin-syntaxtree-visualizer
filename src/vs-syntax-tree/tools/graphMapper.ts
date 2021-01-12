@@ -26,6 +26,7 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string) {
                 'elk.position': '('+position+', 0)'
             },
             ifParent: targetArray[i].children.length ? true : false,
+            isCollapsible: targetArray[i].didCollapse ? false : (targetArray[i].children.length ? true : false),
             nodeColor: targetArray[i].errorNode ? "#DB3247" : (targetArray[i].nodeID.charAt(0) === "p" ? "#16B16F" : "#6640D1")
         });
 

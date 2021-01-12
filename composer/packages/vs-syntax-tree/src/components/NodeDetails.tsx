@@ -7,7 +7,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
             style = {{
                 backgroundColor: "#faf3c0",
                 borderRadius: 5,
-                left: props.node.x > window.outerWidth - 100 ?
+                left: props.node.x > window.innerWidth - 50 ?
                     props.node.x - 130 :
                     props.node.x + (props.node.width / 1.25),
                 minHeight: 190,
