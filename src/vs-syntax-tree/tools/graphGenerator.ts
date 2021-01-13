@@ -18,6 +18,9 @@ export function updateSyntaxTree (nodeID: string){
 }
 
 function setGraph(){
+    console.log(nodeArray);
+    console.log(nodeMembers);
+
     const graph = {
         id: "root",
         layoutOptions: layoutOptions,

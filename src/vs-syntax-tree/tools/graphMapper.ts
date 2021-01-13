@@ -2,6 +2,8 @@ import { toInteger } from "lodash";
 import { TreeNode } from "./resources";
 import { nodeMembers, nodeEdges } from "./graphGenerator";
 
+let diagnostics: any[] = [];
+
 export function graphMapper(targetArray: TreeNode[], nodeID: string) {
     for (let i = 0; i < targetArray.length; i++) {
         let position = toInteger(targetArray[i].nodeID.replace(/\D/g, ''));
@@ -22,6 +24,7 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string) {
             kind: targetArray[i].kind,
             leadingMinutiae: targetArray[i].leadingMinutiae,
             trailingMinutiae: targetArray[i].trailingMinutiae,
+            diagnostics: targetArray[i].nodeID.charAt(0) === "p" ? checkDiagnostics(targetArray[i]) : [],
             layoutOptions: { 
                 'elk.position': '('+position+', 0)'
             },
@@ -42,4 +45,24 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string) {
             graphMapper(targetArray[i].children, nodeID);
         }
     }
+}
+
+function checkDiagnostics(node: TreeNode){  
+    diagnostics = [];
+
+    if(node.diagnostics && node.diagnostics.length){
+        console.log(node.diagnostics);
+        diagnostics = diagnostics.concat(node.diagnostics);
+        console.log("%%%", diagnostics);
+    } else if (node.kind === "imports" || "members" && node.children.length){
+        for (let i=0; i<node.children.length; i++){
+            if (node.children[i].diagnostics && node.children[i].diagnostics.length){
+                for(let j=0; j<node.children[i].diagnostics.length; j++){
+                    diagnostics.push(node.children[i].diagnostics[j]);
+                }
+            }
+        }
+    }
+
+    return diagnostics;
 }

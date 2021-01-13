@@ -5,7 +5,7 @@ let childNode: any, nodeCount = -1;
 
 export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: number) {
     for (var props in obj) {
-        if (props === "leadingMinutiae"){
+        if (props === "syntaxDiagnostics"){
             return obj[props];
         }
 
@@ -19,7 +19,8 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                             kind: "Invalid Node",
                             parentID: parentObj.nodeID,
                             children: [],
-                            errorNode: true
+                            errorNode: true,
+                            diagnostics: []
                         });
                     }
                 }
@@ -32,7 +33,8 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     kind: obj[props].isMissing ? "Missing "+obj[props].kind : obj[props].kind,
                     leadingMinutiae: obj[props].leadingMinutiae,
                     trailingMinutiae: obj[props].trailingMinutiae,
-                    errorNode: obj[props].isMissing
+                    errorNode: obj[props].isMissing,
+                    diagnostics: []
                 });
             }
 
@@ -45,7 +47,8 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     trailingMinutiae: obj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
                     didCollapse: treeLevel < 2 ? true : false,
-                    children: []
+                    children: [],
+                    diagnostics: obj[props].syntaxDiagnostics
                 };
 
                 nodeArray.length ? parentObj.children.push(childNode) : nodeArray.push(childNode);
@@ -61,7 +64,8 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     trailingMinutiae: parentObj.trailingMinutiae,
                     parentID: parentObj.nodeID,
                     didCollapse: treeLevel < 2 ? true : false,
-                    children: []
+                    children: [],
+                    diagnostics: obj[props].syntaxDiagnostics
                 };
 
                 parentObj.children.push(childNode);
