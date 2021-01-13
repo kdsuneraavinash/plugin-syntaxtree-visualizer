@@ -70,7 +70,7 @@ function TreeNode(props: TreeNodeProps) {
                     <div
                         style = {{
                             height: "100%",
-                            paddingRight: "5px"
+                            paddingRight: "8px"
                         }}
                         onMouseLeave = {undoHoverWarning}
                         onMouseOver = {onHoverWarning}
@@ -80,7 +80,7 @@ function TreeNode(props: TreeNodeProps) {
                             size="small"
                             circular
                             inverted
-                            color="green"
+                            color="orange"
                         />
                     </div>
                 }
