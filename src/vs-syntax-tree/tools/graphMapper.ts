@@ -2,11 +2,10 @@ import { toInteger } from "lodash";
 import { TreeNode } from "./resources";
 import { nodeMembers, nodeEdges } from "./graphGenerator";
 
-let diagnostics: any[] = [];
-
 export function graphMapper(targetArray: TreeNode[], nodeID: string) {
     for (let i = 0; i < targetArray.length; i++) {
         let position = toInteger(targetArray[i].nodeID.replace(/\D/g, ''));
+        let diagnostics : any[] = [];
 
         if (targetArray[i].nodeID === nodeID) {
             let status = targetArray[i].didCollapse;
@@ -16,15 +15,20 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string) {
             };
         }
 
+        if (!targetArray[i].didCollapse && targetArray[i].nodeID.charAt(0) === "p"){
+            diagnostics = checkDiagnostics(targetArray[i]);
+        }
+
         nodeMembers.push({
             id: targetArray[i].nodeID,
-            width: Math.max((targetArray[i].value.length*9), 150),
+            width: Math.max(diagnostics.length ? (targetArray[i].value.length*9)+20 : (targetArray[i].value.length*9), 150),
             height: 50,
             label: nodeMembers.length ? targetArray[i].value : "Syntax Tree",
             kind: targetArray[i].kind,
             leadingMinutiae: targetArray[i].leadingMinutiae,
             trailingMinutiae: targetArray[i].trailingMinutiae,
-            diagnostics: targetArray[i].nodeID.charAt(0) === "p" ? checkDiagnostics(targetArray[i]) : [],
+            diagnostics:  diagnostics,
+            hasDiagnostics: diagnostics.length > 0 ? true : false,
             layoutOptions: { 
                 'elk.position': '('+position+', 0)'
             },
@@ -48,18 +52,14 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string) {
 }
 
 function checkDiagnostics(node: TreeNode){  
-    diagnostics = [];
+    let diagnostics: any[] = [];
 
     if(node.diagnostics && node.diagnostics.length){
-        console.log(node.diagnostics);
-        diagnostics = diagnostics.concat(node.diagnostics);
-        console.log("%%%", diagnostics);
+        diagnostics = node.diagnostics;
     } else if (node.kind === "imports" || "members" && node.children.length){
         for (let i=0; i<node.children.length; i++){
             if (node.children[i].diagnostics && node.children[i].diagnostics.length){
-                for(let j=0; j<node.children[i].diagnostics.length; j++){
-                    diagnostics.push(node.children[i].diagnostics[j]);
-                }
+                diagnostics = diagnostics.concat(node.children[i].diagnostics);
             }
         }
     }

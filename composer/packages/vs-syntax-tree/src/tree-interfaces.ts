@@ -23,6 +23,8 @@ export interface Node {
     kind: string;
     leadingMinutiae: Minutiae[];
     trailingMinutiae: Minutiae[];
+    hasDiagnostics: boolean;
+    diagnostics: Diagnostics[];
     width: number;
     height: number;
 }
@@ -66,4 +68,9 @@ export interface TreeNodeDetailsProps {
 
 export interface TreeEdgeProps {
     edge: TreeEdge;
+}
+
+export interface Diagnostics {
+    message: string;
+    diagnosticInfo: any[];
 }

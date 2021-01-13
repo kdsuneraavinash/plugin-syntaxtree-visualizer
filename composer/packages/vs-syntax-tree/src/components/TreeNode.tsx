@@ -1,9 +1,12 @@
 import React, {useState} from "react";
+import {Icon} from "semantic-ui-react";
 import { TreeNodeProps } from "../tree-interfaces";
+import Diagnostics from "./Diagnostics";
 import NodeDetails from "./NodeDetails";
 
 function TreeNode(props: TreeNodeProps) {
     const [didHoverNode, setDidHoverNode] = useState(false);
+    const [didHoverWarning, setDidHoverWarning] = useState(false);
 
     function onHoverNode() {
         setDidHoverNode(true);
@@ -11,6 +14,14 @@ function TreeNode(props: TreeNodeProps) {
 
     function undoHoverNode() {
         setDidHoverNode(false);
+    }
+
+    function onHoverWarning() {
+        setDidHoverWarning(true);
+    }
+
+    function undoHoverWarning() {
+        setDidHoverWarning(false);
     }
 
     function onClickNode() {
@@ -43,6 +54,7 @@ function TreeNode(props: TreeNodeProps) {
                         color: "white",
                         flexGrow: 1,
                         fontSize: 14,
+                        paddingLeft: "5px",
                         textAlign: "center",
                         width: "auto"
                     }}
@@ -53,9 +65,29 @@ function TreeNode(props: TreeNodeProps) {
                 >
                     {props.node.label}
                 </div>
+
+                {props.node.hasDiagnostics && props.node.diagnostics.length &&
+                    <div
+                        style = {{
+                            height: "100%",
+                            paddingRight: "5px"
+                        }}
+                        onMouseLeave = {undoHoverWarning}
+                        onMouseOver = {onHoverWarning}
+                    >
+                        <Icon
+                            name="warning"
+                            size="small"
+                            circular
+                            inverted
+                            color="green"
+                        />
+                    </div>
+                }
             </div>
 
             {didHoverNode && <NodeDetails node={props.node} />}
+            {didHoverWarning && <Diagnostics node={props.node} />}
         </div>
     );
 }
