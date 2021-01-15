@@ -10,7 +10,7 @@ function Diagnostics(props: TreeNodeDetailsProps) {
                 left: props.node.x > window.innerWidth - 250 ?
                     props.node.x - 130 :
                     props.node.x + (props.node.width / 1.25),
-                minWidth: 150,
+                minWidth: 160,
                 padding: 10,
                 position: "absolute",
                 textAlign: "left",
@@ -20,7 +20,7 @@ function Diagnostics(props: TreeNodeDetailsProps) {
                 zIndex: 1
             }}
         >
-            <p> <b>Diagnostics :</b></p> <hr/>
+            <p> <b>This block contains :</b></p> <hr/>
             {props.node.diagnostics.map((item, id) => {
                     return <p key = {id}>
                         {item.message}
