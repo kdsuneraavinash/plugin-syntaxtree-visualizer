@@ -34,18 +34,18 @@ function NodeDetails(props: TreeNodeDetailsProps) {
             <p style = {{fontWeight: "bold"}}>
                 Leading Minutiae
             </p>
-            {props.node.leadingMinutiae && props.node.leadingMinutiae.length &&
+            {props.node.leadingMinutiae && props.node.leadingMinutiae.length  > 0 &&
                 mapMinutiae(props.node.leadingMinutiae)
             }
-            {(!props.node.leadingMinutiae || props.node.leadingMinutiae.length) && <p>None</p>} <hr/>
+            {(!props.node.leadingMinutiae || props.node.leadingMinutiae.length < 1) && <p>None</p>} <hr/>
 
             <p style = {{fontWeight: "bold"}}>
                 Trailing Minutiae
             </p>
-            {props.node.trailingMinutiae && props.node.trailingMinutiae.length &&
+            {props.node.trailingMinutiae && props.node.trailingMinutiae.length > 0 &&
                 mapMinutiae(props.node.trailingMinutiae)
             }
-            {(!props.node.trailingMinutiae || props.node.trailingMinutiae.length) && <p>None</p>}
+            {(!props.node.trailingMinutiae || props.node.trailingMinutiae.length < 1) && <p>None</p>}
         </div>
     );
 }
