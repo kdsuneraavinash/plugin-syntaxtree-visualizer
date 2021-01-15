@@ -1,7 +1,15 @@
 import React from "react";
-import { TreeNodeDetailsProps } from "../tree-interfaces";
+import { Minutiae, TreeNodeDetailsProps } from "../tree-interfaces";
 
 function NodeDetails(props: TreeNodeDetailsProps) {
+    const mapMinutiae = (minutiaeArray: Minutiae[]) => {
+        return minutiaeArray.map((item, id) => {
+            return <p key = {id}>
+                        {item.kind}
+                    </p>;
+        });
+    };
+
     return (
         <div
             style = {{
@@ -26,26 +34,18 @@ function NodeDetails(props: TreeNodeDetailsProps) {
             <p style = {{fontWeight: "bold"}}>
                 Leading Minutiae
             </p>
-            {props.node.leadingMinutiae && props.node.leadingMinutiae.length > 0 &&
-                props.node.leadingMinutiae.map((item, id) => {
-                    return <p key = {id}>
-                        {item.kind}
-                    </p>;
-                })
+            {props.node.leadingMinutiae && props.node.leadingMinutiae.length &&
+                mapMinutiae(props.node.leadingMinutiae)
             }
-            {(!props.node.leadingMinutiae || props.node.leadingMinutiae.length < 1) && <p>None</p>} <hr/>
+            {(!props.node.leadingMinutiae || props.node.leadingMinutiae.length) && <p>None</p>} <hr/>
 
             <p style = {{fontWeight: "bold"}}>
                 Trailing Minutiae
             </p>
-            {props.node.trailingMinutiae && props.node.trailingMinutiae.length > 0 &&
-                props.node.trailingMinutiae.map((item, id) => {
-                    return <p key = {id}>
-                        {item.kind}
-                    </p>;
-                })
+            {props.node.trailingMinutiae && props.node.trailingMinutiae.length &&
+                mapMinutiae(props.node.trailingMinutiae)
             }
-            {(!props.node.trailingMinutiae || props.node.trailingMinutiae.length < 1) && <p>None</p>}
+            {(!props.node.trailingMinutiae || props.node.trailingMinutiae.length) && <p>None</p>}
         </div>
     );
 }

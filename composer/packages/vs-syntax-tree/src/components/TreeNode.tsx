@@ -76,18 +76,18 @@ function TreeNode(props: TreeNodeProps) {
                         onMouseOver = {onHoverWarning}
                     >
                         <Icon
-                            name="warning"
-                            size="small"
+                            name = "warning"
+                            size = "small"
                             circular
                             inverted
-                            color="orange"
+                            color = "orange"
                         />
                     </div>
                 }
             </div>
 
-            {didHoverNode && <NodeDetails node={props.node} />}
-            {didHoverWarning && <Diagnostics node={props.node} />}
+            {didHoverNode && <NodeDetails node = {props.node} />}
+            {didHoverWarning && <Diagnostics node = {props.node} />}
         </div>
     );
 }

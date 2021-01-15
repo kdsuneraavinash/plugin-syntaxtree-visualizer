@@ -27,8 +27,8 @@ function SyntaxTree(props: SyntaxTreeProps) {
                 }
 
                     <svg
-                        width={treeGraph.width}
-                        height={treeGraph.height}
+                        width = {treeGraph.width}
+                        height = {treeGraph.height}
                     >
                         {
                             treeGraph.edges.map((item, id) => {
