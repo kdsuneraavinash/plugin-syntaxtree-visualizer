@@ -10,7 +10,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
             updateIsEdgeNode(true);
         }
 
-        if (props.node.y + 300 > window.innerHeight) {
+        if (props.node.y + 275 > window.innerHeight) {
             updateIsBottomNode(true);
         }
     }, []);
