@@ -42,8 +42,8 @@ function Diagnostics(props: TreeNodeDetailsProps) {
                     position: "absolute",
                     textAlign: "left",
                     top: isBottomNode ? props.node.y - 10 : props.node.y + props.node.height + 10,
-                    transform: isEdgeNode ? (isBottomNode ? "translate(-100%, -100%)" : "translateX(-100%)") :
-                        (isBottomNode ? "translateY(-92.5%)" : "translateX(-1%)"),
+                    transform: isEdgeNode ? (isBottomNode ? "translate(-80%, -100%)" : "translateX(-80%)") :
+                        (isBottomNode ? "translateY(-80%)" : "translateX(-1%)"),
                     zIndex: 1
                 }}
             >

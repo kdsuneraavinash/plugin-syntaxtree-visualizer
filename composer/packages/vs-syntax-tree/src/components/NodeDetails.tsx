@@ -6,7 +6,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
     const [isBottomNode, updateIsBottomNode] = useState(false);
 
     useEffect(() => {
-        if (props.node.x + 425 > window.innerWidth) {
+        if (props.node.x + 400 > window.innerWidth) {
             updateIsEdgeNode(true);
         }
 
@@ -35,7 +35,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                     left: isEdgeNode ? props.node.x - 15 :
                         props.node.x + props.node.width,
                     position: "absolute",
-                    top: props.node.y + (props.node.height / 1.1),
+                    top: props.node.y + (props.node.height / 1.2),
                     transform: "translateY(-50%)",
                     width: 0
                 }}
@@ -52,8 +52,8 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                     position: "absolute",
                     textAlign: "left",
                     top: props.node.y + (props.node.height / 1.15),
-                    transform: isEdgeNode ? (isBottomNode ? "translate(-87.5%, -92.5%)" : "translate(-100%, -6%)") :
-                        (isBottomNode ? "translateY(-87.5%)" : "translateY(-6%)"),
+                    transform: isEdgeNode ? (isBottomNode ? "translate(-100%, -92.5%)" : "translate(-100%, -6%)") :
+                        (isBottomNode ? "translateY(-92.5%)" : "translateY(-6%)"),
                     zIndex: 1
                 }}
             >
