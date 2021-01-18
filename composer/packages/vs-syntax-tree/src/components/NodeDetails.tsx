@@ -1,7 +1,20 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Minutiae, TreeNodeDetailsProps } from "../tree-interfaces";
 
 function NodeDetails(props: TreeNodeDetailsProps) {
+    const [isEdgeNode, updateIsEdgeNode] = useState(false);
+    const [isBottomNode, updateIsBottomNode] = useState(false);
+
+    useEffect(() => {
+        if (props.node.x + 400 > window.innerWidth) {
+            updateIsEdgeNode(true);
+        }
+
+        if (props.node.y + 350 > window.innerHeight) {
+            updateIsBottomNode(true);
+        }
+    }, []);
+
     const mapMinutiae = (minutiaeArray: Minutiae[]) => {
         return minutiaeArray.map((item, id) => {
             return <p key = {id}>
@@ -15,11 +28,11 @@ function NodeDetails(props: TreeNodeDetailsProps) {
             <div
                 style = {{
                     borderBottom: "7.5px solid transparent",
-                    borderLeft: (props.node.x + 400) > window.innerWidth ? "15px solid #faf3c0" : "none",
-                    borderRight: (props.node.x + 400) < window.innerWidth ? "15px solid #faf3c0" : "none",
+                    borderLeft: isEdgeNode ? "15px solid #faf3c0" : "none",
+                    borderRight: isEdgeNode ? "none" : "15px solid #faf3c0",
                     borderTop: "7.5px solid transparent",
                     height: 0,
-                    left: (props.node.x + 400) > window.innerWidth ?
+                    left: isEdgeNode ?
                         props.node.x - 15 :
                         props.node.x + props.node.width,
                     position: "absolute",
@@ -32,7 +45,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                 style = {{
                     backgroundColor: "#faf3c0",
                     borderRadius: 5,
-                    left: (props.node.x + 400) > window.innerWidth ?
+                    left: isEdgeNode ?
                         props.node.x - 15 :
                         props.node.x + props.node.width + 15,
                     minHeight: 190,
@@ -41,10 +54,10 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                     position: "absolute",
                     textAlign: "left",
                     top: props.node.y + (props.node.height / 2),
-                    transform: (props.node.x + 400) > window.innerWidth ?
-                        (props.node.y + 350 > window.innerHeight ? "translate(-100%, -91%)" :
+                    transform: isEdgeNode ?
+                        (isBottomNode ? "translate(-100%, -91%)" :
                         "translate(-100%, -50%)") :
-                        (props.node.y + 350 > window.innerHeight ? "translateY(-91%)" :
+                        (isBottomNode ? "translateY(-91%)" :
                         "translateY(-50%)"),
                     zIndex: 1
                 }}
