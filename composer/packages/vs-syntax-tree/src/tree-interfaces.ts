@@ -74,3 +74,8 @@ export interface Diagnostics {
     message: string;
     diagnosticInfo: any[];
 }
+
+export interface VisualizeTreeProps {
+    onCollapseTree: (nodeID: string) => void;
+    treeGraph?: TreeGraph;
+}
