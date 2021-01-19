@@ -27,16 +27,15 @@ function NodeDetails(props: TreeNodeDetailsProps) {
         <div>
             <div
                 style = {{
-                    borderBottom: "7.5px solid transparent",
-                    borderLeft: isEdgeNode ? "15px solid #FFFDD0" : "none",
-                    borderRight: isEdgeNode ? "none" : "15px solid #FFFDD0",
-                    borderTop: "7.5px solid transparent",
+                    borderBottom: isBottomNode ? "none" : "15px solid #FFFDD0",
+                    borderLeft: "7.5px solid transparent",
+                    borderRight: "7.5px solid transparent",
+                    borderTop: isBottomNode ? "15px solid #FFFDD0" : "none",
                     height: 0,
-                    left: isEdgeNode ? props.node.x - 15 :
-                        props.node.x + props.node.width,
+                    left: props.node.x + (props.node.width / 2),
                     position: "absolute",
-                    top: props.node.y + (props.node.height / 1.2),
-                    transform: "translateY(-50%)",
+                    top: isBottomNode ? props.node.y - 15 : props.node.y + 50,
+                    transform: "translateX(-40%)",
                     width: 0
                 }}
             />
@@ -44,16 +43,15 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                 style = {{
                     backgroundColor: "#FFFDD0",
                     borderRadius: 8,
-                    left: isEdgeNode ? props.node.x - 15 :
-                        props.node.x + props.node.width + 15,
+                    left: props.node.x + (props.node.width / 2),
                     minHeight: 190,
                     minWidth: 175,
                     padding: 10,
                     position: "absolute",
                     textAlign: "left",
-                    top: props.node.y + (props.node.height / 1.15),
-                    transform: isEdgeNode ? (isBottomNode ? "translate(-100%, -92.5%)" : "translate(-100%, -6%)") :
-                        (isBottomNode ? "translateY(-92.5%)" : "translateY(-6%)"),
+                    top: isBottomNode ? props.node.y - 15 : props.node.y + props.node.height + 15,
+                    transform: isEdgeNode ? (isBottomNode ? "translate(-80%, -100%)" : "translateX(-80%)") :
+                        (isBottomNode ? "translateY(-80%)" : "translateX(-10%)"),
                     zIndex: 1
                 }}
             >
