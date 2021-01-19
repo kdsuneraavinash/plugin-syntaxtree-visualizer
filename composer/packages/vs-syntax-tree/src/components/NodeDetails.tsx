@@ -10,7 +10,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
             updateIsEdgeNode(true);
         }
 
-        if (props.node.y + 275 > window.innerHeight) {
+        if (props.node.y + 375 > window.innerHeight) {
             updateIsBottomNode(true);
         }
     }, []);
@@ -51,7 +51,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                     textAlign: "left",
                     top: isBottomNode ? props.node.y - 15 : props.node.y + props.node.height + 15,
                     transform: isEdgeNode ? (isBottomNode ? "translate(-80%, -100%)" : "translateX(-80%)") :
-                        (isBottomNode ? "translateY(-80%)" : "translateX(-10%)"),
+                        (isBottomNode ? "translate(-10%, -100%)" : "translateX(-10%)"),
                     zIndex: 1
                 }}
             >

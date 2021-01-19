@@ -54,7 +54,12 @@ export interface Coords {
 
 export interface SyntaxTreeProps {
     onCollapseTree: (nodeID: string) => void;
-    renderTree: () => Promise<TreeGraph>;
+    renderTree: () => Promise<TreeProps>;
+}
+
+export interface TreeProps {
+    treeGraph: TreeGraph;
+    treeArray: TreeArrayNode;
 }
 
 export interface TreeNodeProps {
@@ -78,4 +83,18 @@ export interface Diagnostics {
 export interface VisualizeTreeProps {
     onCollapseTree: (nodeID: string) => void;
     treeGraph?: TreeGraph;
+}
+
+export interface TreeArrayNode {
+    nodeID: string;
+    value: string;
+    kind: string;
+    parentID: string;
+    didCollapse: boolean;
+    ifParent: boolean;
+    children: TreeArrayNode[];
+    leadingMinutiae: any[];
+    trailingMinutiae: any[];
+    errorNode?: any;
+    diagnostics: any[];
 }

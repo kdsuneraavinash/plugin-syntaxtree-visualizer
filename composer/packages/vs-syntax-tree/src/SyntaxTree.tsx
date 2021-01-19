@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from "react";
 import { Dimmer, Loader, Radio } from "semantic-ui-react";
 import GraphicalSyntaxTree from "./graphical-syntaxtree";
-import { SyntaxTreeProps, TreeGraph } from "./tree-interfaces";
+import { SyntaxTreeProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
 
 function SyntaxTree(props: SyntaxTreeProps) {
     const [isGraphicalView, updateIsGraphicalView] = useState(false);
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
+    const [treeArray, setTreeArray] = useState<TreeArrayNode | undefined>(undefined);
 
     useEffect(() => {
         props.renderTree().then((result) => {
-            setSyntaxTreeGraph(result);
+            setSyntaxTreeGraph(result.treeGraph);
+
+            if (!isGraphicalView) {
+                setTreeArray(result.treeArray);
+            }
         });
     }, [props]);
 
@@ -36,9 +41,9 @@ function SyntaxTree(props: SyntaxTreeProps) {
             </div>
 
             <div>
-                {!isGraphicalView && syntaxTreeGraph &&
+                {!isGraphicalView && treeArray &&
                     <div>
-                        <text>This is where the drop down happens!</text>
+                        <text>{JSON.stringify(treeArray, null, 2)}</text>
                     </div>
                 }
 

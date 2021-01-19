@@ -25,5 +25,5 @@ function setGraph(){
         edges: nodeEdges
     };
 
-    return graph;
+    return {graph, nodeArray};
 }

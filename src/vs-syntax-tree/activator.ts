@@ -10,6 +10,7 @@ import { retrieveGraph, updateSyntaxTree } from './tools/graphGenerator';
 
 let syntaxTreePanel: vscode.WebviewPanel | undefined;
 let activeEditor: vscode.TextEditor;
+const elk = new ELK();
 
 function validateForVisualization(context: vscode.ExtensionContext, langClient: ExtendedLangClient) :void {    
     if (vscode.window.activeTextEditor){
@@ -56,14 +57,12 @@ function createSyntaxTreePanel(context: vscode.ExtensionContext, langClient: Ext
         getCommonWebViewOptions()
     );
 
-    const elk = new ELK();
-
     const remoteMethods: WebViewMethod[] = [
         {
             methodName: "fetchTreeGraph",
             handler: (args: any[]): Thenable<any> => {
-                const response = retrieveGraph(args[0]); 
-                return elk.layout(response);
+                const response = retrieveGraph(args[0]);
+                return evaluatePromise(response);
             }
         },
         {
@@ -74,9 +73,9 @@ function createSyntaxTreePanel(context: vscode.ExtensionContext, langClient: Ext
         },
         {
             methodName: "onCollapseTree",
-            handler: (args: any[]): Thenable<any> => {
+            handler: (args: any[]): Thenable<any> => {                
                 const response = updateSyntaxTree(args[0]);
-                return elk.layout(response);
+                return evaluatePromise(response);
             }
         }
     ];
@@ -84,6 +83,26 @@ function createSyntaxTreePanel(context: vscode.ExtensionContext, langClient: Ext
     WebViewRPCHandler.create(syntaxTreePanel, langClient, remoteMethods);
     const displayHtml = render(context, langClient, sourceRoot);
     syntaxTreePanel.webview.html = displayHtml;
+}
+
+function evaluatePromise(response: any){
+    const retrieveProps = new Promise((resolve, reject) => {
+        elk.layout(response.graph)
+            .then((result)=> {
+                let props = {
+                    treeGraph: result,
+                    treeArray: response.nodeArray
+                };
+                resolve(props);
+            })
+
+            .catch((e)=>{
+                console.log("Syntax Tree Extension : Oops! Something went wrong!", e);
+                reject(e);
+            });
+    });
+
+    return retrieveProps;
 }
 
 export function activate(ballerinaExtInstance: BallerinaExtension) {
