@@ -36,6 +36,12 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     errorNode: obj[props].isMissing,
                     diagnostics: []
                 });
+
+                if (obj[props].isMissing && !parentObj.diagnostics) {
+                    parentObj.diagnostics = [{
+                        message: "Missing "+obj[props].kind
+                    }];
+                }
             }
 
             else if (props.match(/^[0-9]+$/) === null) {
