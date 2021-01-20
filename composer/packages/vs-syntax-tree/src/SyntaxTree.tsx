@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Dimmer, Loader, Radio } from "semantic-ui-react";
-import GraphicalSyntaxTree from "./graphical-syntaxtree";
+import DropdownTree from "./dropdown-tree";
+import GraphicalSyntaxTree from "./graphical-tree";
 import { SyntaxTreeProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
 
 function SyntaxTree(props: SyntaxTreeProps) {
@@ -40,21 +41,17 @@ function SyntaxTree(props: SyntaxTreeProps) {
                 <Radio toggle onChange = {updateView} checked = {isGraphicalView} />
             </div>
 
-            <div>
+            <div
+                style = {{
+                    position: "relative"
+                }}
+            >
                 {!isGraphicalView && treeArray &&
-                    <div>
-                        <text>{JSON.stringify(treeArray, null, 2)}</text>
-                    </div>
+                    <DropdownTree treeArray = {treeArray} />
                 }
 
                 {isGraphicalView && syntaxTreeGraph &&
-                    <div
-                        style = {{
-                            position: "relative"
-                        }}
-                    >
-                        <GraphicalSyntaxTree treeGraph = {syntaxTreeGraph} onCollapseTree = {props.onCollapseTree} />
-                    </div>
+                    <GraphicalSyntaxTree treeGraph = {syntaxTreeGraph} onCollapseTree = {props.onCollapseTree} />
                 }
 
                 {!syntaxTreeGraph &&

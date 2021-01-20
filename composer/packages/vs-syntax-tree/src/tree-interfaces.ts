@@ -85,6 +85,10 @@ export interface VisualizeTreeProps {
     treeGraph?: TreeGraph;
 }
 
+export interface DropdownTreeProps {
+    treeArray: TreeArrayNode;
+}
+
 export interface TreeArrayNode {
     nodeID: string;
     value: string;
