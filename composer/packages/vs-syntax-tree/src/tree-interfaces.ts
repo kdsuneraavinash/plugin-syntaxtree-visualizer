@@ -59,7 +59,7 @@ export interface SyntaxTreeProps {
 
 export interface TreeProps {
     treeGraph: TreeGraph;
-    treeArray: TreeArrayNode;
+    treeArray: TreeArrayNode[];
 }
 
 export interface TreeNodeProps {
@@ -86,7 +86,7 @@ export interface VisualizeTreeProps {
 }
 
 export interface DropdownTreeProps {
-    treeArray: TreeArrayNode;
+    syntaxTreeArray: TreeArrayNode;
 }
 
 export interface TreeArrayNode {

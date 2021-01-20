@@ -7,7 +7,7 @@ import { SyntaxTreeProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
 function SyntaxTree(props: SyntaxTreeProps) {
     const [isGraphicalView, updateIsGraphicalView] = useState(false);
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
-    const [treeArray, setTreeArray] = useState<TreeArrayNode | undefined>(undefined);
+    const [treeArray, setTreeArray] = useState<TreeArrayNode [] | undefined>(undefined);
 
     useEffect(() => {
         props.renderTree().then((result) => {
@@ -47,7 +47,7 @@ function SyntaxTree(props: SyntaxTreeProps) {
                 }}
             >
                 {!isGraphicalView && treeArray &&
-                    <DropdownTree treeArray = {treeArray} />
+                    <DropdownTree syntaxTreeArray = {treeArray[0]} />
                 }
 
                 {isGraphicalView && syntaxTreeGraph &&
