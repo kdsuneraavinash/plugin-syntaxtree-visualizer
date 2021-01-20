@@ -16,9 +16,10 @@ function DropdownTree(props: DropdownTreeProps) {
         <div>
             <div
                 style = {{
-                    backgroundColor: "yellow",
-                    border: "2px solid black",
+                    backgroundColor: "grey",
+                    border: "1px solid black",
                     height: 50,
+                    lineHeight: 50,
                     width: 350
                 }}
                 onClick = {changeCollapsibleStatus}
