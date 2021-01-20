@@ -47,7 +47,7 @@ function SyntaxTree(props: PrimaryProps) {
                 }}
             >
                 {!isGraphicalView && treeArray &&
-                    <DropdownTree syntaxTreeArray = {treeArray[0]} />
+                    <DropdownTree treeNode = {treeArray[0]} />
                 }
 
                 {isGraphicalView && syntaxTreeGraph &&

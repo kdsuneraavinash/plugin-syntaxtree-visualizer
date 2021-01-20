@@ -81,7 +81,12 @@ export interface GraphicalTreeProps {
 }
 
 export interface DropdownTreeProps {
-    syntaxTreeArray: TreeArrayNode;
+    treeNode: TreeArrayNode;
+}
+
+export interface DropdownNodeProps {
+    treeNode: TreeArrayNode;
+    onClick: (nodeProp: TreeArrayNode) => void;
 }
 
 export interface TreeArrayNode {
