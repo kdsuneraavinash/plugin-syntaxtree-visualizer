@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Icon} from "semantic-ui-react";
 import { TreeNodeProps } from "../tree-interfaces";
-import Diagnostics from "./Diagnostics";
-import NodeDetails from "./NodeDetails";
+import Diagnostics from "./diagnosticsPopup";
+import NodeDetails from "./nodeDetailsPopup";
 
 function TreeNode(props: TreeNodeProps) {
     const [didHoverNode, setDidHoverNode] = useState(false);

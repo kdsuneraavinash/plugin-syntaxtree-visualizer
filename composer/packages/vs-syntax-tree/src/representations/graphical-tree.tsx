@@ -1,9 +1,9 @@
 import React from "react";
-import TreeNodeEdge from "./components/TreeEdge";
-import TreeNode from "./components/TreeNode";
-import { VisualizeTreeProps } from "./tree-interfaces";
+import TreeNodeEdge from "../components/treeEdge";
+import TreeNode from "../components/treeNode";
+import { GraphicalTreeProps } from "../tree-interfaces";
 
-function GraphicalSyntaxTree(props: VisualizeTreeProps) {
+function GraphicalSyntaxTree(props: GraphicalTreeProps) {
     return (
         <div>
             {props.treeGraph &&

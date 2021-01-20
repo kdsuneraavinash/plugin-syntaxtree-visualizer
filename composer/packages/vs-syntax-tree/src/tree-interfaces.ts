@@ -1,18 +1,13 @@
-export interface ResponseData {
-    treeGraph: TreeGraph;
-    nodeArray: [];
-}
-
 export interface TreeGraph {
     id: string;
     layoutOptions: {};
-    children: Node[];
+    children: GraphNode[];
     edges: TreeEdge[];
     width: number;
     height: number;
 }
 
-export interface Node {
+export interface GraphNode {
     id: string;
     x: number;
     y: number;
@@ -43,16 +38,16 @@ export interface TreeEdge {
 
 export interface EdgeSections {
     id: string;
-    startPoint: Coords;
-    endPoint: Coords;
+    startPoint: EdgeCoords;
+    endPoint: EdgeCoords;
 }
 
-export interface Coords {
+export interface EdgeCoords {
     x: number;
     y: number;
 }
 
-export interface SyntaxTreeProps {
+export interface PrimaryProps {
     onCollapseTree: (nodeID: string) => void;
     renderTree: () => Promise<TreeProps>;
 }
@@ -63,12 +58,12 @@ export interface TreeProps {
 }
 
 export interface TreeNodeProps {
-    node: Node;
+    node: GraphNode;
     onCollapseTree: any;
 }
 
 export interface TreeNodeDetailsProps {
-    node: Node;
+    node: GraphNode;
 }
 
 export interface TreeEdgeProps {
@@ -80,7 +75,7 @@ export interface Diagnostics {
     diagnosticInfo: any[];
 }
 
-export interface VisualizeTreeProps {
+export interface GraphicalTreeProps {
     onCollapseTree: (nodeID: string) => void;
     treeGraph?: TreeGraph;
 }

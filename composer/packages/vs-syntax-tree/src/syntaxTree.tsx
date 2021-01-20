@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { Dimmer, Loader, Radio } from "semantic-ui-react";
-import DropdownTree from "./dropdown-tree";
-import GraphicalSyntaxTree from "./graphical-tree";
-import { SyntaxTreeProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
+import DropdownTree from "./representations/dropdown-tree";
+import GraphicalSyntaxTree from "./representations/graphical-tree";
+import { PrimaryProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
 
-function SyntaxTree(props: SyntaxTreeProps) {
+function SyntaxTree(props: PrimaryProps) {
     const [isGraphicalView, updateIsGraphicalView] = useState(false);
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
     const [treeArray, setTreeArray] = useState<TreeArrayNode [] | undefined>(undefined);
