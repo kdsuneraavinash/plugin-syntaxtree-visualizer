@@ -32,7 +32,9 @@ function DropdownNode(props: DropdownNodeProps) {
                             height: "100%",
                             paddingLeft: "8px"
                         }}
-                        onClick = {() => { props.onCollapseTree(props.treeNode.nodeID, false); }}
+                        onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
+                        // tslint:disable-next-line: no-empty
+                        : () => {}}
                     >
                         <Icon name = "angle up" size = "large" />
                     </div>
@@ -44,7 +46,9 @@ function DropdownNode(props: DropdownNodeProps) {
                             height: "100%",
                             paddingLeft: "8px"
                         }}
-                        onClick = {() => { props.onCollapseTree(props.treeNode.nodeID, false); }}
+                        onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
+                        // tslint:disable-next-line: no-empty
+                        : () => {}}
                     >
                         <Icon name = "angle down" size = "large" />
                     </div>

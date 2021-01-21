@@ -73,7 +73,7 @@ function createSyntaxTreePanel(context: vscode.ExtensionContext, langClient: Ext
         },
         {
             methodName: "onCollapseTree",
-            handler: (args: any[]): Thenable<any> => {                
+            handler: (args: any[]): Thenable<any> => {   
                 const response = updateSyntaxTree(args[0], args[1]);
                 return evaluatePromise(response);
             }
@@ -91,7 +91,7 @@ function evaluatePromise(response: any){
             .then((result)=> {
                 let props = {
                     treeGraph: result,
-                    treeArray: response.respArray
+                    treeArray: response.nodeArray
                 };
                 resolve(props);
             })

@@ -3,10 +3,8 @@ import { TreeNode } from "./resources";
 import { nodeMembers, nodeEdges } from "./graphGenerator";
 
 export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
+    console.log(isGraphical);
     for (let i = 0; i < targetArray.length; i++) {
-        let position = toInteger(targetArray[i].nodeID.replace(/\D/g, ''));
-        let diagnostics : any[] = [];
-
         if (targetArray[i].nodeID === nodeID) {
             let status = targetArray[i].didCollapse;
             targetArray[i] = {
@@ -16,6 +14,9 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
         }
 
         if (isGraphical) {
+            let position = toInteger(targetArray[i].nodeID.replace(/\D/g, ''));
+            let diagnostics : any[] = [];
+
             if (!targetArray[i].didCollapse && targetArray[i].nodeID.charAt(0) === "p"){
                 diagnostics = checkDiagnostics(targetArray[i]);
             }
