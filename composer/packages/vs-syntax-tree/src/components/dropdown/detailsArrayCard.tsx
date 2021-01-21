@@ -1,41 +1,21 @@
 import React from "react";
+import * as styles from "../../styles/dropdown-tree.styles";
 import { DetailsArrayCardProp } from "../../tree-interfaces";
 
 function DropdownArrayDetails(props: DetailsArrayCardProp) {
     return (
-        <div
-            style = {{
-                display: "flex",
-                flexDirection: "row",
-                paddingLeft: 20,
-                width: "100%"
-            }}
-        >
-            <div
-                style = {{
-                    height: 50,
-                    lineHeight: "50px",
-                    width: "30%"
-                }}
-            >
+        <div style = {styles.detailsCardStyle}>
+            <div style = {styles.detailsCardTitleStyle}>
                 <b>{props.title}</b>
             </div>
 
             {props.value &&
                 <div
-                    style = {{
-                        display: "flex",
-                        flexDirection: "column"
-                    }}
+                    style = {styles.detailsArrayValueBlock}
                 >
                     {props.value.map((item, id) => {
                         return <div key = {id}
-                                    style = {{
-                                        height: 50,
-                                        lineHeight: "50px",
-                                        paddingLeft: 20,
-                                        width: "auto"
-                                    }}
+                                    style = {styles.detailsCardValueStyle}
                                 >
                                 {props.type === "minutiae" ? item.kind : item.message}
                             </div>;

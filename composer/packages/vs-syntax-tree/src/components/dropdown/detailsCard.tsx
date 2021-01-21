@@ -1,35 +1,15 @@
 import React from "react";
+import * as styles from "../../styles/dropdown-tree.styles";
 import { DetailsCardProp } from "../../tree-interfaces";
 
 function DropdownDetails(props: DetailsCardProp) {
     return (
-        <div
-            style = {{
-                display: "flex",
-                flexDirection: "row",
-                height: 50,
-                paddingLeft: 20,
-                width: "100%"
-            }}
-        >
-            <div
-                style = {{
-                    height: "100%",
-                    lineHeight: "50px",
-                    width: "30%"
-                }}
-            >
+        <div style = {styles.detailsCardStyle}>
+            <div style = {styles.detailsCardTitleStyle}>
                 <b>{props.title}</b>
             </div>
 
-            <div
-                style = {{
-                    height: "100%",
-                    lineHeight: "50px",
-                    paddingLeft: 20,
-                    width: "auto"
-                }}
-            >
+            <div style = {styles.detailsCardValueStyle}>
                 {props.value}
             </div>
         </div>

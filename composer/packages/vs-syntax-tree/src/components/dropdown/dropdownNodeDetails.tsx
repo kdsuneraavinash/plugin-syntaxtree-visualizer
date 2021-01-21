@@ -1,20 +1,12 @@
 import React from "react";
+import * as styles from "../../styles/dropdown-tree.styles";
 import { DropdownDetailsProps } from "../../tree-interfaces";
 import DropdownArrayDetails from "./detailsArrayCard";
 import DropdownDetails from "./detailsCard";
 
 function DropdownNodeDetails(props: DropdownDetailsProps) {
     return (
-        <div
-            style = {{
-                backgroundColor: "#F0F0F0",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                textAlign: "left",
-                width: "100%"
-            }}
-        >
+        <div style = {styles.detailsBlockStyle}>
             {!props.treeNode && <text>Ooops! Something went wrong!</text>}
 
             {props.treeNode &&

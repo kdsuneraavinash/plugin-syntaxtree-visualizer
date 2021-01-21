@@ -1,4 +1,5 @@
 import React from "react";
+import { treeEdgeStyles } from "../../styles/graphical-tree.styles";
 import { TreeEdgeProps } from "../../tree-interfaces";
 
 function TreeNodeEdge(props: TreeEdgeProps) {
@@ -11,10 +12,7 @@ function TreeNodeEdge(props: TreeEdgeProps) {
             x2 = {edgeCoords[0].endPoint.x}
             y2 = {edgeCoords[0].endPoint.y}
 
-            style = {{
-                stroke: "black",
-                strokeWidth: 1
-            }}
+            style = {treeEdgeStyles}
         />
     );
 }

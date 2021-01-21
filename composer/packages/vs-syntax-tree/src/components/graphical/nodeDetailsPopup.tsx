@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import * as styles from "../../styles/graphical-tree.styles";
 import { Minutiae, TreeNodeDetailsProps } from "../../tree-interfaces";
 
 function NodeDetails(props: TreeNodeDetailsProps) {
@@ -27,37 +28,26 @@ function NodeDetails(props: TreeNodeDetailsProps) {
         <div>
             <div
                 style = {{
+                    ...styles.popupArrowStyle,
                     borderBottom: isBottomNode ? "none" : "15px solid #FFFDD0",
-                    borderLeft: "7.5px solid transparent",
-                    borderRight: "7.5px solid transparent",
                     borderTop: isBottomNode ? "15px solid #FFFDD0" : "none",
-                    height: 0,
                     left: props.node.x + (props.node.width / 2),
-                    position: "absolute",
                     top: isBottomNode ? props.node.y - 15 : props.node.y + 50,
-                    transform: "translateX(-40%)",
-                    width: 0
+                    transform: "translateX(-40%)"
                 }}
             />
             <div
                 style = {{
-                    backgroundColor: "#FFFDD0",
-                    borderRadius: 8,
+                    ...styles.popupBodyStyle,
                     left: props.node.x + (props.node.width / 2),
-                    minHeight: 190,
-                    minWidth: 175,
-                    padding: 10,
-                    position: "absolute",
-                    textAlign: "left",
                     top: isBottomNode ? props.node.y - 15 : props.node.y + props.node.height + 15,
                     transform: isEdgeNode ? (isBottomNode ? "translate(-80%, -100%)" : "translateX(-80%)") :
-                        (isBottomNode ? "translate(-10%, -100%)" : "translateX(-10%)"),
-                    zIndex: 1
+                        (isBottomNode ? "translate(-10%, -100%)" : "translateX(-10%)")
                 }}
             >
-                <p> <b>Kind :</b> {props.node.kind}</p> <hr/>
+                <p style = {styles.titleFontStyle}> Kind : </p>  {props.node.kind}<hr/>
 
-                <p style = {{fontWeight: "bold"}}>
+                <p style = {styles.titleFontStyle}>
                     Leading Minutiae
                 </p>
                 {props.node.leadingMinutiae && props.node.leadingMinutiae.length  > 0 &&
@@ -65,7 +55,7 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                 }
                 {(!props.node.leadingMinutiae || props.node.leadingMinutiae.length < 1) && <p>None</p>} <hr/>
 
-                <p style = {{fontWeight: "bold"}}>
+                <p style = {styles.titleFontStyle}>
                     Trailing Minutiae
                 </p>
                 {props.node.trailingMinutiae && props.node.trailingMinutiae.length > 0 &&

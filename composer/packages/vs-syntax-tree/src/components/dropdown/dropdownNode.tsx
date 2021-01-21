@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Icon} from "semantic-ui-react";
+import * as styles from "../../styles/dropdown-tree.styles";
 import { DropdownNodeProps } from "../../tree-interfaces";
 
 function DropdownNode(props: DropdownNodeProps) {
@@ -16,22 +17,10 @@ function DropdownNode(props: DropdownNodeProps) {
 
     return (
         <div>
-            <div
-                style = {{
-                    cursor: "default",
-                    display: "flex",
-                    flexDirection: "row",
-                    height: 50,
-                    lineHeight: "50px",
-                    width: "100%"
-                }}
-            >
+            <div style = {styles.dropdownNodeStyle}>
                 {ifCollapsible && isCollapsed &&
                     <div
-                        style = {{
-                            height: "100%",
-                            paddingLeft: "8px"
-                        }}
+                        style = {styles.dropdownArrowStyle}
                         onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
                         // tslint:disable-next-line: no-empty
                         : () => {}}
@@ -42,10 +31,7 @@ function DropdownNode(props: DropdownNodeProps) {
 
                 {ifCollapsible && !isCollapsed &&
                     <div
-                        style = {{
-                            height: "100%",
-                            paddingLeft: "8px"
-                        }}
+                        style = {styles.dropdownArrowStyle}
                         onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
                         // tslint:disable-next-line: no-empty
                         : () => {}}
@@ -56,12 +42,8 @@ function DropdownNode(props: DropdownNodeProps) {
 
                 <div
                     style = {{
-                        color: props.treeNode.errorNode ? "red" : "black",
-                        flexGrow: 1,
-                        fontSize: 14,
-                        paddingLeft: "5px",
-                        textAlign: "left",
-                        width: "auto"
+                        ...styles.nodeLabelStyle,
+                        color: props.treeNode.errorNode ? "red" : "black"
                     }}
                     onClick = {() => { props.onClick(props.treeNode); }}
                 >
