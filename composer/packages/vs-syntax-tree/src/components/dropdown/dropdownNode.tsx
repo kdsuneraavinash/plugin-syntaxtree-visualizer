@@ -12,23 +12,18 @@ function DropdownNode(props: DropdownNodeProps) {
         if (props.treeNode.children && props.treeNode.children.length) {
             updateIfCollapsible(true);
         }
-    }, []);
-
-    function changeCollapsibleStatus() {
-        updateisCollapsed(!isCollapsed);
-    }
+    }, [props]);
 
     return (
         <div>
             <div
                 style = {{
-                    backgroundColor: "#F0F0F0",
                     cursor: "default",
                     display: "flex",
                     flexDirection: "row",
                     height: 50,
                     lineHeight: "50px",
-                    width: 350
+                    width: "100%"
                 }}
             >
                 {ifCollapsible && isCollapsed &&
@@ -37,8 +32,7 @@ function DropdownNode(props: DropdownNodeProps) {
                             height: "100%",
                             paddingLeft: "8px"
                         }}
-                        // tslint:disable-next-line: no-empty
-                        onClick = {ifCollapsible ? changeCollapsibleStatus : () => {}}
+                        onClick = {() => { props.onCollapseTree(props.treeNode.nodeID, false); }}
                     >
                         <Icon name = "angle up" size = "large" />
                     </div>
@@ -50,8 +44,7 @@ function DropdownNode(props: DropdownNodeProps) {
                             height: "100%",
                             paddingLeft: "8px"
                         }}
-                        // tslint:disable-next-line: no-empty
-                        onClick = {ifCollapsible ? changeCollapsibleStatus : () => {}}
+                        onClick = {() => { props.onCollapseTree(props.treeNode.nodeID, false); }}
                     >
                         <Icon name = "angle down" size = "large" />
                     </div>
@@ -77,6 +70,7 @@ function DropdownNode(props: DropdownNodeProps) {
                     return <DropdownNode
                                 treeNode = {item}
                                 onClick = {props.onClick}
+                                onCollapseTree = {props.onCollapseTree}
                                 key = {id}
                             />;
                 })

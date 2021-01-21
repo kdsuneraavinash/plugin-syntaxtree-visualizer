@@ -48,7 +48,7 @@ export interface EdgeCoords {
 }
 
 export interface PrimaryProps {
-    onCollapseTree: (nodeID: string) => void;
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
     renderTree: () => Promise<TreeProps>;
 }
 
@@ -76,17 +76,23 @@ export interface Diagnostics {
 }
 
 export interface GraphicalTreeProps {
-    onCollapseTree: (nodeID: string) => void;
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
     treeGraph?: TreeGraph;
 }
 
 export interface DropdownTreeProps {
     treeNode: TreeArrayNode;
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
 }
 
 export interface DropdownNodeProps {
     treeNode: TreeArrayNode;
     onClick: (nodeProp: TreeArrayNode) => void;
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
+}
+
+export interface DropdownDetailsProps {
+    treeNode: TreeArrayNode;
 }
 
 export interface TreeArrayNode {

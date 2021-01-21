@@ -8,6 +8,7 @@ function DropdownDetails(props: DetailsCardProp) {
                 display: "flex",
                 flexDirection: "row",
                 height: 50,
+                paddingLeft: 20,
                 width: "100%"
             }}
         >

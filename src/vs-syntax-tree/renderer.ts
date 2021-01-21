@@ -17,7 +17,7 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
             position: relative;
             height: 100%;
             text-align: center;
-            margin-top: 2%;
+            padding-top: 2%;
         }
 
         #treeBody {
@@ -29,6 +29,7 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
         function loadedScript() {
             let docUri = ${JSON.stringify(sourceRoot)};
             let collapsedNode = "";
+            let isGraphical = false;
 
             window.addEventListener('message', event => {
                 let msg = event.data;
@@ -54,14 +55,15 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
                 })
             }
 
-            function collapseTree(nodeID){
+            function collapseTree(nodeID, representationType){
                 collapsedNode = nodeID;
+                isGraphical = representationType;
                 ballerinaComposer.renderSyntaxTree(collapseTree, collapseNodes, document.getElementById("treeBody"));
             }
 
             function collapseNodes(){
                 return new Promise((resolve, reject) => {
-                    webViewRPCHandler.invokeRemoteMethod('onCollapseTree', [collapsedNode], (response) => {
+                    webViewRPCHandler.invokeRemoteMethod('onCollapseTree', [collapsedNode, isGraphical], (response) => {
                         resolve(response);
                     });
                 })

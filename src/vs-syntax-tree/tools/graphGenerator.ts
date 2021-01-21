@@ -2,21 +2,24 @@ import { treeMapper } from "./treeMapper";
 import { TreeNode, layoutOptions } from "./resources";
 import { graphMapper } from "./graphMapper";
 
-export let nodeMembers: any[], nodeEdges: any[], nodeArray: TreeNode[];
+export let nodeMembers: any[], nodeEdges: any[], nodeArray: TreeNode[], graphicalTreeArray: TreeNode[];
 
 export function retrieveGraph (responseTree: JSON){
     nodeArray = [];
     treeMapper(responseTree, {}, 0);
-    return updateSyntaxTree("");
+    graphicalTreeArray = nodeArray;
+    return updateSyntaxTree("", true);
 }
 
-export function updateSyntaxTree (nodeID: string){
-    nodeEdges = []; nodeMembers = [];
-    graphMapper(nodeArray, nodeID);
-    return setGraph();
+export function updateSyntaxTree (nodeID: string, isGraphical: boolean){
+    if (isGraphical){
+        nodeEdges = []; nodeMembers = [];
+    }
+    graphMapper(isGraphical ? graphicalTreeArray : nodeArray, nodeID, isGraphical);
+    return setGraph(isGraphical);
 }
 
-function setGraph(){
+function setGraph(isGraphical: boolean){
     console.log(nodeArray);
     const graph = {
         id: "root",
@@ -24,6 +27,7 @@ function setGraph(){
         children: nodeMembers,
         edges: nodeEdges
     };
-
-    return {graph, nodeArray};
+    
+    const respArray = isGraphical ? graphicalTreeArray : nodeArray;
+    return {graph, respArray};
 }

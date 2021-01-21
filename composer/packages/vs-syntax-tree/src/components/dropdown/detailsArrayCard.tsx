@@ -7,6 +7,7 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
             style = {{
                 display: "flex",
                 flexDirection: "row",
+                paddingLeft: 20,
                 width: "100%"
             }}
         >
@@ -24,8 +25,7 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
                 <div
                     style = {{
                         display: "flex",
-                        flexDirection: "column",
-                        textAlign: "left"
+                        flexDirection: "column"
                     }}
                 >
                     {props.value.map((item, id) => {

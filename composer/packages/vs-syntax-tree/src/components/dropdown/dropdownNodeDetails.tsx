@@ -1,9 +1,9 @@
 import React from "react";
-import { DropdownTreeProps } from "../../tree-interfaces";
+import { DropdownDetailsProps } from "../../tree-interfaces";
 import DropdownArrayDetails from "./detailsArrayCard";
 import DropdownDetails from "./detailsCard";
 
-function DropdownNodeDetails(props: DropdownTreeProps) {
+function DropdownNodeDetails(props: DropdownDetailsProps) {
     return (
         <div
             style = {{
@@ -11,6 +11,7 @@ function DropdownNodeDetails(props: DropdownTreeProps) {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
+                textAlign: "left",
                 width: "100%"
             }}
         >

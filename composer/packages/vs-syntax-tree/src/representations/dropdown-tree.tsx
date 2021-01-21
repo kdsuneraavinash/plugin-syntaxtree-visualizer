@@ -19,19 +19,31 @@ function DropdownTree(props: DropdownTreeProps) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            maxHeight: window.innerWidth * 0.75,
-            width: window.innerWidth * 0.75
+            maxHeight: "70vh",
+            minWidth: "800px",
+            width: "90vh"
         }}>
             <div
                 style = {{
+                    backgroundColor: "#F0F0F0",
+                    borderRight: "1px solid black",
+                    height: "auto",
+                    overflow: "auto",
                     width: "50%"
                 }}
             >
-                <DropdownNode treeNode = {props.treeNode} onClick = {updateCurrentNode} />
+                <DropdownNode
+                    treeNode = {props.treeNode}
+                    onClick = {updateCurrentNode}
+                    onCollapseTree = {props.onCollapseTree}
+                />
             </div>
 
             <div
                 style = {{
+                    backgroundColor: "#F0F0F0",
+                    height: "auto",
+                    overflow: "auto",
                     width: "50%"
                 }}
             >
