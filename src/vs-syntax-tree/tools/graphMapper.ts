@@ -18,7 +18,7 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
             let diagnostics : any[] = [];
 
             if (!targetArray[i].didCollapse && targetArray[i].nodeID.charAt(0) === "p"){
-                diagnostics = checkDiagnostics(targetArray[i]);
+                diagnostics = targetArray[i].diagnostics;
             }
     
             nodeMembers.push({
@@ -29,7 +29,7 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
                 kind: targetArray[i].kind,
                 leadingMinutiae: targetArray[i].leadingMinutiae,
                 trailingMinutiae: targetArray[i].trailingMinutiae,
-                diagnostics:  diagnostics,
+                diagnostics:  targetArray[i].diagnostics,
                 hasDiagnostics: diagnostics.length > 0 ? true : false,
                 layoutOptions: { 
                     'elk.position': '('+position+', 0)'
@@ -52,20 +52,4 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
             graphMapper(targetArray[i].children, nodeID, isGraphical);
         }
     }
-}
-
-function checkDiagnostics(node: TreeNode){  
-    let diagnostics: any[] = [];
-
-    if(node.diagnostics && node.diagnostics.length){
-        diagnostics = node.diagnostics;
-    } else if (node.kind === "imports" || "members" && node.children.length){
-        for (let i=0; i<node.children.length; i++){
-            if (node.children[i].diagnostics && node.children[i].diagnostics.length){
-                diagnostics = diagnostics.concat(node.children[i].diagnostics);
-            }
-        }
-    }
-
-    return diagnostics;
 }

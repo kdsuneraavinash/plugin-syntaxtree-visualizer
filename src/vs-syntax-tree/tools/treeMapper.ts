@@ -58,7 +58,7 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     parentID: parentObj.nodeID,
                     didCollapse: treeLevel < 2 ? true : false,
                     children: [],
-                    diagnostics: obj[props].syntaxDiagnostics
+                    diagnostics: obj[props].syntaxDiagnostics ? obj[props].syntaxDiagnostics : []
                 };
 
                 nodeArray.length ? parentObj.children.push(childNode) : nodeArray.push(childNode);
@@ -70,13 +70,17 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     nodeID: `p${++nodeCount}`,
                     value: obj[props].kind,
                     kind: obj[props].kind,
-                    leadingMinutiae: parentObj.leadingMinutiae,
-                    trailingMinutiae: parentObj.trailingMinutiae,
+                    leadingMinutiae: obj[props].leadingMinutiae,
+                    trailingMinutiae: obj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
                     didCollapse: treeLevel < 2 ? true : false,
                     children: [],
-                    diagnostics: obj[props].syntaxDiagnostics
+                    diagnostics: obj[props].syntaxDiagnostics ? obj[props].syntaxDiagnostics : []
                 };
+
+                if (obj[props].syntaxDiagnostics && (parentObj.kind === "members" || parentObj.kind === "imports")){
+                    parentObj.diagnostics = [...parentObj.diagnostics, ...childNode.diagnostics];
+                }
 
                 parentObj.children.push(childNode);
                 treeMapper(obj[props], childNode, treeLevel+1);

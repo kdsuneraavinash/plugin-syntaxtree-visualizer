@@ -19,7 +19,6 @@ export function updateSyntaxTree (nodeID: string, isGraphical: boolean){
     }
 
     graphMapper(isGraphical ? graphicalTreeArray : nodeArray, nodeID, isGraphical);
-
     return setGraph();
 }
 
