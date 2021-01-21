@@ -1,5 +1,5 @@
 import React from "react";
-import { TreeEdgeProps } from "../tree-interfaces";
+import { TreeEdgeProps } from "../../tree-interfaces";
 
 function TreeNodeEdge(props: TreeEdgeProps) {
     const edgeCoords = props.edge.sections;

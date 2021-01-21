@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { TreeNodeDetailsProps } from "../tree-interfaces";
+import { TreeNodeDetailsProps } from "../../tree-interfaces";
 
 function Diagnostics(props: TreeNodeDetailsProps) {
     const [isEdgeNode, updateIsEdgeNode] = useState(false);

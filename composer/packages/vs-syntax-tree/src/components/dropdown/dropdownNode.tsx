@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Icon} from "semantic-ui-react";
-import { DropdownNodeProps } from "../tree-interfaces";
+import { DropdownNodeProps } from "../../tree-interfaces";
 
 function DropdownNode(props: DropdownNodeProps) {
     const [ifCollapsible, updateIfCollapsible] = useState(false);
@@ -12,7 +12,7 @@ function DropdownNode(props: DropdownNodeProps) {
         if (props.treeNode.children && props.treeNode.children.length) {
             updateIfCollapsible(true);
         }
-    }, [props]);
+    }, []);
 
     function changeCollapsibleStatus() {
         updateisCollapsed(!isCollapsed);
@@ -59,7 +59,7 @@ function DropdownNode(props: DropdownNodeProps) {
 
                 <div
                     style = {{
-                        color: "black",
+                        color: props.treeNode.errorNode ? "red" : "black",
                         flexGrow: 1,
                         fontSize: 14,
                         paddingLeft: "5px",

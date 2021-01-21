@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Minutiae, TreeNodeDetailsProps } from "../tree-interfaces";
+import { Minutiae, TreeNodeDetailsProps } from "../../tree-interfaces";
 
 function NodeDetails(props: TreeNodeDetailsProps) {
     const [isEdgeNode, updateIsEdgeNode] = useState(false);

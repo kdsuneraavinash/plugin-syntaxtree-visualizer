@@ -1,6 +1,6 @@
 import React from "react";
-import TreeNodeEdge from "../components/treeEdge";
-import TreeNode from "../components/treeNode";
+import TreeNodeEdge from "../components/graphical/treeEdge";
+import TreeNode from "../components/graphical/treeNode";
 import { GraphicalTreeProps } from "../tree-interfaces";
 
 function GraphicalSyntaxTree(props: GraphicalTreeProps) {

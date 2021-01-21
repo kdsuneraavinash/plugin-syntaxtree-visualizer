@@ -1,9 +1,14 @@
-import React, {useState} from "react";
-import DropdownNode from "../components/dropdownNode";
+import React, {useEffect, useState} from "react";
+import DropdownNode from "../components/dropdown/dropdownNode";
+import DropdownNodeDetails from "../components/dropdown/dropdownNodeDetails";
 import { DropdownTreeProps, TreeArrayNode } from "../tree-interfaces";
 
 function DropdownTree(props: DropdownTreeProps) {
     const [currentNode, setCurrentNode] = useState<TreeArrayNode | undefined>(undefined);
+
+    useEffect(() => {
+        setCurrentNode(props.treeNode);
+    }, []);
 
     function updateCurrentNode(nodeProp: TreeArrayNode) {
         setCurrentNode(nodeProp);
@@ -14,7 +19,8 @@ function DropdownTree(props: DropdownTreeProps) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            width: window.innerWidth / 1.3
+            maxHeight: window.innerWidth * 0.75,
+            width: window.innerWidth * 0.75
         }}>
             <div
                 style = {{
@@ -29,8 +35,7 @@ function DropdownTree(props: DropdownTreeProps) {
                     width: "50%"
                 }}
             >
-                <text>This is where the node details go</text>
-                {currentNode && <text>{currentNode.kind}</text>}
+                {currentNode && <DropdownNodeDetails treeNode = {currentNode} />}
             </div>
         </div>
     );

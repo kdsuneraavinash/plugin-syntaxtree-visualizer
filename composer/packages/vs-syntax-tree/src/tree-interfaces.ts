@@ -102,3 +102,14 @@ export interface TreeArrayNode {
     errorNode?: any;
     diagnostics: any[];
 }
+
+export interface DetailsCardProp {
+    title: string;
+    value: any;
+}
+
+export interface DetailsArrayCardProp {
+    title: string;
+    type: string;
+    value: any[];
+}

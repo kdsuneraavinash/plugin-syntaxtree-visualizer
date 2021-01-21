@@ -20,7 +20,9 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                             parentID: parentObj.nodeID,
                             children: [],
                             errorNode: true,
-                            diagnostics: []
+                            diagnostics: [{
+                                message: "Invalid node"
+                            }]
                         });
                     }
                 }
@@ -34,7 +36,9 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     leadingMinutiae: obj[props].leadingMinutiae,
                     trailingMinutiae: obj[props].trailingMinutiae,
                     errorNode: obj[props].isMissing,
-                    diagnostics: []
+                    diagnostics: obj[props].isMissing ? [{
+                        message: "This node is missing"
+                    }] : []
                 });
 
                 if (obj[props].isMissing && !parentObj.diagnostics) {
