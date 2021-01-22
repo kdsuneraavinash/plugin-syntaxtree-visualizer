@@ -38,7 +38,7 @@ function visualizeSyntaxTree(context: vscode.ExtensionContext, langClient: Exten
                 docUri: sourceRoot
             });
         }
-    }, 500));
+    }, 100));
 
     createSyntaxTreePanel(context, langClient, sourceRoot);
 }

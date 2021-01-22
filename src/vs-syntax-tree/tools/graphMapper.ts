@@ -3,7 +3,6 @@ import { TreeNode } from "./resources";
 import { nodeMembers, nodeEdges } from "./graphGenerator";
 
 export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
-    console.log(isGraphical);
     for (let i = 0; i < targetArray.length; i++) {
         if (targetArray[i].nodeID === nodeID) {
             let status = targetArray[i].didCollapse;

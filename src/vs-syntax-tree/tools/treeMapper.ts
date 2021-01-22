@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import { nodeArray } from "./graphGenerator";
 import { TreeNode } from "./resources";
 
@@ -6,7 +7,7 @@ let childNode: any, nodeCount = -1;
 export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: number) {
     for (var props in obj) {
         if (props === "syntaxDiagnostics"){
-            return obj[props];
+            return;
         }
 
         else if (props !== "relativeResourcePath" && typeof obj[props] === "object") {
@@ -40,16 +41,10 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                         message: "This node is missing"
                     }] : []
                 });
-
-                if (obj[props].isMissing && !parentObj.diagnostics) {
-                    parentObj.diagnostics = [{
-                        message: "Missing "+obj[props].kind
-                    }];
-                }
             }
 
             else if (props.match(/^[0-9]+$/) === null) {
-                childNode = {
+                let parentNode: any = {
                     nodeID: `p${++nodeCount}`,
                     value: obj[props].isMissing ? obj[props].kind : props,
                     kind: nodeArray.length ? props : "Compilation Unit",
@@ -61,8 +56,11 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     diagnostics: obj[props].syntaxDiagnostics ? obj[props].syntaxDiagnostics : []
                 };
 
-                nodeArray.length ? parentObj.children.push(childNode) : nodeArray.push(childNode);
-                treeMapper(obj[props], childNode, treeLevel+1);
+                nodeArray.length ? parentObj.children.push(parentNode) : nodeArray.push(parentNode);
+                treeMapper(obj[props], parentNode, treeLevel+1);
+                if(!obj[props].kind && parentNode.children.length){
+                    assignProperties(parentNode, parentObj.diagnostics.length);
+                }
             }
 
             else if(obj[props].kind){
@@ -78,10 +76,6 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     diagnostics: obj[props].syntaxDiagnostics ? obj[props].syntaxDiagnostics : []
                 };
 
-                if (obj[props].syntaxDiagnostics && (parentObj.kind === "members" || parentObj.kind === "imports")){
-                    parentObj.diagnostics = [...parentObj.diagnostics, ...childNode.diagnostics];
-                }
-
                 parentObj.children.push(childNode);
                 treeMapper(obj[props], childNode, treeLevel+1);
             }
@@ -91,4 +85,17 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
             }
         }
     }
+}
+
+function assignProperties (node: TreeNode | any, checkDiagnostics: boolean) {
+    if(checkDiagnostics){
+        for(let i = 0; i < node.children.length; i++){
+            if(node.children[i].diagnostics.length){
+                node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[i].diagnostics));
+            }
+        }
+    }
+
+    node.leadingMinutiae = _.cloneDeep(node.children[0].leadingMinutiae);
+    node.trailingMinutiae = _.cloneDeep(node.children[node.children.length - 1].trailingMinutiae);
 }
