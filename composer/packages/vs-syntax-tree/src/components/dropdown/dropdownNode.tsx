@@ -17,28 +17,31 @@ function DropdownNode(props: DropdownNodeProps) {
 
     return (
         <div>
-            <div style = {styles.dropdownNodeStyle}>
-                {ifCollapsible && isCollapsed &&
-                    <div
-                        style = {styles.dropdownArrowStyle}
-                        onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
-                        // tslint:disable-next-line: no-empty
-                        : () => {}}
-                    >
-                        <Icon name = "angle up" size = "large" />
-                    </div>
-                }
+            <div style = {{
+                ...styles.dropdownNodeStyle,
+                paddingLeft: props.treeLevel * 25
+            }}>
+                <div style ={styles.dropdownArrowStyle}>
+                    {ifCollapsible && isCollapsed &&
+                        <div
+                            onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
+                            // tslint:disable-next-line: no-empty
+                            : () => {}}
+                        >
+                            <Icon name = "angle up" size = "large" />
+                        </div>
+                    }
 
-                {ifCollapsible && !isCollapsed &&
-                    <div
-                        style = {styles.dropdownArrowStyle}
-                        onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
-                        // tslint:disable-next-line: no-empty
-                        : () => {}}
-                    >
-                        <Icon name = "angle down" size = "large" />
-                    </div>
-                }
+                    {ifCollapsible && !isCollapsed &&
+                        <div
+                            onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
+                            // tslint:disable-next-line: no-empty
+                            : () => {}}
+                        >
+                            <Icon name = "angle down" size = "large" />
+                        </div>
+                    }
+                </div>
 
                 <div
                     style = {{
@@ -53,8 +56,10 @@ function DropdownNode(props: DropdownNodeProps) {
 
             {ifCollapsible && isCollapsed &&
                 props.treeNode.children.map((item, id) => {
+                    const level = props.treeLevel + 1;
                     return <DropdownNode
                                 treeNode = {item}
+                                treeLevel = {level}
                                 onClick = {props.onClick}
                                 onCollapseTree = {props.onCollapseTree}
                                 key = {id}

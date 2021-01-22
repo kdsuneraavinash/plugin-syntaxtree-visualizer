@@ -27,13 +27,14 @@ export const dropdownNodeStyle: CSSProperties = {
 
 export const dropdownArrowStyle: CSSProperties = {
     height: "100%",
-    paddingLeft: "8px"
+    paddingLeft: "8px",
+    width: 25
 };
 
 export const nodeLabelStyle: CSSProperties = {
     flexGrow: 1,
     fontSize: 14,
-    paddingLeft: "5px",
+    paddingLeft: "25px",
     textAlign: "left",
     width: "auto"
 };
@@ -49,7 +50,6 @@ export const detailsBlockStyle: CSSProperties = {
 export const detailsCardStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
-    height: 50,
     paddingLeft: 20,
     width: "100%"
 };
@@ -60,13 +60,13 @@ export const detailsArrayValueBlock: CSSProperties = {
 };
 
 export const detailsCardTitleStyle: CSSProperties = {
-    height: "100%",
+    height: "50px",
     lineHeight: "50px",
     width: "30%"
 };
 
 export const detailsCardValueStyle: CSSProperties = {
-    height: "100%",
+    height: "50px",
     lineHeight: "50px",
     paddingLeft: 20,
     width: "auto"

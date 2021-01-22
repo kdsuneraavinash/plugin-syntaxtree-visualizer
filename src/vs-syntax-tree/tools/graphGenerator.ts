@@ -7,7 +7,6 @@ import { graphMapper } from "./graphMapper";
 export let nodeMembers: any[], nodeEdges: any[], nodeArray: TreeNode[], graphicalTreeArray: TreeNode[];
 
 export function retrieveGraph (responseTree: JSON){
-    console.log(responseTree);
     nodeArray = [];
     treeMapper(responseTree, {}, 0);
     graphicalTreeArray = _.cloneDeep(nodeArray);
@@ -24,7 +23,6 @@ export function updateSyntaxTree (nodeID: string, isGraphical: boolean){
 }
 
 function setGraph(){
-    console.log(nodeArray);
     const graph = {
         id: "root",
         layoutOptions: layoutOptions,

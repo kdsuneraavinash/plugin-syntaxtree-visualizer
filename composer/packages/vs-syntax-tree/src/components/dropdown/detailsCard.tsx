@@ -4,7 +4,11 @@ import { DetailsCardProp } from "../../tree-interfaces";
 
 function DropdownDetails(props: DetailsCardProp) {
     return (
-        <div style = {styles.detailsCardStyle}>
+        <div style = {{
+                ...styles.detailsCardStyle,
+                height: 50
+            }}
+        >
             <div style = {styles.detailsCardTitleStyle}>
                 <b>{props.title}</b>
             </div>

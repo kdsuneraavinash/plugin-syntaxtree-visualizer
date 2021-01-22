@@ -33,8 +33,8 @@ function Diagnostics(props: TreeNodeDetailsProps) {
                     ...styles.diagnosticsBodyStyle,
                     left: props.node.x + props.node.width - 40,
                     top: isBottomNode ? props.node.y - 10 : props.node.y + props.node.height + 10,
-                    transform: isEdgeNode ? (isBottomNode ? "translate(-80%, -100%)" : "translateX(-80%)") :
-                        (isBottomNode ? "translateY(-80%)" : "translateX(-1%)")
+                    transform: isBottomNode ? (isEdgeNode ? "translate(-80%, -100%)" : "translate(-10%, -100%)") :
+                        (isEdgeNode ? "translateX(-80%)" : "translateX(-10%)")
                 }}
             >
                 <p> <b>This block contains :</b></p> <hr/>

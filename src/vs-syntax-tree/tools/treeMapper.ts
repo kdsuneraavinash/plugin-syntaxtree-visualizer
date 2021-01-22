@@ -38,50 +38,42 @@ export function treeMapper(obj: JSON, parentObj: TreeNode | any, treeLevel: numb
                     trailingMinutiae: obj[props].trailingMinutiae,
                     errorNode: obj[props].isMissing,
                     diagnostics: obj[props].isMissing ? [{
-                        message: "This node is missing"
+                        message: "Missing "+obj[props].kind
                     }] : []
                 });
             }
 
-            else if (props.match(/^[0-9]+$/) === null) {
-                let parentNode: any = {
-                    nodeID: `p${++nodeCount}`,
-                    value: obj[props].isMissing ? obj[props].kind : props,
-                    kind: nodeArray.length ? props : "Compilation Unit",
-                    leadingMinutiae: obj[props].leadingMinutiae,
-                    trailingMinutiae: obj[props].trailingMinutiae,
-                    parentID: parentObj.nodeID,
-                    didCollapse: treeLevel < 2 ? true : false,
-                    children: [],
-                    diagnostics: obj[props].syntaxDiagnostics ? obj[props].syntaxDiagnostics : []
-                };
-
-                nodeArray.length ? parentObj.children.push(parentNode) : nodeArray.push(parentNode);
-                treeMapper(obj[props], parentNode, treeLevel+1);
-                if(!obj[props].kind && parentNode.children.length){
-                    assignProperties(parentNode, parentObj.diagnostics.length);
-                }
-            }
-
-            else if(obj[props].kind){
+            else if ((props.match(/^[0-9]+$/) === null) || obj[props].kind) {
                 childNode = {
                     nodeID: `p${++nodeCount}`,
-                    value: obj[props].kind,
-                    kind: obj[props].kind,
                     leadingMinutiae: obj[props].leadingMinutiae,
                     trailingMinutiae: obj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
                     didCollapse: treeLevel < 2 ? true : false,
                     children: [],
                     diagnostics: obj[props].syntaxDiagnostics ? obj[props].syntaxDiagnostics : []
-                };
+                }
 
-                parentObj.children.push(childNode);
-                treeMapper(obj[props], childNode, treeLevel+1);
-            }
-
-            else {
-                treeMapper(obj[props], parentObj, treeLevel+1);
+                if((props.match(/^[0-9]+$/) === null)){
+                    let parentNode: any = {
+                        ...childNode,
+                        value: obj[props].isMissing ? obj[props].kind : props,
+                        kind: nodeArray.length ? props : "Compilation Unit",
+                    }
+                    nodeArray.length ? parentObj.children.push(parentNode) : nodeArray.push(parentNode);
+                    treeMapper(obj[props], parentNode, treeLevel+1);
+                    if(!obj[props].kind && parentNode.children.length){
+                        assignProperties(parentNode, parentObj.diagnostics.length);
+                    }
+                } else {
+                    childNode = {
+                        ...childNode,
+                        value: obj[props].kind,
+                        kind: obj[props].kind,
+                    }
+                    parentObj.children.push(childNode);
+                    treeMapper(obj[props], childNode, treeLevel+1);
+                }
             }
         }
     }
@@ -95,7 +87,6 @@ function assignProperties (node: TreeNode | any, checkDiagnostics: boolean) {
             }
         }
     }
-
     node.leadingMinutiae = _.cloneDeep(node.children[0].leadingMinutiae);
     node.trailingMinutiae = _.cloneDeep(node.children[node.children.length - 1].trailingMinutiae);
 }

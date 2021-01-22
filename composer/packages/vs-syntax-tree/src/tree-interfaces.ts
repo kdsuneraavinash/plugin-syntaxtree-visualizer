@@ -87,6 +87,7 @@ export interface DropdownTreeProps {
 
 export interface DropdownNodeProps {
     treeNode: TreeArrayNode;
+    treeLevel: number;
     onClick: (nodeProp: TreeArrayNode) => void;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
 }

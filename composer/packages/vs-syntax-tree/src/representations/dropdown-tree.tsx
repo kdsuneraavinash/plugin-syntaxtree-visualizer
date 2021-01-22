@@ -20,6 +20,7 @@ function DropdownTree(props: DropdownTreeProps) {
             <div style = {styles.sideDividersStyle}>
                 <DropdownNode
                     treeNode = {props.treeNode}
+                    treeLevel = {0}
                     onClick = {updateCurrentNode}
                     onCollapseTree = {props.onCollapseTree}
                 />

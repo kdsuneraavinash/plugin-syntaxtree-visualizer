@@ -41,8 +41,8 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                     ...styles.popupBodyStyle,
                     left: props.node.x + (props.node.width / 2),
                     top: isBottomNode ? props.node.y - 15 : props.node.y + props.node.height + 15,
-                    transform: isEdgeNode ? (isBottomNode ? "translate(-80%, -100%)" : "translateX(-80%)") :
-                        (isBottomNode ? "translate(-10%, -100%)" : "translateX(-10%)")
+                    transform: isBottomNode ? (isEdgeNode ? "translate(-80%, -100%)" : "translate(-10%, -100%)") :
+                        (isEdgeNode ? "translateX(-80%)" : "translateX(-10%)")
                 }}
             >
                 <p style = {styles.titleFontStyle}> Kind : </p>  {props.node.kind}<hr/>
