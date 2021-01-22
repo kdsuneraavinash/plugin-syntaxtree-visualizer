@@ -2,11 +2,11 @@
     "name": "ballerina",
     "displayName": "Ballerina Syntax Tree Visualizer",
     "description": "Syntax Tree Visualizer for Ballerina",
-    "version": "2.0.0-Preview8",
+    "version": "2.0.0-Alpha-SNAPSHOT",
     "publisher": "ballerina",
     "repository": {
         "type": "git",
-        "url": "https://github.com/ballerina-platform/plugin-vscode"
+        "url": "https://github.com/SumayyaZiyad/plugin-syntaxtree-visualizer.git"
     },
     "icon": "resources/images/ballerina.png",
     "galleryBanner": {
