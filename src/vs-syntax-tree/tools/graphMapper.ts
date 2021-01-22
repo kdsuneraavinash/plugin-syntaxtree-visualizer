@@ -1,6 +1,6 @@
 import { toInteger } from "lodash";
 import { TreeNode } from "./resources";
-import { nodeMembers, nodeEdges } from "./graphGenerator";
+import { nodeMembers, nodeEdges } from "./syntaxTreeGenerator";
 
 export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {

@@ -6,7 +6,7 @@ import { ExtendedLangClient } from '../core/extended-language-client';
 import { BallerinaExtension } from '../core';
 import { getCommonWebViewOptions, WebViewMethod, WebViewRPCHandler } from '../utils';
 import { render } from './renderer';
-import { retrieveGraph, updateSyntaxTree } from './tools/graphGenerator';
+import { retrieveGraph, updateSyntaxTree } from './tools/syntaxTreeGenerator';
 
 let syntaxTreePanel: vscode.WebviewPanel | undefined;
 let activeEditor: vscode.TextEditor;
@@ -85,13 +85,13 @@ function createSyntaxTreePanel(context: vscode.ExtensionContext, langClient: Ext
     syntaxTreePanel.webview.html = displayHtml;
 }
 
-function evaluatePromise(response: any){
+function evaluatePromise(mapGeneratorResponse: any){
     const retrieveProps = new Promise((resolve, reject) => {
-        elk.layout(response.graph)
+        elk.layout(mapGeneratorResponse.treeGraph)
             .then((result)=> {
                 let props = {
                     treeGraph: result,
-                    treeArray: response.nodeArray
+                    treeArray: mapGeneratorResponse.syntaxTreeObj
                 };
                 resolve(props);
             })

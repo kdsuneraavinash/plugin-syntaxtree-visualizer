@@ -5,14 +5,14 @@ import * as styles from "../styles/dropdown-tree.styles";
 import { DropdownTreeProps, TreeArrayNode } from "../tree-interfaces";
 
 function DropdownTree(props: DropdownTreeProps) {
-    const [currentNode, setCurrentNode] = useState<TreeArrayNode | undefined>(undefined);
+    const [detailedNode, setDetailedNode] = useState<TreeArrayNode | undefined>(undefined);
 
     useEffect(() => {
-        setCurrentNode(props.treeNode);
+        setDetailedNode(props.treeNode);
     }, []);
 
-    function updateCurrentNode(nodeProp: TreeArrayNode) {
-        setCurrentNode(nodeProp);
+    function updateDetailedNode(nodeProp: TreeArrayNode) {
+        setDetailedNode(nodeProp);
     }
 
     return (
@@ -21,13 +21,13 @@ function DropdownTree(props: DropdownTreeProps) {
                 <DropdownNode
                     treeNode = {props.treeNode}
                     treeLevel = {0}
-                    onClick = {updateCurrentNode}
+                    onClick = {updateDetailedNode}
                     onCollapseTree = {props.onCollapseTree}
                 />
             </div>
 
             <div style = {styles.sideDividersStyle}>
-                {currentNode && <DropdownNodeDetails treeNode = {currentNode} />}
+                {detailedNode && <DropdownNodeDetails treeNode = {detailedNode} />}
             </div>
         </div>
     );

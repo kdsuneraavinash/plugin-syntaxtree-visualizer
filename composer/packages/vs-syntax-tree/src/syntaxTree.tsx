@@ -8,14 +8,14 @@ import { PrimaryProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
 function SyntaxTree(props: PrimaryProps) {
     const [isGraphicalView, updateIsGraphicalView] = useState(false);
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
-    const [treeArray, setTreeArray] = useState<TreeArrayNode [] | undefined>(undefined);
+    const [syntaxTreeArray, setSyntaxTreeArray] = useState<TreeArrayNode [] | undefined>(undefined);
 
     useEffect(() => {
         props.renderTree().then((result) => {
             setSyntaxTreeGraph(result.treeGraph);
 
             if (!isGraphicalView) {
-                setTreeArray(result.treeArray);
+                setSyntaxTreeArray(result.treeArray);
             }
         });
     }, [props]);
@@ -34,8 +34,8 @@ function SyntaxTree(props: PrimaryProps) {
             </div>
 
             <div style = {styles.bodyStyle}>
-                {!isGraphicalView && treeArray &&
-                    <DropdownTree treeNode = {treeArray[0]} onCollapseTree = {props.onCollapseTree} />
+                {!isGraphicalView && syntaxTreeArray &&
+                    <DropdownTree treeNode = {syntaxTreeArray[0]} onCollapseTree = {props.onCollapseTree} />
                 }
 
                 {isGraphicalView && syntaxTreeGraph &&

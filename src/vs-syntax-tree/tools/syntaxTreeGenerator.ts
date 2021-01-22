@@ -1,15 +1,15 @@
 import * as _ from 'lodash';
 
-import { treeMapper } from "./treeMapper";
+import { syntaxTreeMapper } from "./syntaxTreeMapper";
 import { TreeNode, layoutOptions } from "./resources";
 import { graphMapper } from "./graphMapper";
 
-export let nodeMembers: any[], nodeEdges: any[], nodeArray: TreeNode[], graphicalTreeArray: TreeNode[];
+export let nodeMembers: any[], nodeEdges: any[], syntaxTreeObj: TreeNode[], graphicalTreeObj: TreeNode[];
 
 export function retrieveGraph (responseTree: JSON){
-    nodeArray = [];
-    treeMapper(responseTree, {}, 0);
-    graphicalTreeArray = _.cloneDeep(nodeArray);
+    syntaxTreeObj = [];
+    syntaxTreeMapper(responseTree, {}, 0);
+    graphicalTreeObj = _.cloneDeep(syntaxTreeObj);
     return updateSyntaxTree("", true);
 }
 
@@ -18,17 +18,17 @@ export function updateSyntaxTree (nodeID: string, isGraphical: boolean){
         nodeEdges = []; nodeMembers = [];
     }
 
-    graphMapper(isGraphical ? graphicalTreeArray : nodeArray, nodeID, isGraphical);
+    graphMapper(isGraphical ? graphicalTreeObj : syntaxTreeObj, nodeID, isGraphical);
     return setGraph();
 }
 
 function setGraph(){
-    const graph = {
+    const treeGraph = {
         id: "root",
         layoutOptions: layoutOptions,
         children: nodeMembers,
         edges: nodeEdges
     };
 
-    return {graph, nodeArray};
+    return {treeGraph, syntaxTreeObj};
 }
