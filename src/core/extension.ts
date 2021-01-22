@@ -36,6 +36,8 @@ import { ExtendedLangClient } from './extended-language-client';
 import { log, getOutputChannel } from '../utils/index';
 import { AssertionError } from "assert";
 import { OVERRIDE_BALLERINA_HOME, BALLERINA_HOME, ALLOW_EXPERIMENTAL, ENABLE_DEBUG_LOG, ENABLE_TRACE_LOG } from "./preferences";
+const SWAN_LAKE_REGEX = /(s|S)wan( |-)(l|L)ake/g;
+
 export const EXTENSION_ID = 'ballerina.ballerina';
 
 export interface ConstructIdentifier {
@@ -57,7 +59,6 @@ export class BallerinaExtension {
     private clientOptions: LanguageClientOptions;
     public langClient?: ExtendedLangClient;
     public context?: ExtensionContext;
-    private projectTreeElementClickedCallbacks: Array<(construct: ConstructIdentifier) => void> = [];
     private webviewPanels: {
         [name: string]: WebviewPanel;
     };
@@ -125,10 +126,14 @@ export class BallerinaExtension {
                 log(`Plugin version: ${pluginVersion}\nBallerina version: ${ballerinaVersion}`);
                 this.checkCompatibleVersion(pluginVersion, ballerinaVersion);
 
-                // versions less than 1.1.0 are incapable of handling cli commands for langserver and debug-adapter
-                this.isNewCLICmdSupported = this.compareVersions(ballerinaVersion, "1.1.0", true) >= 0;
-                // versions higher than 1.2.0 are not accepting cli commands parameters
-                this.isNewConfigChangeSupported = this.compareVersions(ballerinaVersion, "1.2.0", true) >= 0;
+                if (ballerinaVersion.match(SWAN_LAKE_REGEX)) {
+                    this.isNewConfigChangeSupported = true;
+                } else {
+                    // versions less than 1.1.0 are incapable of handling cli commands for langserver and debug-adapter
+                    this.isNewCLICmdSupported = this.compareVersions(ballerinaVersion, "1.1.0", true) >= 0;
+                    // versions higher than 1.2.0 are not accepting cli commands parameters
+                    this.isNewConfigChangeSupported = this.compareVersions(ballerinaVersion, "1.2.0", true) >= 0;
+                }
 
                 // if Home is found load Language Server.
                 let serverOptions: ServerOptions;
@@ -274,6 +279,9 @@ export class BallerinaExtension {
     }
 
     checkCompatibleVersion(pluginVersion: string, ballerinaVersion: string): void {
+        if (pluginVersion === '2.0.0' && ballerinaVersion.match(SWAN_LAKE_REGEX)) {
+            return;
+        }
         const versionCheck = this.compareVersions(pluginVersion, ballerinaVersion);
 
         if (versionCheck > 0) {
@@ -487,16 +495,6 @@ export class BallerinaExtension {
 
     public overrideBallerinaHome(): boolean {
         return <boolean>workspace.getConfiguration().get(OVERRIDE_BALLERINA_HOME);
-    }
-
-    public projectTreeElementClicked(construct: ConstructIdentifier): void {
-        this.projectTreeElementClickedCallbacks.forEach((callback) => {
-            callback(construct);
-        });
-    }
-
-    public onProjectTreeElementClicked(callback: (construct: ConstructIdentifier) => void) {
-        this.projectTreeElementClickedCallbacks.push(callback);
     }
 
     public addWebviewPanel(name: string, panel: WebviewPanel) {
