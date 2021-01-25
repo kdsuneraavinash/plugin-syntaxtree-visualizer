@@ -50,8 +50,7 @@ function DropdownNode(props: DropdownNodeProps) {
                 <div
                     style = {{
                         ...styles.nodeLabelStyle,
-                        color: props.treeNode.errorNode ? "red" :
-                            (ifCollapsible ? "green" : "blue")
+                        color: props.treeNode.errorNode ? "red" : "black"
                     }}
                     onClick = {() => { props.onClick(props.treeNode); }}
                 >
