@@ -17,7 +17,10 @@ function DropdownTree(props: DropdownTreeProps) {
 
     return (
         <div style = {styles.containerStyle}>
-            <div style = {styles.sideDividersStyle}>
+            <div style = {{
+                ...styles.sideDividersStyle,
+                width: "65%"
+            }}>
                 <DropdownNode
                     treeNode = {props.treeNode}
                     treeLevel = {0}

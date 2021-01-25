@@ -5,16 +5,16 @@ export const containerStyle: CSSProperties = {
     flexDirection: "row",
     justifyContent: "center",
     maxHeight: "85vh",
-    maxWidth: "95vh",
-    minWidth: "800px"
+    maxWidth: "95vw"
 };
 
 export const sideDividersStyle: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
     minHeight: "300px",
     minWidth: "450px",
     overflow: "auto",
-    padding: "2vh",
-    width: "50%"
+    padding: "2vh"
 };
 
 export const dropdownNodeStyle: CSSProperties = {
@@ -22,9 +22,9 @@ export const dropdownNodeStyle: CSSProperties = {
     cursor: "default",
     display: "flex",
     flexDirection: "row",
-    float: "right",
     height: 40,
-    lineHeight: "40px"
+    lineHeight: "40px",
+    top: 40
 };
 
 export const dropdownArrowStyle: CSSProperties = {
@@ -39,6 +39,7 @@ export const nodeLabelStyle: CSSProperties = {
     flexGrow: 1,
     fontSize: 16,
     paddingLeft: "25px",
+    paddingRight: "10px",
     textAlign: "left",
     width: "auto"
 };

@@ -19,9 +19,7 @@ function DropdownNode(props: DropdownNodeProps) {
         <div>
             <div style = {{
                 ...styles.dropdownNodeStyle,
-                // tslint:disable-next-line: no-invalid-template-strings
-                paddingLeft: "15px",
-                width: `calc(100% - calc(${props.treeLevel} * 35px - 15px))`
+                marginLeft: props.treeLevel * 35
             }}>
                 <div style ={styles.dropdownArrowStyle}>
                     {!ifCollapsible &&
