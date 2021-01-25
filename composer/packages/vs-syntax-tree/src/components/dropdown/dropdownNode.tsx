@@ -19,16 +19,22 @@ function DropdownNode(props: DropdownNodeProps) {
         <div>
             <div style = {{
                 ...styles.dropdownNodeStyle,
-                paddingLeft: props.treeLevel * 25
+                // tslint:disable-next-line: no-invalid-template-strings
+                paddingLeft: "15px",
+                width: `calc(100% - calc(${props.treeLevel} * 35px - 15px))`
             }}>
                 <div style ={styles.dropdownArrowStyle}>
+                    {!ifCollapsible &&
+                        <Icon name = "dot circle" size = "small" />
+                    }
+
                     {ifCollapsible && isCollapsed &&
                         <div
                             onClick = {ifCollapsible ? () => { props.onCollapseTree(props.treeNode.nodeID, false); }
                             // tslint:disable-next-line: no-empty
                             : () => {}}
                         >
-                            <Icon name = "angle up" size = "large" />
+                            <Icon name = "angle down" size = "large" />
                         </div>
                     }
 
@@ -38,7 +44,7 @@ function DropdownNode(props: DropdownNodeProps) {
                             // tslint:disable-next-line: no-empty
                             : () => {}}
                         >
-                            <Icon name = "angle down" size = "large" />
+                            <Icon name = "angle right" size = "large" />
                         </div>
                     }
                 </div>
@@ -46,11 +52,22 @@ function DropdownNode(props: DropdownNodeProps) {
                 <div
                     style = {{
                         ...styles.nodeLabelStyle,
-                        color: props.treeNode.errorNode ? "red" : "black"
+                        color: props.treeNode.errorNode ? "red" :
+                            (ifCollapsible ? "green" : "blue")
                     }}
                     onClick = {() => { props.onClick(props.treeNode); }}
                 >
                     {props.treeNode.value}
+
+                    {ifCollapsible && !props.treeNode.didCollapse && props.treeNode.diagnostics &&
+                        props.treeNode.diagnostics.length > 0 &&
+                        <div style = {styles.warningIconStyle}>
+                            <Icon
+                                name = "warning sign"
+                                color = "red"
+                            />
+                        </div>
+                }
                 </div>
             </div>
 

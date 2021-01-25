@@ -30,7 +30,8 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
 
                 parentObj.children.push({
                     nodeID: `c${++nodeCount}`,
-                    value: nodeObj[props].isMissing ? nodeObj[props].kind : nodeObj[props].value,
+                    value: (nodeObj[props].isMissing || nodeObj[props].kind === "EofToken") ?
+                        nodeObj[props].kind : nodeObj[props].value,
                     parentID: parentObj.nodeID,
                     children: [],
                     kind: nodeObj[props].isMissing ? "Missing "+nodeObj[props].kind : nodeObj[props].kind,

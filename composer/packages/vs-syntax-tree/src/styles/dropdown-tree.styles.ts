@@ -4,42 +4,48 @@ export const containerStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    maxHeight: "70vh",
-    minWidth: "800px",
-    width: "90vh"
+    maxHeight: "85vh",
+    maxWidth: "95vh",
+    minWidth: "800px"
 };
 
 export const sideDividersStyle: CSSProperties = {
-    backgroundColor: "#F0F0F0",
-    height: "auto",
+    minHeight: "300px",
+    minWidth: "450px",
     overflow: "auto",
+    padding: "2vh",
     width: "50%"
 };
 
 export const dropdownNodeStyle: CSSProperties = {
+    borderLeft: "1px dashed black",
     cursor: "default",
     display: "flex",
     flexDirection: "row",
-    height: 50,
-    lineHeight: "50px",
-    width: "100%"
+    float: "right",
+    height: 40,
+    lineHeight: "40px"
 };
 
 export const dropdownArrowStyle: CSSProperties = {
     height: "100%",
-    paddingLeft: "8px",
-    width: 25
+    paddingLeft: "4px",
+    width: 35
 };
 
 export const nodeLabelStyle: CSSProperties = {
+    display: "flex",
+    flexDirection: "row",
     flexGrow: 1,
-    fontSize: 14,
+    fontSize: 16,
     paddingLeft: "25px",
     textAlign: "left",
     width: "auto"
 };
 
 export const detailsBlockStyle: CSSProperties = {
+    backgroundColor: "#c8f0ec",
+    borderRadius: 10,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -62,7 +68,7 @@ export const detailsArrayValueBlock: CSSProperties = {
 export const detailsCardTitleStyle: CSSProperties = {
     height: "50px",
     lineHeight: "50px",
-    width: "30%"
+    width: "40%"
 };
 
 export const detailsCardValueStyle: CSSProperties = {
@@ -70,4 +76,9 @@ export const detailsCardValueStyle: CSSProperties = {
     lineHeight: "50px",
     paddingLeft: 20,
     width: "auto"
+};
+
+export const warningIconStyle: CSSProperties = {
+    marginLeft: "10px",
+    width: "25px"
 };
