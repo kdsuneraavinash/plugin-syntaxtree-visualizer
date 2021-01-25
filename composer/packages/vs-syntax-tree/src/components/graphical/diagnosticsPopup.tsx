@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import { TreeNodeDetailsProps } from "../tree-interfaces";
+import * as styles from "../../styles/graphical-tree.styles";
+import { TreeNodeDetailsProps } from "../../tree-interfaces";
 
 function Diagnostics(props: TreeNodeDetailsProps) {
     const [isEdgeNode, updateIsEdgeNode] = useState(false);
@@ -19,32 +20,21 @@ function Diagnostics(props: TreeNodeDetailsProps) {
         <div>
             <div
                 style = {{
+                    ...styles.popupArrowStyle,
                     borderBottom: isBottomNode ? "none" : "15px solid #ffeee6",
-                    borderLeft: "7.5px solid transparent",
-                    borderRight: "7.5px solid transparent",
                     borderTop: isBottomNode ? "15px solid #ffeee6" : "none",
-                    height: 0,
                     left: props.node.x + props.node.width - 25,
-                    position: "absolute",
-                    top: isBottomNode ? props.node.y - 10 : props.node.y + 45,
-                    transform: "translateX(-50%)",
-                    width: 0
+                    top: isBottomNode ? props.node.y - 10 : props.node.y + 45
                 }}
             />
 
             <div
                 style = {{
-                    backgroundColor: "#ffeee6",
-                    borderRadius: 5,
+                    ...styles.diagnosticsBodyStyle,
                     left: props.node.x + props.node.width - 40,
-                    minWidth: 160,
-                    padding: 10,
-                    position: "absolute",
-                    textAlign: "left",
                     top: isBottomNode ? props.node.y - 10 : props.node.y + props.node.height + 10,
-                    transform: isEdgeNode ? (isBottomNode ? "translate(-80%, -100%)" : "translateX(-80%)") :
-                        (isBottomNode ? "translateY(-80%)" : "translateX(-1%)"),
-                    zIndex: 1
+                    transform: isBottomNode ? (isEdgeNode ? "translate(-80%, -100%)" : "translate(-10%, -100%)") :
+                        (isEdgeNode ? "translateX(-80%)" : "translateX(-10%)")
                 }}
             >
                 <p> <b>This block contains :</b></p> <hr/>

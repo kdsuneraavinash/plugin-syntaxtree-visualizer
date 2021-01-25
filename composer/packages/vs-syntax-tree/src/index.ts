@@ -1,2 +1,2 @@
-export * from "./SyntaxTree";
+export * from "./syntaxTree";
 export * from "./util";

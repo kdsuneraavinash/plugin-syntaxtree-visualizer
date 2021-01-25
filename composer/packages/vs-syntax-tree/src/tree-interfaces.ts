@@ -1,18 +1,13 @@
-export interface ResponseData {
-    treeGraph: TreeGraph;
-    nodeArray: [];
-}
-
 export interface TreeGraph {
     id: string;
     layoutOptions: {};
-    children: Node[];
+    children: GraphNode[];
     edges: TreeEdge[];
     width: number;
     height: number;
 }
 
-export interface Node {
+export interface GraphNode {
     id: string;
     x: number;
     y: number;
@@ -43,17 +38,17 @@ export interface TreeEdge {
 
 export interface EdgeSections {
     id: string;
-    startPoint: Coords;
-    endPoint: Coords;
+    startPoint: EdgeCoords;
+    endPoint: EdgeCoords;
 }
 
-export interface Coords {
+export interface EdgeCoords {
     x: number;
     y: number;
 }
 
-export interface SyntaxTreeProps {
-    onCollapseTree: (nodeID: string) => void;
+export interface PrimaryProps {
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
     renderTree: () => Promise<TreeProps>;
 }
 
@@ -63,12 +58,12 @@ export interface TreeProps {
 }
 
 export interface TreeNodeProps {
-    node: Node;
+    node: GraphNode;
     onCollapseTree: any;
 }
 
 export interface TreeNodeDetailsProps {
-    node: Node;
+    node: GraphNode;
 }
 
 export interface TreeEdgeProps {
@@ -80,13 +75,25 @@ export interface Diagnostics {
     diagnosticInfo: any[];
 }
 
-export interface VisualizeTreeProps {
-    onCollapseTree: (nodeID: string) => void;
+export interface GraphicalTreeProps {
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
     treeGraph?: TreeGraph;
 }
 
 export interface DropdownTreeProps {
-    syntaxTreeArray: TreeArrayNode;
+    treeNode: TreeArrayNode;
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
+}
+
+export interface DropdownNodeProps {
+    treeNode: TreeArrayNode;
+    treeLevel: number;
+    onClick: (nodeProp: TreeArrayNode) => void;
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
+}
+
+export interface DropdownDetailsProps {
+    treeNode: TreeArrayNode;
 }
 
 export interface TreeArrayNode {
@@ -101,4 +108,15 @@ export interface TreeArrayNode {
     trailingMinutiae: any[];
     errorNode?: any;
     diagnostics: any[];
+}
+
+export interface DetailsCardProp {
+    title: string;
+    value: any;
+}
+
+export interface DetailsArrayCardProp {
+    title: string;
+    type: string;
+    value: any[];
 }

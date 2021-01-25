@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import {Icon} from "semantic-ui-react";
-import { TreeNodeProps } from "../tree-interfaces";
-import Diagnostics from "./Diagnostics";
-import NodeDetails from "./NodeDetails";
+import * as styles from "../../styles/graphical-tree.styles";
+import { TreeNodeProps } from "../../tree-interfaces";
+import Diagnostics from "./diagnosticsPopup";
+import NodeDetails from "./nodeDetailsPopup";
 
 function TreeNode(props: TreeNodeProps) {
     const [didHoverNode, setDidHoverNode] = useState(false);
@@ -33,31 +34,17 @@ function TreeNode(props: TreeNodeProps) {
         <div>
             <div
                 style = {{
+                    ...styles.nodeContainerStyle,
                     backgroundColor: props.node.nodeColor,
-                    borderRadius: 10,
                     boxShadow: props.node.isCollapsible ? "2px 4px 2px #9E9E9E" : "none",
-                    cursor: "default",
-                    display: "flex",
-                    flexDirection: "row",
                     height: props.node.height,
-                    justifyContent: "space-around",
                     left: props.node.x,
-                    lineHeight: "50px",
-                    margin: "auto",
-                    position: "absolute",
                     top: props.node.y,
                     width: props.node.width
                 }}
             >
                 <div
-                    style = {{
-                        color: "white",
-                        flexGrow: 1,
-                        fontSize: 14,
-                        paddingLeft: "5px",
-                        textAlign: "center",
-                        width: "auto"
-                    }}
+                    style = {styles.labelContainerStyle}
                     // tslint:disable-next-line: no-empty
                     onClick = {props.node.ifParent ? onClickNode : () => {}}
                     onMouseLeave = {undoHoverNode}
@@ -68,10 +55,7 @@ function TreeNode(props: TreeNodeProps) {
 
                 {props.node.hasDiagnostics && props.node.diagnostics.length &&
                     <div
-                        style = {{
-                            height: "100%",
-                            paddingRight: "8px"
-                        }}
+                        style = {styles.warningIconStyle}
                         onMouseLeave = {undoHoverWarning}
                         onMouseOver = {onHoverWarning}
                     >

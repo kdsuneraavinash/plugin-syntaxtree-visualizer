@@ -1,9 +1,9 @@
 import React from "react";
-import TreeNodeEdge from "./components/TreeEdge";
-import TreeNode from "./components/TreeNode";
-import { VisualizeTreeProps } from "./tree-interfaces";
+import TreeNodeEdge from "../components/graphical/treeEdge";
+import TreeNode from "../components/graphical/treeNode";
+import { GraphicalTreeProps } from "../tree-interfaces";
 
-function GraphicalSyntaxTree(props: VisualizeTreeProps) {
+function GraphicalSyntaxTree(props: GraphicalTreeProps) {
     return (
         <div>
             {props.treeGraph &&
@@ -12,7 +12,7 @@ function GraphicalSyntaxTree(props: VisualizeTreeProps) {
                     props.treeGraph.children.map((item, id) => {
                         return <TreeNode
                                     node = {item}
-                                    onCollapseTree = {() => props.onCollapseTree(item.id)}
+                                    onCollapseTree = {() => props.onCollapseTree(item.id, true)}
                                     key = {id}
                                 />;
                     })
