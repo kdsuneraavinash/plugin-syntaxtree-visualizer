@@ -26,9 +26,7 @@ function SyntaxTree(props: PrimaryProps) {
 
     return (
         <div style = {styles.bodyStyle}>
-            <div
-                style = {styles.containerStyle}
-            >
+            <div style = {styles.containerStyle}>
                 <p style={styles.switchStyle}>Graphical Tree View</p>
                 <Radio toggle onChange = {updateView} checked = {isGraphicalView} />
             </div>

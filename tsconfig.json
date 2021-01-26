@@ -23,16 +23,17 @@
         "jsx": "react",
         "noImplicitAny": false,
         "declaration": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "skipLibCheck": true
     },
+    "include": [
+        "src",
+        "test"
+    ],
     "exclude": [
         "node_modules",
         ".vscode-test",
         "target",
         "extractedDistribution"
-    ],
-    "include": [
-        "src",
-        "test"
     ]
 }

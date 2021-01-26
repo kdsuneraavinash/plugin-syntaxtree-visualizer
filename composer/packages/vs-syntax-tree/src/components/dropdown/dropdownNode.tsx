@@ -64,7 +64,7 @@ function DropdownNode(props: DropdownNodeProps) {
                                 color = "red"
                             />
                         </div>
-                }
+                    }
                 </div>
             </div>
 

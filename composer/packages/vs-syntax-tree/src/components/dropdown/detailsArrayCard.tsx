@@ -10,9 +10,7 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
             </div>
 
             {props.value &&
-                <div
-                    style = {styles.detailsArrayValueBlock}
-                >
+                <div style = {styles.detailsArrayValueBlock}>
                     {props.value.map((item, id) => {
                         return <div key = {id}
                                     style = {styles.detailsCardValueStyle}

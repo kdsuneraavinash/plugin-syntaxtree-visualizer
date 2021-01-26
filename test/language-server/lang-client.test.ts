@@ -18,15 +18,15 @@
  *
  */
 
-// import { expect } from 'chai';
-// import * as path from 'path';
+import { expect } from 'chai';
+import * as path from 'path';
 import { ExtendedLangClient } from "../../src/core/extended-language-client";
 import { getServerOptions } from "../../src/server/server";
-import { getBallerinaCmd } from "../test-util";
-// import { Uri } from "vscode";
+import { getBallerinaCmd, getBBEPath } from "../test-util";
+import { commands, Uri } from "vscode";
 
 suite("Language Server Tests", function () {
-    this.timeout(50000);
+    this.timeout(10000);
     let langClient: ExtendedLangClient;
 
     suiteSetup((done: MochaDone): any => {
@@ -52,33 +52,21 @@ suite("Language Server Tests", function () {
         });
     });
 
-    // test("Test getAST", function (done): void {
-    //     langClient.onReady().then(() => {
-    //         const filePath = path.join(getBBEPath(), 'hello_world.bal');
-    //         let uri = Uri.file(filePath.toString());
-    //         langClient.getAST(uri).then((response) => {
-    //             expect(response).to.contain.keys('ast', 'parseSuccess');
-    //             done();
-    //         }, (reason) => {
-    //             done(reason);
-    //         });
-    //     });
-    // });
+    test("Test getSyntaxTree", function (done): void {
+        const uri = Uri.file(path.join(getBBEPath(), 'hello_world.bal').toString());
+        commands.executeCommand('vscode.open', uri).then(() => {
+            langClient.onReady().then(() => {
+                langClient.getSyntaxTree(uri).then((response) => {
+                    expect(response).to.contain.keys('syntaxTree', 'parseSuccess');
+                    done();
+                }, (reason) => {
+                    done(reason);
+                });
+            });
+        });
+    });
 
-    // test("Fragment Pass", function (done): void {
-    //     langClient.onReady().then(() => {
-    //         langClient.parseFragment({
-    //             expectedNodeType: "top-level-node",
-    //             source: "function sample(){}"
-    //         }).then((response) => {
-    //             done();
-    //         }, (reason) => {
-    //             done(reason);
-    //         });
-    //     });
-    // });
-
-    test("Test Language Server Stop", function (done): void {
+    test("Test Language Server Stop", (done) => {
         langClient.stop().then(() => {
             done();
         }, () => {
@@ -86,4 +74,3 @@ suite("Language Server Tests", function () {
         });
     });
 });
-
