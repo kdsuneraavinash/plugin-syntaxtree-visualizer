@@ -89,6 +89,7 @@ function evaluatePromise(mapGeneratorResponse: any){
     const retrieveProps = new Promise((resolve, reject) => {
         elk.layout(mapGeneratorResponse.treeGraph)
             .then((result)=> {
+                console.log(result);
                 let props = {
                     treeGraph: result,
                     treeArray: mapGeneratorResponse.syntaxTreeObj

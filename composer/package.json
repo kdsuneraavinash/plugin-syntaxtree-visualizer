@@ -6,9 +6,9 @@
     "scripts": {
         "prebuild": "npm i && lerna bootstrap",
         "test": "lerna run test --stream -- -- --coverage",
+        "test-coverage": "lerna run test-coverage && node scripts/create-coverage-report.js",
         "build": "lerna run build --stream",
         "clean": "lerna run clean --stream",
-        "test-coverage": "lerna run test-coverage && node scripts/create-coverage-report.js",
         "fix-versions": "node scripts/fix-version.js",
         "reset-pkg-jsons": "node scripts/reset-pkg-json.js",
         "bump-version": "lerna version --no-git-tag-version",
@@ -25,7 +25,7 @@
         "semantic-ui-react": "^0.82.5"
     },
     "devDependencies": {
-        "@babel/core": "^7.1.5",
+        "@babel/core": "^7.12.10",
         "@storybook/addon-actions": "^5.0.5",
         "@storybook/addon-info": "^5.3.21",
         "@storybook/addon-storyshots": "^4.0.7",
@@ -72,5 +72,8 @@
         "webpack": "^4.25.1",
         "webpack-cli": "^3.1.2",
         "webpack-dev-server": "^3.11.0"
+    },
+    "jest": {
+        "preset": "ts-jest"
     }
 }
