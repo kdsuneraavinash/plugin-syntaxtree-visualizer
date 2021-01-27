@@ -1,0 +1,20 @@
+import { expect } from 'chai';
+import * as DATA from "../data/vs-syntax-tree";
+import {retrieveGraph, updateSyntaxTree} from "../../src/vs-syntax-tree/tools/syntaxTreeGenerator";
+
+suite ("Syntax Tree Tests", function () {
+  test("Initial Syntax Tree and Graph Generator Test", function (done): void {
+    expect(retrieveGraph(DATA.syntaxTreeObj)).to.contain.keys('treeGraph', 'syntaxTreeObj');
+    done();
+  });
+
+  test("Test for Collapsible Graphical Representation", function (done): void {    
+    expect(updateSyntaxTree("p3", true).treeGraph.children.length).to.equal(10);
+    done();
+  });
+
+  test("Test for Collapsible Dropdown Representation", function (done): void {    
+    expect(updateSyntaxTree("p2", false).syntaxTreeObj).eql(DATA.resultObj);
+    done();
+  });
+});

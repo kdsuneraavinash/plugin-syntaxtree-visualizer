@@ -51,7 +51,3 @@ export function getBallerinaCmd(): string {
 export function getBallerinaVersion() {
     return findBallerinaDistribution().replace(PLATFORM_PREFIX, '').replace('\n', '').trim();
 }
-
-export function getBBEPath(): any {
-    return path.join(__dirname + '/../../resources/templates/');
-}
