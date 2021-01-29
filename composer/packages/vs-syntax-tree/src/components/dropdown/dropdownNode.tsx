@@ -47,8 +47,7 @@ function DropdownNode(props: DropdownNodeProps) {
                     }
                 </div>
 
-                <div
-                    style = {{
+                <div style = {{
                         ...styles.nodeLabelStyle,
                         color: props.treeNode.errorNode ? "red" : "black"
                     }}

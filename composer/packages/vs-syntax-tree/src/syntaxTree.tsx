@@ -6,7 +6,7 @@ import * as styles from "./styles/primary.styles";
 import { PrimaryProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
 
 function SyntaxTree(props: PrimaryProps) {
-    const [isGraphicalView, updateIsGraphicalView] = useState(false);
+    const [isGraphicalView, updateIsGraphicalView] = useState(true);
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
     const [syntaxTreeArray, setSyntaxTreeArray] = useState<TreeArrayNode [] | undefined>(undefined);
 
