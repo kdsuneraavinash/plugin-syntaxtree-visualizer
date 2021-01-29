@@ -6,7 +6,7 @@ import * as styles from "./styles/primary.styles";
 import { PrimaryProps, TreeArrayNode, TreeGraph } from "./tree-interfaces";
 
 function SyntaxTree(props: PrimaryProps) {
-    const [isGraphicalView, updateIsGraphicalView] = useState(true);
+    const [isGraphicalView, updateIsGraphicalView] = useState(false);
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
     const [syntaxTreeArray, setSyntaxTreeArray] = useState<TreeArrayNode [] | undefined>(undefined);
 
@@ -41,8 +41,8 @@ function SyntaxTree(props: PrimaryProps) {
                 }
 
                 {!syntaxTreeGraph &&
-                    <Dimmer inverted>
-                        <Loader size="medium">Loading</Loader>
+                    <Dimmer active inverted>
+                        <Loader size = "medium" />
                     </Dimmer>
                 }
 

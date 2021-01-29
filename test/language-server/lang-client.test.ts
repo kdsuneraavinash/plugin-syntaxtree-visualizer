@@ -20,10 +20,10 @@
 
 import { expect } from 'chai';
 import * as path from 'path';
+import { commands, Uri } from "vscode";
 import { ExtendedLangClient } from "../../src/core/extended-language-client";
 import { getServerOptions } from "../../src/server/server";
 import { getBallerinaCmd } from "../test-util";
-import { commands, Uri } from "vscode";
 
 suite("Language Server Tests", function () {
     this.timeout(10000);
@@ -60,6 +60,7 @@ suite("Language Server Tests", function () {
         commands.executeCommand('vscode.open', uri).then(() => {
             langClient.onReady().then(() => {
                 langClient.getSyntaxTree(uri).then((response) => {
+                    Promise.resolve(response);
                     expect(response).to.contain.keys('syntaxTree', 'parseSuccess');
                     done();
                 }, (reason) => {

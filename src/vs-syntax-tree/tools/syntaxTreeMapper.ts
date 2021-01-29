@@ -12,7 +12,7 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
 
         else if (props !== "relativeResourcePath" && typeof nodeObj[props] === "object") {
             if (nodeObj[props].hasOwnProperty("kind" && "value" && "isToken")) {
-                if(nodeObj[props].invalidNodes.length){
+                if(nodeObj[props].invalidNodes && nodeObj[props].invalidNodes.length){
                     for (var element in nodeObj[props].invalidNodes){
                         parentObj.children.push({
                             nodeID: `c${++nodeCount}`,
