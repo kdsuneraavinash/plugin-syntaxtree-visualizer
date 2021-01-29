@@ -41,8 +41,8 @@ function SyntaxTree(props: PrimaryProps) {
                 }
 
                 {!syntaxTreeGraph &&
-                    <Dimmer inverted>
-                        <Loader size="medium">Loading</Loader>
+                    <Dimmer active inverted>
+                        <Loader size = "medium" />
                     </Dimmer>
                 }
 

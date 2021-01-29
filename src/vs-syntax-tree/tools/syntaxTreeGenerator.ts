@@ -6,8 +6,7 @@ import { graphMapper } from "./graphMapper";
 
 export let nodeMembers: any[], nodeEdges: any[], syntaxTreeObj: TreeNode[], graphicalTreeObj: TreeNode[];
 
-export function retrieveGraph (responseTree: JSON){
-    console.log(responseTree);
+export function retrieveGraph (responseTree: any){
     syntaxTreeObj = [];
     syntaxTreeMapper(responseTree, {}, 0);
     graphicalTreeObj = _.cloneDeep(syntaxTreeObj);

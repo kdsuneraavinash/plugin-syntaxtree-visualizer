@@ -10,7 +10,8 @@ export const bodyStyle: CSSProperties = {
 export const containerStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
-    fontSize: "15px"
+    fontSize: "15px",
+    paddingBottom: "10px"
 };
 
 export const switchStyle: CSSProperties = {

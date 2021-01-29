@@ -20,14 +20,17 @@
 
 import { expect } from 'chai';
 import * as path from 'path';
+import { commands, Uri } from "vscode";
 import { ExtendedLangClient } from "../../src/core/extended-language-client";
 import { getServerOptions } from "../../src/server/server";
-import { getBallerinaCmd, getBBEPath } from "../test-util";
-import { commands, Uri } from "vscode";
+import { getBallerinaCmd } from "../test-util";
 
 suite("Language Server Tests", function () {
     this.timeout(10000);
     let langClient: ExtendedLangClient;
+
+    const PROJECT_ROOT = path.join(__dirname, '..', '..', '..');
+    const DATA_ROOT = path.join(PROJECT_ROOT, 'test', 'data');
 
     suiteSetup((done: MochaDone): any => {
         langClient = new ExtendedLangClient(
@@ -53,10 +56,11 @@ suite("Language Server Tests", function () {
     });
 
     test("Test getSyntaxTree", function (done): void {
-        const uri = Uri.file(path.join(getBBEPath(), 'hello_world.bal').toString());
+        const uri = Uri.file(path.join(DATA_ROOT, 'hello_world.bal'));
         commands.executeCommand('vscode.open', uri).then(() => {
             langClient.onReady().then(() => {
                 langClient.getSyntaxTree(uri).then((response) => {
+                    Promise.resolve(response);
                     expect(response).to.contain.keys('syntaxTree', 'parseSuccess');
                     done();
                 }, (reason) => {

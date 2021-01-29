@@ -12,7 +12,7 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
 
         else if (props !== "relativeResourcePath" && typeof nodeObj[props] === "object") {
             if (nodeObj[props].hasOwnProperty("kind" && "value" && "isToken")) {
-                if(nodeObj[props].invalidNodes.length){
+                if(nodeObj[props].invalidNodes && nodeObj[props].invalidNodes.length){
                     for (var element in nodeObj[props].invalidNodes){
                         parentObj.children.push({
                             nodeID: `c${++nodeCount}`,
@@ -58,7 +58,7 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                 if((props.match(/^[0-9]+$/) === null)){
                     let parentNode: any = {
                         ...treeNode,
-                        value: nodeObj[props].isMissing ? nodeObj[props].kind : props,
+                        value: props,
                         kind: syntaxTreeObj.length ? props : "Compilation Unit",
                     };
                     syntaxTreeObj.length ? parentObj.children.push(parentNode) : syntaxTreeObj.push(parentNode);
