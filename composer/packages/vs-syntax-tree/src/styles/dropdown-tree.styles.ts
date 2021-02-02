@@ -6,7 +6,7 @@ export const containerStyle: CSSProperties = {
     justifyContent: "center",
     maxHeight: "85vh",
     maxWidth: "95vw",
-    width: "60vw"
+    minWidth: "60vw"
 };
 
 export const sideDividersStyle: CSSProperties = {
@@ -77,8 +77,7 @@ export const detailsCardTitleStyle: CSSProperties = {
 export const detailsCardValueStyle: CSSProperties = {
     height: "45px",
     lineHeight: "45px",
-    paddingLeft: 20,
-    width: "auto"
+    paddingLeft: 20
 };
 
 export const warningIconStyle: CSSProperties = {

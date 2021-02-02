@@ -6,8 +6,8 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
     : string {
 
     const body = `
-            <div class="container">
-                <div id="treeBody" />
+            <div class = "container">
+                <div id = "treeBody" />
             </div>
     `;
     const bodyCss = ``;
@@ -17,6 +17,7 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
             position: relative;
             height: 100%;
             text-align: center;
+            padding-bottom: 2%;
             padding-top: 2%;
         }
 
@@ -43,8 +44,8 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
             function renderTree(){
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
-                        if(!response.parseSuccess){
-                            document.getElementById("treeBody").innerHTML = "Oops! Something went wrong!";
+                        if(!response.parseSuccess || !response.syntaxTree.members){
+                            document.getElementById("treeBody").innerHTML = "<h3> Oops! Something went wrong! :(</h3>";
                         }
                         else {
                             webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
