@@ -1,6 +1,6 @@
 {
     "name": "ballerina",
-    "displayName": "Ballerina Syntax Tree Visualizer",
+    "displayName": "Ballerina Compiler Tools",
     "description": "Syntax Tree Visualizer for Ballerina",
     "version": "2.0.0-Alpha-SNAPSHOT",
     "publisher": "ballerina",

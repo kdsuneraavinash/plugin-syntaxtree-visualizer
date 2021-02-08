@@ -19,8 +19,7 @@ function DropdownTree(props: DropdownTreeProps) {
         <div style = {styles.containerStyle}>
             <div style = {{
                 ...styles.sideDividersStyle,
-                flexGrow: 1,
-                width: "auto"
+                flexGrow: 1
             }}>
                 <DropdownNode
                     treeNode = {props.treeNode}

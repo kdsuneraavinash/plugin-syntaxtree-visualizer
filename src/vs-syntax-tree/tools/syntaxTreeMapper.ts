@@ -55,14 +55,14 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                     diagnostics: nodeObj[props].syntaxDiagnostics ? nodeObj[props].syntaxDiagnostics : []
                 };
 
-                if((props.match(/^[0-9]+$/) === null)){
+                if(props.match(/^[0-9]+$/) === null){
                     let parentNode: any = {
                         ...treeNode,
                         value: props,
-                        kind: syntaxTreeObj.length ? props : "Compilation Unit",
+                        kind: syntaxTreeObj.length ? props : "Compilation Unit"
                     };
                     syntaxTreeObj.length ? parentObj.children.push(parentNode) : syntaxTreeObj.push(parentNode);
-                    syntaxTreeMapper(nodeObj[props], parentNode, treeLevel+1);
+                    syntaxTreeMapper(nodeObj[props], parentNode, treeLevel + 1);
                     
                     if(!nodeObj[props].kind && parentNode.children.length){
                         assignProperties(parentNode, parentObj.diagnostics.length);
@@ -71,10 +71,10 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                     treeNode = {
                         ...treeNode,
                         value: nodeObj[props].kind,
-                        kind: nodeObj[props].kind,
+                        kind: nodeObj[props].kind
                     };
                     parentObj.children.push(treeNode);
-                    syntaxTreeMapper(nodeObj[props], treeNode, treeLevel+1);
+                    syntaxTreeMapper(nodeObj[props], treeNode, treeLevel + 1);
                 }
             }
         }

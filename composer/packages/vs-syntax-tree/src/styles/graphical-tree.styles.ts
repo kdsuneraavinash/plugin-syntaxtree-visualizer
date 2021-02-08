@@ -20,8 +20,7 @@ export const labelContainerStyle: CSSProperties = {
     flexGrow: 1,
     fontSize: 14,
     paddingLeft: "5px",
-    textAlign: "center",
-    width: "auto"
+    textAlign: "center"
 };
 
 export const warningIconStyle: CSSProperties = {
