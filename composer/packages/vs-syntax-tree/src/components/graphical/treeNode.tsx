@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Icon} from "semantic-ui-react";
+
 import * as styles from "../../styles/graphical-tree.styles";
 import { TreeNodeProps } from "../../tree-interfaces";
 import Diagnostics from "./diagnosticsPopup";

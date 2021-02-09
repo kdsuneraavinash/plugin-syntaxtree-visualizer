@@ -1,4 +1,5 @@
 import React from "react";
+
 import { treeEdgeStyles } from "../../styles/graphical-tree.styles";
 import { TreeEdgeProps } from "../../tree-interfaces";
 
