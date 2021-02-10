@@ -167,21 +167,8 @@
                 "command": "ballerina.visualizeSyntaxTree",
                 "title": "Syntax Tree Visualizer",
                 "category": "Ballerina"
-            },
-            {
-                "command": "ballerina.codeBlockVisualizer",
-                "title": "CodeBlock Syntax Tree Visualizer",
-                "category": "Ballerina"
             }
-        ],
-        "menus": {
-            "commandPalette": [
-              {
-                "command": "ballerina.codeBlockVisualizer",
-                "when": "editorHasSelection"
-              }
-            ]
-        }
+        ]
     },
     "main": "./dist/extension",
     "scripts": {

@@ -19,7 +19,6 @@
  */
 import { ExtensionContext, commands, window, Location, Uri, workspace } from 'vscode';
 import { ballerinaExtInstance } from './core';
-import { activate as activateCodeBlockVisualizer} from "./codeblock-visualizer";
 import { activate as activateSyntaxTree } from './vs-syntax-tree';
 import { StaticFeature, ClientCapabilities, DocumentSelector, ServerCapabilities, DidChangeConfigurationParams } from 'vscode-languageclient';
 import { ExtendedLangClient } from './core/extended-language-client';
@@ -64,7 +63,6 @@ export function activate(context: ExtensionContext): Promise<any> {
     return ballerinaExtInstance.init(onBeforeInit).then(() => {
         // start the features.
         activateSyntaxTree(ballerinaExtInstance);
-        activateCodeBlockVisualizer(ballerinaExtInstance);
 
         ballerinaExtInstance.onReady().then(() => {
             const langClient = <ExtendedLangClient>ballerinaExtInstance.langClient;

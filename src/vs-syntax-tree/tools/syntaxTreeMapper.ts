@@ -44,7 +44,7 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                 });
             }
 
-            else if ((props.match(/^[0-9]+$/) === null) || nodeObj[props].kind) {
+            else if (!props.match(/^[0-9]+$/) || nodeObj[props].kind) {
                 treeNode = {
                     nodeID: `p${++nodeCount}`,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
@@ -55,7 +55,7 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                     diagnostics: nodeObj[props].syntaxDiagnostics ? nodeObj[props].syntaxDiagnostics : []
                 };
 
-                if(props.match(/^[0-9]+$/) === null){
+                if(!props.match(/^[0-9]+$/)){
                     let parentNode: any = {
                         ...treeNode,
                         value: props,

@@ -18,13 +18,11 @@ function validateForVisualization(context: vscode.ExtensionContext, langClient: 
 
         if (!activeEditor.document.fileName.endsWith('.bal')){
             vscode.window.showErrorMessage("Syntax Tree Extension: Please open a Ballerina source file.");
-        }
-        else {
+        } else {
             let sourceRoot = activeEditor.document.uri.path;
             visualizeSyntaxTree(context, langClient, sourceRoot);
         }
-    }    
-    else {
+    } else {
         vscode.window.showWarningMessage("Syntax Tree Extension: Source file has not been detected.");
     }
    
@@ -68,7 +66,11 @@ function createSyntaxTreePanel(context: vscode.ExtensionContext, langClient: Ext
         {
             methodName: "fetchSyntaxTree",
             handler: (args: any[]): Thenable<any> => {
-                return langClient.getSyntaxTree(vscode.Uri.file(args[0]));
+                if (activeEditor.selection.end.character > activeEditor.selection.start.character){
+                    return langClient.getSyntaxTreeByRange(vscode.Uri.file(activeEditor.document.uri.path), activeEditor.selection.start, activeEditor.selection.end);
+                } else {
+                    return langClient.getSyntaxTree(vscode.Uri.file(args[0]));
+                }
             }
         },
         {
