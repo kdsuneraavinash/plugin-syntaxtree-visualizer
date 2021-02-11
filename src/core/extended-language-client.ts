@@ -19,7 +19,7 @@
  */
 
 import { LanguageClient } from "vscode-languageclient";
-import * as vscode from "vscode";
+import { Uri, Position } from "vscode";
 import { integer } from "vscode-languageserver-types";
 
 export interface BallerinaSyntaxTree {
@@ -53,7 +53,7 @@ export interface LinePosition {
 }
 
 export class ExtendedLangClient extends LanguageClient {
-    getSyntaxTree(uri: vscode.Uri): Thenable<BallerinaSyntaxTreeResponse> {
+    getSyntaxTree(uri: Uri): Thenable<BallerinaSyntaxTreeResponse> {
         const req: GetSyntaxTreeRequest = {
             documentIdentifier: {
                 uri: uri.toString()
@@ -63,7 +63,7 @@ export class ExtendedLangClient extends LanguageClient {
         return this.sendRequest("ballerinaDocument/syntaxTree", req);
     }
 
-    getSyntaxTreeByRange(uri: vscode.Uri, startLine: vscode.Position, endLine: vscode.Position): Thenable<BallerinaSyntaxTreeResponse> {     
+    getSyntaxTreeByRange(uri: Uri, startLine: Position, endLine: Position): Thenable<BallerinaSyntaxTreeResponse> {     
         const req: GetSyntaxTreeWithRangeRequest = {
             documentIdentifier: {
                 uri: uri.toString()
