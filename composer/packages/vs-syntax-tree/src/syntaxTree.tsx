@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Dimmer, Loader, Radio } from "semantic-ui-react";
+
 import DropdownTree from "./representations/dropdown-tree";
 import GraphicalSyntaxTree from "./representations/graphical-tree";
 import * as styles from "./styles/primary.styles";
@@ -27,7 +28,7 @@ function SyntaxTree(props: PrimaryProps) {
     return (
         <div style = {styles.bodyStyle}>
             <div style = {styles.containerStyle}>
-                <p style={styles.switchStyle}>Graphical Tree View</p>
+                <p style={styles.switchStyle}> Graphical Tree View </p>
                 <Radio toggle onChange = {updateView} checked = {isGraphicalView} />
             </div>
 

@@ -47,7 +47,7 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
             }
         }
 
-        if (targetArray[i].didCollapse === true) {
+        if (targetArray[i].didCollapse) {
             graphMapper(targetArray[i].children, nodeID, isGraphical);
         }
     }

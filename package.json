@@ -23,7 +23,6 @@
     ],
     "activationEvents": [
         "onLanguage:ballerina",
-        "workspaceContains:Ballerina.toml",
         "onCommand:ballerina.visualizeSyntaxTree"
     ],
     "contributes": {

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Icon} from "semantic-ui-react";
+
 import * as styles from "../../styles/dropdown-tree.styles";
 import { DropdownNodeProps } from "../../tree-interfaces";
 
