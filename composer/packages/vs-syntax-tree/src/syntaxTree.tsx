@@ -14,10 +14,7 @@ function SyntaxTree(props: PrimaryProps) {
     useEffect(() => {
         props.renderTree().then((result) => {
             setSyntaxTreeGraph(result.treeGraph);
-
-            if (!isGraphicalView) {
-                setSyntaxTreeArray(result.treeArray);
-            }
+            setSyntaxTreeArray(result.treeArray);
         });
     }, [props]);
 
