@@ -65,7 +65,7 @@ function TreeNode(props: TreeNodeProps) {
                             size = "small"
                             circular
                             inverted
-                            color = "orange"
+                            color = "red"
                         />
                     </div>
                 }
