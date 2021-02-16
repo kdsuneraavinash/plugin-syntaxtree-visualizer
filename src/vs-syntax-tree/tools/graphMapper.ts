@@ -22,9 +22,9 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
     
             nodeMembers.push({
                 id: targetArray[i].nodeID,
-                width: Math.max(diagnostics.length ? (targetArray[i].value.length * 9) + 20 : (targetArray[i].value.length * 8), 130),
+                width: diagnostics.length ? (targetArray[i].value.length * 8) + 50 : Math.max((targetArray[i].value.length * 8), 75),
                 height: 50,
-                label: nodeMembers.length ? targetArray[i].value : "Syntax Tree",
+                label: targetArray[i].value,
                 kind: targetArray[i].kind,
                 leadingMinutiae: targetArray[i].leadingMinutiae,
                 trailingMinutiae: targetArray[i].trailingMinutiae,
