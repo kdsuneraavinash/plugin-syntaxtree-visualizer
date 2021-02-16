@@ -56,20 +56,16 @@ function createSyntaxTreePanel(context: vscode.ExtensionContext, langClient: Ext
 
     const remoteMethods: WebViewMethod[] = [
         {
+            methodName: "fetchSyntaxTree",
+            handler: (args: any[]): Thenable<any> => {
+                return langClient.getSyntaxTree(vscode.Uri.file(args[0]));
+            }
+        },
+        {
             methodName: "fetchTreeGraph",
             handler: (args: any[]): Thenable<any> => {
                 const response = retrieveGraph(args[0]);
                 return evaluatePromise(response);
-            }
-        },
-        {
-            methodName: "fetchSyntaxTree",
-            handler: (args: any[]): Thenable<any> => {
-                if (activeEditor.selection.end.character > activeEditor.selection.start.character){
-                    return langClient.getSyntaxTreeByRange(vscode.Uri.file(activeEditor.document.uri.path), activeEditor.selection.start, activeEditor.selection.end);
-                } else {
-                    return langClient.getSyntaxTree(vscode.Uri.file(args[0]));
-                }
             }
         },
         {
