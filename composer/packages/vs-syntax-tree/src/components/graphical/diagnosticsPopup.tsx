@@ -22,8 +22,8 @@ function Diagnostics(props: TreeNodeDetailsProps) {
             <div
                 style = {{
                     ...styles.popupArrowStyle,
-                    borderBottom: isBottomNode ? "none" : "15px solid #ffeee6",
-                    borderTop: isBottomNode ? "15px solid #ffeee6" : "none",
+                    borderBottom: isBottomNode ? "none" : "15px solid #FFE7E7",
+                    borderTop: isBottomNode ? "15px solid #FFE7E7" : "none",
                     left: props.node.x + props.node.width - 25,
                     top: isBottomNode ? props.node.y - 10 : props.node.y + 45
                 }}

@@ -58,8 +58,8 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                 if(!props.match(/^[0-9]+$/)){
                     let parentNode: any = {
                         ...treeNode,
-                        value: props,
-                        kind: syntaxTreeObj.length ? props : "Compilation Unit"
+                        value: syntaxTreeObj.length ? props : "Compilation Unit",
+                        kind: syntaxTreeObj.length ? props : nodeObj[props].kind
                     };
                     syntaxTreeObj.length ? parentObj.children.push(parentNode) : syntaxTreeObj.push(parentNode);
                     syntaxTreeMapper(nodeObj[props], parentNode, treeLevel + 1);
