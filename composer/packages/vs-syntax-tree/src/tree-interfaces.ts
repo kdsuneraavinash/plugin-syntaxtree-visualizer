@@ -7,6 +7,21 @@ export interface TreeGraph {
     height: number;
 }
 
+export interface TreeObjectNode {
+    nodeID: string;
+    value: string;
+    kind: string;
+    parentID: string;
+    didCollapse: boolean;
+    ifParent: boolean;
+    children: TreeObjectNode[];
+    leadingMinutiae: any[];
+    trailingMinutiae: any[];
+    errorNode?: any;
+    diagnostics: any[];
+    position: Position;
+}
+
 export interface GraphNode {
     id: string;
     x: number;
@@ -22,11 +37,13 @@ export interface GraphNode {
     diagnostics: Diagnostics[];
     width: number;
     height: number;
+    position: Position;
 }
 
 export interface Minutiae {
     kind: string;
     minutiae: string;
+    isInvalid: boolean;
 }
 
 export interface TreeEdge {
@@ -47,27 +64,11 @@ export interface EdgeCoords {
     y: number;
 }
 
-export interface PrimaryProps {
-    onCollapseTree: (nodeID: string, representationType: boolean) => void;
-    renderTree: () => Promise<TreeProps>;
-}
-
-export interface TreeProps {
-    treeGraph: TreeGraph;
-    treeArray: TreeArrayNode[];
-}
-
-export interface TreeNodeProps {
-    node: GraphNode;
-    onCollapseTree: any;
-}
-
-export interface TreeNodeDetailsProps {
-    node: GraphNode;
-}
-
-export interface TreeEdgeProps {
-    edge: TreeEdge;
+export interface Position {
+    startLine: number;
+    endLine: number;
+    startColumn: number;
+    endColumn: number;
 }
 
 export interface Diagnostics {
@@ -75,39 +76,48 @@ export interface Diagnostics {
     diagnosticInfo: any[];
 }
 
+export interface PrimaryProps {
+    treeGraph: TreeGraph;
+    treeArray: TreeObjectNode[];
+}
+
+export interface SyntaxTreeProps {
+    onCollapseTree: (nodeID: string, representationType: boolean) => void;
+    renderTree: () => Promise<PrimaryProps>;
+}
+
 export interface GraphicalTreeProps {
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
     treeGraph?: TreeGraph;
 }
 
+export interface GraphicalNodeProps {
+    node: GraphNode;
+    onCollapseTree: any;
+}
+
+export interface GraphicalDetailsProps {
+    node: GraphNode;
+}
+
+export interface TreeEdgeProps {
+    edge: TreeEdge;
+}
+
 export interface DropdownTreeProps {
-    treeNode: TreeArrayNode;
+    treeNode: TreeObjectNode;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
 }
 
 export interface DropdownNodeProps {
-    treeNode: TreeArrayNode;
+    treeNode: TreeObjectNode;
     treeLevel: number;
-    onClick: (nodeProp: TreeArrayNode) => void;
+    onClick: (nodeProp: TreeObjectNode) => void;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
 }
 
 export interface DropdownDetailsProps {
-    treeNode: TreeArrayNode;
-}
-
-export interface TreeArrayNode {
-    nodeID: string;
-    value: string;
-    kind: string;
-    parentID: string;
-    didCollapse: boolean;
-    ifParent: boolean;
-    children: TreeArrayNode[];
-    leadingMinutiae: any[];
-    trailingMinutiae: any[];
-    errorNode?: any;
-    diagnostics: any[];
+    treeNode: TreeObjectNode;
 }
 
 export interface DetailsCardProp {

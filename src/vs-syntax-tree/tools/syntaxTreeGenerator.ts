@@ -1,20 +1,23 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import { syntaxTreeMapper } from "./syntaxTreeMapper";
-import { TreeNode, layoutOptions } from "./resources";
+import { layoutOptions, TreeNode } from "../resources/interfaces";
 import { graphMapper } from "./graphMapper";
+import { syntaxTreeMapper } from "./syntaxTreeMapper";
 
-export let nodeMembers: any[], nodeEdges: any[], syntaxTreeObj: TreeNode[], graphicalTreeObj: TreeNode[];
+export let nodeMembers: any[];
+export let nodeEdges: any[];
+export let syntaxTreeObj: TreeNode[];
+let graphicalTreeObj: TreeNode[];
 
-export function retrieveGraph (responseTree: any){
+export function retrieveGraph(responseTree: any) {
     syntaxTreeObj = [];
     syntaxTreeMapper(responseTree, {}, 0);
     graphicalTreeObj = _.cloneDeep(syntaxTreeObj);
     return updateSyntaxTree("", true);
 }
 
-export function updateSyntaxTree (nodeID: string, isGraphical: boolean){
-    if (isGraphical){
+export function updateSyntaxTree(nodeID: string, isGraphical: boolean) {
+    if (isGraphical) {
         nodeEdges = []; nodeMembers = [];
     }
 
@@ -22,7 +25,7 @@ export function updateSyntaxTree (nodeID: string, isGraphical: boolean){
     return setGraph();
 }
 
-function setGraph(){
+function setGraph() {
     const treeGraph = {
         id: "root",
         layoutOptions: layoutOptions,

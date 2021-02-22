@@ -13,11 +13,23 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
             {props.value &&
                 <div style = {styles.detailsArrayValueBlock}>
                     {props.value.map((item, id) => {
-                        return <div key = {id}
+                        if (props.type === "minutiae") {
+                            if (!item.isInvalid) {
+                                return <div key = {id}
+                                            style = {styles.detailsCardValueStyle}
+                                        >
+                                            {item.kind}
+                                        </div>;
+                            } else {
+                                return ;
+                            }
+                        } else {
+                            return <div key = {id}
                                     style = {styles.detailsCardValueStyle}
                                 >
-                                {props.type === "minutiae" ? item.kind : item.message}
+                                {item.message}
                             </div>;
+                        }
                     })}
                 </div>
             }

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 
 import * as styles from "../../styles/graphical-tree.styles";
-import { Minutiae, TreeNodeDetailsProps } from "../../tree-interfaces";
+import { GraphicalDetailsProps, Minutiae } from "../../tree-interfaces";
 
-function NodeDetails(props: TreeNodeDetailsProps) {
+function NodeDetails(props: GraphicalDetailsProps) {
     const [isEdgeNode, updateIsEdgeNode] = useState(false);
     const [isBottomNode, updateIsBottomNode] = useState(false);
 
@@ -19,9 +19,13 @@ function NodeDetails(props: TreeNodeDetailsProps) {
 
     const mapMinutiae = (minutiaeArray: Minutiae[]) => {
         return minutiaeArray.map((item, id) => {
-            return <p key = {id}>
+            if (!item.isInvalid) {
+                return <p key = {id}>
                         {item.kind}
                     </p>;
+            } else {
+                return ;
+            }
         });
     };
 
@@ -47,6 +51,18 @@ function NodeDetails(props: TreeNodeDetailsProps) {
                 }}
             >
                 <p> <b>Kind :</b>  {props.node.kind}</p><hr/>
+
+                {props.node.position &&
+                    <div>
+                        <p> <b>Position :</b>
+                            {" (" + (props.node.position.startLine + 1) + ", "
+                                            + (props.node.position.startColumn + 1) + ") , ("
+                                            + (props.node.position.endLine + 1) + ", "
+                                            + (props.node.position.endColumn + 1) + ")"
+                            }
+                        </p> <hr/>
+                    </div>
+                }
 
                 <p style = {styles.titleFontStyle}>
                     Leading Minutiae

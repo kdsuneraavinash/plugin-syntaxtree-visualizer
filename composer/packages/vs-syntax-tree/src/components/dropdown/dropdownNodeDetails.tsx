@@ -8,11 +8,27 @@ import DropdownDetails from "./detailsCard";
 function DropdownNodeDetails(props: DropdownDetailsProps) {
     return (
         <div style = {styles.detailsBlockStyle}>
-            {!props.treeNode && <text>Ooops! Something went wrong!</text>}
+            {!props.treeNode && <text> Ooops! Something went wrong! </text>}
 
             {props.treeNode &&
                 <div>
                     <DropdownDetails title = "kind" value = {props.treeNode.kind} />
+
+                    {props.treeNode.position &&
+                        <div>
+                            <DropdownDetails
+                                title = "Starting Position"
+                                value = {"(" + (props.treeNode.position.startLine + 1) + ", "
+                                            + (props.treeNode.position.startColumn + 1) + ")"}
+                            />
+
+                            <DropdownDetails
+                                title = "Ending Position"
+                                value = {"(" + (props.treeNode.position.endLine + 1) + ", "
+                                            + (props.treeNode.position.endColumn + 1) + ")"}
+                            />
+                        </div>
+                    }
 
                     {props.treeNode.leadingMinutiae && props.treeNode.leadingMinutiae.length > 0 &&
                         <DropdownArrayDetails

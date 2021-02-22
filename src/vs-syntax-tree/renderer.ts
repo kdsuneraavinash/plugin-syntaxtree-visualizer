@@ -1,6 +1,6 @@
-import { ExtendedLangClient } from '../core/extended-language-client';
 import { ExtensionContext } from 'vscode';
-import { getLibraryWebViewContent, WebViewOptions, getComposerWebViewOptions } from '../utils';
+import { ExtendedLangClient } from "../core";
+import { getComposerWebViewOptions, getLibraryWebViewContent, WebViewOptions } from "../utils";
 
 export function render(context: ExtensionContext, langClient: ExtendedLangClient, sourceRoot: string)
     : string {
@@ -31,7 +31,7 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
             let docUri = ${JSON.stringify(sourceRoot)};
             let collapsedNode = "";
             let isGraphical = false;
-
+            let errorMessage = "<h3>Oops! Something went wrong! :(</h3>";
             window.addEventListener('message', event => {
                 let msg = event.data;
                 switch(msg.command){
@@ -40,12 +40,11 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
                         initiateRendering();
                 }
             });
-
             function renderTree(){
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
                         if(!response.parseSuccess || !response.syntaxTree.members){
-                            document.getElementById("treeBody").innerHTML = "<h3> Oops! Something went wrong! :(</h3>";
+                            document.getElementById("treeBody").innerHTML = errorMessage;
                         }
                         else {
                             webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
@@ -55,13 +54,11 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
                     });
                 })
             }
-
             function collapseTree(nodeID, representationType){
                 collapsedNode = nodeID;
                 isGraphical = representationType;
                 ballerinaComposer.renderSyntaxTree(collapseTree, collapseNodes, document.getElementById("treeBody"));
             }
-
             function collapseNodes(){
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod('onCollapseTree', [collapsedNode, isGraphical], (response) => {
@@ -69,11 +66,9 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
                     });
                 })
             }
-
             function initiateRendering(){
                 ballerinaComposer.renderSyntaxTree(collapseTree, renderTree, document.getElementById("treeBody"));
             }
-
             initiateRendering();
         }
     `;
@@ -82,6 +77,6 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
         ...getComposerWebViewOptions(),
         body, scripts, styles, bodyCss
     };
-    
+
     return getLibraryWebViewContent(webViewOptions);
 }

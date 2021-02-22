@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 
 import * as styles from "../../styles/graphical-tree.styles";
-import { TreeNodeDetailsProps } from "../../tree-interfaces";
+import { GraphicalDetailsProps } from "../../tree-interfaces";
 
-function Diagnostics(props: TreeNodeDetailsProps) {
+function Diagnostics(props: GraphicalDetailsProps) {
     const [isEdgeNode, updateIsEdgeNode] = useState(false);
     const [isBottomNode, updateIsBottomNode] = useState(false);
 

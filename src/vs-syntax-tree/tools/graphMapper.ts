@@ -1,11 +1,11 @@
 import { toInteger } from "lodash";
-import { TreeNode } from "./resources";
-import { nodeMembers, nodeEdges } from "./syntaxTreeGenerator";
+import { TreeNode } from "../resources/interfaces";
+import { nodeEdges, nodeMembers } from "./syntaxTreeGenerator";
 
 export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {
         if (targetArray[i].nodeID === nodeID) {
-            let status = targetArray[i].didCollapse;
+            const status = targetArray[i].didCollapse;
             targetArray[i] = {
                 ...targetArray[i],
                 didCollapse: !status
@@ -13,32 +13,35 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
         }
 
         if (isGraphical) {
-            let position = toInteger(targetArray[i].nodeID.replace(/\D/g, ''));
-            let diagnostics : any[] = [];
+            const position = toInteger(targetArray[i].nodeID.replace(/\D/g, ""));
+            let diagnostics: any[] = [];
 
-            if (!targetArray[i].didCollapse && targetArray[i].nodeID.charAt(0) === "p"){
+            if (!targetArray[i].didCollapse && targetArray[i].nodeID.charAt(0) === "p") {
                 diagnostics = targetArray[i].diagnostics;
             }
-    
+
             nodeMembers.push({
                 id: targetArray[i].nodeID,
-                width: diagnostics.length ? (targetArray[i].value.length * 8) + 50 : Math.max((targetArray[i].value.length * 8), 75),
                 height: 50,
+                width: diagnostics.length ? (targetArray[i].value.length * 8) + 50 :
+                    Math.max((targetArray[i].value.length * 8), 75),
                 label: targetArray[i].value,
                 kind: targetArray[i].kind,
                 leadingMinutiae: targetArray[i].leadingMinutiae,
                 trailingMinutiae: targetArray[i].trailingMinutiae,
-                diagnostics:  targetArray[i].diagnostics,
                 hasDiagnostics: diagnostics.length > 0 ? true : false,
-                layoutOptions: { 
-                    'elk.position': '('+position+', 0)'
+                diagnostics:  targetArray[i].diagnostics,
+                layoutOptions: {
+                    "elk.position": "(" + position + ", 0)"
                 },
                 ifParent: targetArray[i].children.length ? true : false,
                 isCollapsible: targetArray[i].didCollapse ? false : (targetArray[i].children.length ? true : false),
-                nodeColor: targetArray[i].errorNode ? "#DB3247" : (targetArray[i].nodeID.charAt(0) === "p" ? "#20b6b0" : "#7f7f7f")
+                nodeColor: targetArray[i].errorNode ? "#DB3247" :
+                    (targetArray[i].nodeID.charAt(0) === "p" ? "#20b6b0" : "#7f7f7f"),
+                position: targetArray[i].position
             });
-    
-            if(nodeMembers.length > 1){
+
+            if (nodeMembers.length > 1) {
                 nodeEdges.push({
                     id: `e${targetArray[i].nodeID}`,
                     sources: [targetArray[i].parentID],
