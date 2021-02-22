@@ -340,7 +340,7 @@ export const resultObj = [
                         "value":"function",
                         "parentID":"p3",
                         "children":[],
-                        "kind":"FunctionKeyword",
+                        "kind":"functionKeyword",
                         "leadingMinutiae":[],
                         "trailingMinutiae":[
                            {
@@ -363,7 +363,7 @@ export const resultObj = [
                         "value":"testFunction",
                         "parentID":"p3",
                         "children":[],
-                        "kind":"IdentifierToken",
+                        "kind":"functionName",
                         "leadingMinutiae":[],
                         "trailingMinutiae":[],
                         "errorNode":false,
@@ -387,7 +387,7 @@ export const resultObj = [
                               "value":"(",
                               "parentID":"p7",
                               "children":[],
-                              "kind":"OpenParenToken",
+                              "kind":"openParenToken",
                               "leadingMinutiae":[],
                               "trailingMinutiae":[],
                               "errorNode":false,
@@ -416,7 +416,7 @@ export const resultObj = [
                               "value":")",
                               "parentID":"p7",
                               "children":[],
-                              "kind":"CloseParenToken",
+                              "kind":"closeParenToken",
                               "leadingMinutiae":[],
                               "trailingMinutiae":[],
                               "errorNode":false,
@@ -477,7 +477,7 @@ export const resultObj = [
                               "value":"{",
                               "parentID":"p11",
                               "children":[],
-                              "kind":"OpenBraceToken",
+                              "kind":"openBraceToken",
                               "leadingMinutiae":[
                                  {
                                     "kind":"INVALID_NODE_MINUTIAE",
@@ -626,7 +626,7 @@ export const resultObj = [
             "children":[
                
             ],
-            "kind":"EofToken",
+            "kind":"eofToken",
             "leadingMinutiae":[
                {
                   "kind":"END_OF_LINE_MINUTIAE",
