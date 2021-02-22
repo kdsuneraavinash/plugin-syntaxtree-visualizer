@@ -23,8 +23,8 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
             nodeMembers.push({
                 id: targetArray[i].nodeID,
                 height: 50,
-                width: diagnostics.length ? (targetArray[i].value.length * 8) + 50 :
-                    Math.max((targetArray[i].value.length * 8), 75),
+                width: diagnostics.length ? (targetArray[i].value.length * 7.5) + 50 :
+                    Math.max((targetArray[i].value.length * 8.5), 90),
                 label: targetArray[i].value,
                 kind: targetArray[i].kind,
                 leadingMinutiae: targetArray[i].leadingMinutiae,

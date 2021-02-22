@@ -56,9 +56,9 @@ function NodeDetails(props: GraphicalDetailsProps) {
                     <div>
                         <p> <b>Position :</b>
                             {" (" + (props.node.position.startLine + 1) + ", "
-                                            + (props.node.position.startColumn + 1) + ") , ("
-                                            + (props.node.position.endLine + 1) + ", "
-                                            + (props.node.position.endColumn + 1) + ")"
+                                + (props.node.position.startColumn + 1) + ") , ("
+                                + (props.node.position.endLine + 1) + ", "
+                                + (props.node.position.endColumn + 1) + ")"
                             }
                         </p> <hr/>
                     </div>
