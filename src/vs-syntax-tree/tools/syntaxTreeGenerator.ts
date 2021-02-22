@@ -17,7 +17,6 @@ export function retrieveGraph(responseTree: any) {
 }
 
 export function updateSyntaxTree(nodeID: string, isGraphical: boolean) {
-    console.log(JSON.stringify(syntaxTreeObj, null, 2));
     if (isGraphical) {
         nodeEdges = []; nodeMembers = [];
     }
