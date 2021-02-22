@@ -12,9 +12,9 @@ function GraphicalSyntaxTree(props: GraphicalTreeProps) {
                 {
                     props.treeGraph.children.map((item, id) => {
                         return <TreeNode
+                                    key = {id}
                                     node = {item}
                                     onCollapseTree = {() => props.onCollapseTree(item.id, true)}
-                                    key = {id}
                                 />;
                     })
                 }

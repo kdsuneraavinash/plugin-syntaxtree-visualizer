@@ -1,8 +1,6 @@
-import { ExtensionContext } from 'vscode';
-import { ExtendedLangClient } from "../core";
 import { getComposerWebViewOptions, getLibraryWebViewContent, WebViewOptions } from "../utils";
 
-export function render(context: ExtensionContext, langClient: ExtendedLangClient, sourceRoot: string)
+export function render(sourceRoot: string)
     : string {
 
     const body = `
@@ -32,6 +30,7 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
             let collapsedNode = "";
             let isGraphical = false;
             let errorMessage = "<h3>Oops! Something went wrong! :(</h3>";
+
             window.addEventListener('message', event => {
                 let msg = event.data;
                 switch(msg.command){
@@ -40,6 +39,7 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
                         initiateRendering();
                 }
             });
+
             function renderTree(){
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
@@ -54,11 +54,13 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
                     });
                 })
             }
+
             function collapseTree(nodeID, representationType){
                 collapsedNode = nodeID;
                 isGraphical = representationType;
                 ballerinaComposer.renderSyntaxTree(collapseTree, collapseNodes, document.getElementById("treeBody"));
             }
+
             function collapseNodes(){
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod('onCollapseTree', [collapsedNode, isGraphical], (response) => {
@@ -66,9 +68,11 @@ export function render(context: ExtensionContext, langClient: ExtendedLangClient
                     });
                 })
             }
+
             function initiateRendering(){
                 ballerinaComposer.renderSyntaxTree(collapseTree, renderTree, document.getElementById("treeBody"));
             }
+
             initiateRendering();
         }
     `;

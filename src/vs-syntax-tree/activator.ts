@@ -76,7 +76,7 @@ function visualizeSyntaxTree(context: vscode.ExtensionContext, langClient: Exten
         }
     }, 100));
 
-    const displayHtml = render(context, langClient, sourceRoot);
+    const displayHtml = render(sourceRoot);
     syntaxTreePanel.webview.html = displayHtml;
     syntaxTreePanel.reveal();
 }
