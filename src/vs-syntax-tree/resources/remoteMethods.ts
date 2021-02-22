@@ -34,7 +34,7 @@ export function getRemoteMethods (langClient: ExtendedLangClient) {
     return remoteMethods;
 }
 
-function evaluatePromise(mapGeneratorResponse: any){
+function evaluatePromise(mapGeneratorResponse: any) {
     const retrieveProps = new Promise((resolve, reject) => {
         elk.layout(mapGeneratorResponse.treeGraph)
             .then((result) => {
