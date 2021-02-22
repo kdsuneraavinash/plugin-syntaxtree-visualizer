@@ -1,11 +1,11 @@
 import { createElement } from "react";
 import { render } from "react-dom";
 import SyntaxTree from "./syntaxTree";
-import { TreeProps } from "./tree-interfaces";
+import { PrimaryProps } from "./tree-interfaces";
 
 export function renderSyntaxTree(
                                  onCollapseTree: (nodeID: string) => void,
-                                 renderTree: () => Promise<TreeProps>,
+                                 renderTree: () => Promise<PrimaryProps>,
                                  target: HTMLElement
                                 ) {
     const responseDataProps = {

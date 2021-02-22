@@ -1,30 +1,31 @@
 import * as _ from "lodash";
+import { TreeNode } from "../resources/interfaces";
 import { syntaxTreeObj } from "./syntaxTreeGenerator";
-import { TreeNode } from "./resources";
 
-let treeNode: any, nodeCount: number = -1;
+let treeNode: any;
+let nodeCount: number = -1;
 
 export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeLevel: number) {
-    for (var props in nodeObj) {
-        if (props === "syntaxDiagnostics"){
+    for (const props in nodeObj) {
+        if (props === "syntaxDiagnostics") {
             return;
-        }
-
-        else if (props !== "relativeResourcePath" && typeof nodeObj[props] === "object") {
+        } else if (props !== "relativeResourcePath" && typeof nodeObj[props] === "object") {
             if (nodeObj[props].hasOwnProperty("kind" && "value" && "isToken")) {
-                if(nodeObj[props].invalidNodes && nodeObj[props].invalidNodes.length){
-                    for (var element in nodeObj[props].invalidNodes){
-                        parentObj.children.push({
-                            nodeID: `c${++nodeCount}`,
-                            value: nodeObj[props].invalidNodes[element].value,
-                            kind: "Invalid Node",
-                            parentID: parentObj.nodeID,
-                            children: [],
-                            errorNode: true,
-                            diagnostics: [{
-                                message: "Invalid node"
-                            }]
-                        });
+                if (nodeObj[props].leadingMinutiae && nodeObj[props].leadingMinutiae.length) {
+                    for (const element of Object.keys(nodeObj[props].leadingMinutiae)) {
+                        if (nodeObj[props].leadingMinutiae[element].isInvalid) {
+                            parentObj.children.push({
+                                nodeID: `c${++nodeCount}`,
+                                value: nodeObj[props].leadingMinutiae[element].minutiae,
+                                kind: "Invalid Node",
+                                parentID: parentObj.nodeID,
+                                children: [],
+                                errorNode: true,
+                                diagnostics: [{
+                                    message: "Invalid node"
+                                }]
+                            });
+                        }
                     }
                 }
 
@@ -34,17 +35,16 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                         nodeObj[props].kind : nodeObj[props].value,
                     parentID: parentObj.nodeID,
                     children: [],
-                    kind: nodeObj[props].isMissing ? "Missing "+nodeObj[props].kind : nodeObj[props].kind,
+                    kind: nodeObj[props].isMissing ? "Missing " + nodeObj[props].kind : nodeObj[props].kind,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     errorNode: nodeObj[props].isMissing,
                     diagnostics: nodeObj[props].isMissing ? [{
-                        message: "Missing "+nodeObj[props].kind
-                    }] : []
+                        message: "Missing " + nodeObj[props].kind
+                    }] : [],
+                    position: nodeObj[props].position
                 });
-            }
-
-            else if (!props.match(/^[0-9]+$/) || nodeObj[props].kind) {
+            } else if (!props.match(/^[0-9]+$/) || nodeObj[props].kind) {
                 treeNode = {
                     nodeID: `p${++nodeCount}`,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
@@ -52,19 +52,20 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                     parentID: parentObj.nodeID,
                     didCollapse: treeLevel < 2 ? true : false,
                     children: [],
-                    diagnostics: nodeObj[props].syntaxDiagnostics ? nodeObj[props].syntaxDiagnostics : []
+                    diagnostics: nodeObj[props].syntaxDiagnostics ? nodeObj[props].syntaxDiagnostics : [],
+                    position: nodeObj[props].position
                 };
 
-                if(!props.match(/^[0-9]+$/)){
-                    let parentNode: any = {
+                if (!props.match(/^[0-9]+$/)) {
+                    const parentNode: any = {
                         ...treeNode,
                         value: syntaxTreeObj.length ? props : "Compilation Unit",
                         kind: syntaxTreeObj.length ? props : nodeObj[props].kind
                     };
                     syntaxTreeObj.length ? parentObj.children.push(parentNode) : syntaxTreeObj.push(parentNode);
                     syntaxTreeMapper(nodeObj[props], parentNode, treeLevel + 1);
-                    
-                    if(!nodeObj[props].kind && parentNode.children.length){
+
+                    if (!nodeObj[props].kind && parentNode.children.length) {
                         assignProperties(parentNode, parentObj.diagnostics.length);
                     }
                 } else {
@@ -81,14 +82,20 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
     }
 }
 
-function assignProperties (node: TreeNode | any, checkDiagnostics: boolean) {
-    if(checkDiagnostics){
-        for(let i = 0; i < node.children.length; i++){
-            if(node.children[i].diagnostics.length){
-                node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[i].diagnostics));
+function assignProperties(node: TreeNode | any, checkDiagnostics: boolean) {
+    if (checkDiagnostics) {
+        for (const child of node.children) {
+            if (child.diagnostics.length) {
+                node.diagnostics = node.diagnostics.concat(_.cloneDeep(child.diagnostics));
             }
         }
     }
     node.leadingMinutiae = _.cloneDeep(node.children[0].leadingMinutiae);
     node.trailingMinutiae = _.cloneDeep(node.children[node.children.length - 1].trailingMinutiae);
+    node.position = {
+        startLine: node.children[0].position.startLine,
+        startColumn: node.children[0].position.startColumn,
+        endLine: node.children[node.children.length - 1].position.endLine,
+        endColumn: node.children[node.children.length - 1].position.endColumn
+    };
 }

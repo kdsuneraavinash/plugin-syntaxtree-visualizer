@@ -6,14 +6,14 @@ export const containerStyle: CSSProperties = {
     justifyContent: "center",
     maxHeight: "85vh",
     maxWidth: "95vw",
-    minWidth: "60vw"
+    minWidth: "800px"
 };
 
 export const sideDividersStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
     minHeight: "300px",
-    minWidth: "450px",
+    minWidth: "400px",
     overflow: "auto",
     padding: "2vh"
 };

@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {Icon} from "semantic-ui-react";
 
 import * as styles from "../../styles/graphical-tree.styles";
-import { TreeNodeProps } from "../../tree-interfaces";
+import { GraphicalNodeProps } from "../../tree-interfaces";
 import Diagnostics from "./diagnosticsPopup";
 import NodeDetails from "./nodeDetailsPopup";
 
-function TreeNode(props: TreeNodeProps) {
+function TreeNode(props: GraphicalNodeProps) {
     const [didHoverNode, setDidHoverNode] = useState(false);
     const [didHoverWarning, setDidHoverWarning] = useState(false);
 
