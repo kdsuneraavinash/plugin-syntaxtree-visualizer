@@ -35,7 +35,8 @@ export function syntaxTreeMapper(nodeObj: JSON, parentObj: TreeNode | any, treeL
                         nodeObj[props].kind : nodeObj[props].value,
                     parentID: parentObj.nodeID,
                     children: [],
-                    kind: nodeObj[props].isMissing ? "Missing " + nodeObj[props].kind : nodeObj[props].kind,
+                    kind: nodeObj[props].isMissing ? "Missing " + nodeObj[props].kind :
+                        props.match(/^[0-9]+$/) ? nodeObj[props].kind : props,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     errorNode: nodeObj[props].isMissing,
