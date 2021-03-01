@@ -43,7 +43,6 @@ function SyntaxTree(props: SyntaxTreeProps) {
                         <Loader size = "medium" />
                     </Dimmer>
                 }
-
             </div>
         </div>
     );
