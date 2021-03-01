@@ -85,7 +85,7 @@ function createSyntaxTreePanel(langClient: ExtendedLangClient){
         "visualizeSyntaxTree",
         "Syntax Tree Visualizer",
         {
-            viewColumn: vscode.ViewColumn.One
+            viewColumn: vscode.ViewColumn.Two
         },
         getCommonWebViewOptions()
     );

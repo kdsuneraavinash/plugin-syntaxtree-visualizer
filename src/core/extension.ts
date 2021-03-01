@@ -38,7 +38,7 @@ import { AssertionError } from "assert";
 import { OVERRIDE_BALLERINA_HOME, BALLERINA_HOME, ALLOW_EXPERIMENTAL, ENABLE_DEBUG_LOG, ENABLE_TRACE_LOG } from "./preferences";
 const SWAN_LAKE_REGEX = /(s|S)wan( |-)(l|L)ake/g;
 
-export const EXTENSION_ID = 'ballerina.ballerina';
+export const EXTENSION_ID = 'ballerina.ballerinacompilertools';
 
 export interface ConstructIdentifier {
     sourceRoot?: string;
