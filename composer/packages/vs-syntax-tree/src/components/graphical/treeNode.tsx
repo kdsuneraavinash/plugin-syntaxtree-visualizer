@@ -46,7 +46,6 @@ function TreeNode(props: GraphicalNodeProps) {
             >
                 <div
                     style = {styles.labelContainerStyle}
-                    // tslint:disable-next-line: no-empty
                     onClick = {props.node.ifParent ? onClickNode : () => {}}
                     onMouseLeave = {undoHoverNode}
                     onMouseOver = {onHoverNode}

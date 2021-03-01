@@ -2,7 +2,7 @@ import { toInteger } from "lodash";
 import { TreeNode } from "../resources/interfaces";
 import { nodeEdges, nodeMembers } from "./syntaxTreeGenerator";
 
-export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
+export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {
         if (targetArray[i].nodeID === nodeID) {
             const status = targetArray[i].didCollapse;
@@ -51,7 +51,7 @@ export function graphMapper(targetArray: TreeNode[], nodeID: string, isGraphical
         }
 
         if (targetArray[i].didCollapse) {
-            graphMapper(targetArray[i].children, nodeID, isGraphical);
+            mapSyntaxGraph(targetArray[i].children, nodeID, isGraphical);
         }
     }
 }

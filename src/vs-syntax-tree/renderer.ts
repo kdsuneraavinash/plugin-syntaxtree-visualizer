@@ -1,6 +1,6 @@
 import { getComposerWebViewOptions, getLibraryWebViewContent, WebViewOptions } from "../utils";
 
-export function render(sourceRoot: string)
+export function render(sourceRoot: string, blockRange: any)
     : string {
 
     const body = `
@@ -42,16 +42,29 @@ export function render(sourceRoot: string)
 
             function renderTree(){
                 return new Promise((resolve, reject) => {
-                    webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
-                        if(!response.parseSuccess || !response.syntaxTree.members){
-                            document.getElementById("treeBody").innerHTML = errorMessage;
-                        }
-                        else {
-                            webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
-                                resolve(result);
-                            });
-                        }
-                    });
+                    if (!${JSON.stringify(blockRange)}) {
+                        webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
+                            if(!response.parseSuccess || !response.syntaxTree.source){
+                                document.getElementById("treeBody").innerHTML = errorMessage;
+                            }
+                            else {
+                                webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
+                                    resolve(result);
+                                });
+                            }
+                        });
+                    } else {
+                        webViewRPCHandler.invokeRemoteMethod('fetchSubTree', [docUri, ${JSON.stringify(blockRange)}], (response) => {
+                            if(!response.parseSuccess){
+                                document.getElementById("treeBody").innerHTML = errorMessage;
+                            }
+                            else {
+                                webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
+                                    resolve(result);
+                                });
+                            }
+                        });
+                    }
                 })
             }
 
