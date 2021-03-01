@@ -340,7 +340,7 @@ export const resultObj = [
                         "value":"function",
                         "parentID":"p3",
                         "children":[],
-                        "kind":"functionKeyword",
+                        "kind":"FunctionKeyword",
                         "leadingMinutiae":[],
                         "trailingMinutiae":[
                            {
@@ -363,7 +363,7 @@ export const resultObj = [
                         "value":"testFunction",
                         "parentID":"p3",
                         "children":[],
-                        "kind":"functionName",
+                        "kind":"IdentifierToken",
                         "leadingMinutiae":[],
                         "trailingMinutiae":[],
                         "errorNode":false,
@@ -387,7 +387,7 @@ export const resultObj = [
                               "value":"(",
                               "parentID":"p7",
                               "children":[],
-                              "kind":"openParenToken",
+                              "kind":"OpenParenToken",
                               "leadingMinutiae":[],
                               "trailingMinutiae":[],
                               "errorNode":false,
@@ -416,7 +416,7 @@ export const resultObj = [
                               "value":")",
                               "parentID":"p7",
                               "children":[],
-                              "kind":"closeParenToken",
+                              "kind":"CloseParenToken",
                               "leadingMinutiae":[],
                               "trailingMinutiae":[],
                               "errorNode":false,
@@ -460,7 +460,7 @@ export const resultObj = [
                            {
                               "nodeID":"c12",
                               "value":")",
-                              "kind":"Invalid Node",
+                              "kind":"Invalid token",
                               "parentID":"p11",
                               "children":[
                                  
@@ -468,7 +468,7 @@ export const resultObj = [
                               "errorNode":true,
                               "diagnostics":[
                                  {
-                                    "message":"Invalid node"
+                                    "message":"Invalid token ')'"
                                  }
                               ]
                            },
@@ -477,7 +477,7 @@ export const resultObj = [
                               "value":"{",
                               "parentID":"p11",
                               "children":[],
-                              "kind":"openBraceToken",
+                              "kind":"OpenBraceToken",
                               "leadingMinutiae":[
                                  {
                                     "kind":"INVALID_NODE_MINUTIAE",
@@ -626,7 +626,7 @@ export const resultObj = [
             "children":[
                
             ],
-            "kind":"eofToken",
+            "kind":"EofToken",
             "leadingMinutiae":[
                {
                   "kind":"END_OF_LINE_MINUTIAE",
@@ -669,7 +669,7 @@ export const resultObj = [
          "endLine":2,
          "endColumn":0
       },
-      "value":"Compilation Unit",
+      "value":"ModulePart",
       "kind":"ModulePart",
       "parentID": undefined
    }
