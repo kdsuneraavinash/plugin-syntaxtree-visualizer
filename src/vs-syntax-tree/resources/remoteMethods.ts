@@ -16,6 +16,12 @@ export function getRemoteMethods (langClient: ExtendedLangClient) {
             }
         },
         {
+            methodName: "fetchSubTree",
+            handler: (args: any[]): Thenable<any> => {
+                return langClient.getSyntaxTreeByRange(vscode.Uri.file(args[0]), args[1]);
+            }
+        },
+        {
             methodName: "fetchTreeGraph",
             handler: (args: any[]): Thenable<any> => {
                 const response = retrieveGraph(args[0]);

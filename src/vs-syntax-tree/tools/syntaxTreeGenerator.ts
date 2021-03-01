@@ -1,8 +1,8 @@
 import * as _ from "lodash";
 
 import { layoutOptions, TreeNode } from "../resources/interfaces";
-import { graphMapper } from "./graphMapper";
-import { syntaxTreeMapper } from "./syntaxTreeMapper";
+import { mapSyntaxGraph } from "./syntaxGraphMapper";
+import { mapSyntaxTree } from "./syntaxTreeMapper";
 
 export let nodeMembers: any[];
 export let nodeEdges: any[];
@@ -11,7 +11,7 @@ let graphicalTreeObj: TreeNode[];
 
 export function retrieveGraph(responseTree: any) {
     syntaxTreeObj = [];
-    syntaxTreeMapper(responseTree, {}, 0);
+    mapSyntaxTree(responseTree, {}, 0);
     graphicalTreeObj = _.cloneDeep(syntaxTreeObj);
     return updateSyntaxTree("", true);
 }
@@ -21,7 +21,7 @@ export function updateSyntaxTree(nodeID: string, isGraphical: boolean) {
         nodeEdges = []; nodeMembers = [];
     }
 
-    graphMapper(isGraphical ? graphicalTreeObj : syntaxTreeObj, nodeID, isGraphical);
+    mapSyntaxGraph(isGraphical ? graphicalTreeObj : syntaxTreeObj, nodeID, isGraphical);
     return setGraph();
 }
 

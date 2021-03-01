@@ -19,7 +19,7 @@
  */
 
 import { LanguageClient } from "vscode-languageclient";
-import { Uri } from "vscode";
+import { Uri, Selection } from "vscode";
 
 export interface BallerinaSyntaxTree {
     kind: String;
@@ -36,6 +36,13 @@ export interface GetSyntaxTreeRequest {
     };
 }
 
+export interface GetSyntaxTreeByRangeRequest {
+    documentIdentifier: {
+        uri: string
+    };
+    lineRange: Selection;
+}
+
 export class ExtendedLangClient extends LanguageClient {
     getSyntaxTree(uri: Uri): Thenable<BallerinaSyntaxTreeResponse> {
         const req: GetSyntaxTreeRequest = {
@@ -45,5 +52,16 @@ export class ExtendedLangClient extends LanguageClient {
         };
         
         return this.sendRequest("ballerinaDocument/syntaxTree", req);
+    }
+
+    getSyntaxTreeByRange(uri: Uri, lineRange: Selection): Thenable<BallerinaSyntaxTreeResponse>{
+        const req: GetSyntaxTreeByRangeRequest = {
+            documentIdentifier: {
+                uri: uri.toString()
+            },
+            lineRange: lineRange
+        };
+
+        return this.sendRequest("ballerinaDocument/syntaxTreeByRange", req);
     }
 }
