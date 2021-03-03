@@ -4,7 +4,7 @@ import {retrieveGraph, updateSyntaxTree} from "../../src/vs-syntax-tree/tools/sy
 
 suite ("Syntax Tree Visualizer Tests", function () {
     test("Test Generate Graph and Tree Map", function (done): void {
-      expect(retrieveGraph(DATA.syntaxTreeObj)).to.contain.keys('treeGraph', 'syntaxTreeObj');
+      expect(retrieveGraph(DATA.syntaxTreeObj, false)).to.contain.keys('treeGraph', 'syntaxTreeObj');
       done();
     });
 

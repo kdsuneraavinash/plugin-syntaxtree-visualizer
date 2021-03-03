@@ -20,6 +20,7 @@ export interface TreeObjectNode {
     errorNode?: any;
     diagnostics: any[];
     position: Position;
+    isNodePath?: any;
 }
 
 export interface GraphNode {

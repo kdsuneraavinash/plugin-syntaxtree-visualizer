@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /**
  * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
@@ -17,12 +17,11 @@
  * under the License.
  *
  */
-import { ExtensionContext, commands, window, Location, Uri, workspace } from 'vscode';
-import { ballerinaExtInstance } from './core';
-import { activate as activateSyntaxTree } from './vs-syntax-tree';
-import { StaticFeature, ClientCapabilities, DocumentSelector, ServerCapabilities, DidChangeConfigurationParams } from 'vscode-languageclient';
-import { ExtendedLangClient } from './core/extended-language-client';
-import { log } from './utils';
+import { commands, ExtensionContext, Location, Uri, window, workspace } from 'vscode';
+import { ClientCapabilities, DidChangeConfigurationParams, DocumentSelector, ServerCapabilities, StaticFeature } from "vscode-languageclient";
+import { ballerinaExtInstance, ExtendedLangClient } from "./core";
+import { log } from "./utils";
+import { activate as activateSyntaxTree } from "./vs-syntax-tree";
 
 // TODO initializations should be contributions from each component
 function onBeforeInit(langClient: ExtendedLangClient) {
@@ -31,8 +30,7 @@ function onBeforeInit(langClient: ExtendedLangClient) {
             capabilities.experimental = capabilities.experimental || {};
             capabilities.experimental.introspection = true;
         }
-        initialize(capabilities: ServerCapabilities, documentSelector: DocumentSelector | undefined): void {
-        }
+        initialize(capabilities: ServerCapabilities, documentSelector: DocumentSelector | undefined): void {}
     }
 
     class ShowFileFeature implements StaticFeature {
@@ -69,12 +67,12 @@ export function activate(context: ExtensionContext): Promise<any> {
             // Send initial configuration without 'ballerina' field to support older SDK versions below 1.2.0
             if (!ballerinaExtInstance.isNewConfigChangeSupported) {
                 const args: DidChangeConfigurationParams = {
-                    settings: workspace.getConfiguration('ballerina'),
+                    settings: workspace.getConfiguration("ballerina"),
                 };
                 langClient.sendNotification("workspace/didChangeConfiguration", args);
             }
             // Register showTextDocument listener
-            langClient.onNotification('window/showTextDocument', (location: Location) => {
+            langClient.onNotification("window/showTextDocument", (location: Location) => {
                 if (location.uri !== undefined) {
                     window.showTextDocument(Uri.parse(location.uri.toString()), { selection: location.range });
                 }

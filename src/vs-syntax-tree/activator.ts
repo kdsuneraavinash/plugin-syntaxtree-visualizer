@@ -1,10 +1,11 @@
-import * as vscode from "vscode";
 import * as _ from "lodash";
+import * as vscode from "vscode";
 
 import { BallerinaExtension, ExtendedLangClient } from "../core";
+import { BAL_SOURCE_NOT_FOUND, SELECTION_NOT_FOUND_LOCATE, SELECTION_NOT_FOUND_SUBTREE } from "../core/messages";
 import { getCommonWebViewOptions, WebViewRPCHandler } from "../utils";
-import { getRemoteMethods } from "./resources/remoteMethods";
 import { render } from "./renderer";
+import { getRemoteMethods } from "./resources/remoteMethods";
 
 let syntaxTreePanel: vscode.WebviewPanel;
 let hasOpenWebview: boolean = false;
@@ -33,12 +34,29 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
                     "ballerina.codeBlock.visualizeSyntaxTree",
                     () => {
                         if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
-                            vscode.window.showWarningMessage("Syntax Tree Extension: No code block chosen for visualization.");
+                            vscode.window.showWarningMessage("Syntax Tree Extension: ", SELECTION_NOT_FOUND_SUBTREE);
                             return;
                         } else if (!hasOpenWebview) {
                             createSyntaxTreePanel(langClient);
                         }
-                        visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path, syntaxTreePanel, vscode.window.activeTextEditor.selection);
+                        visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path,
+                                            vscode.window.activeTextEditor.selection, false);
+                    }
+                )
+            );
+
+            context.subscriptions.push(
+                vscode.commands.registerCommand(
+                    "ballerina.codeBlock.locateTreeNode",
+                    () => {
+                        if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
+                            vscode.window.showWarningMessage("Syntax Tree Extension: ", SELECTION_NOT_FOUND_LOCATE);
+                            return;
+                        } else if (!hasOpenWebview) {
+                            createSyntaxTreePanel(langClient);
+                        }
+                        visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path,
+                                            vscode.window.activeTextEditor.selection, true);
                     }
                 )
             );
@@ -46,13 +64,14 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
             context.subscriptions.push(vscode.commands.registerCommand("ballerina.visualizeSyntaxTree", () => {
                 if (!vscode.window.activeTextEditor ||
                     !vscode.window.activeTextEditor.document.fileName.endsWith(".bal")) {
-                    vscode.window.showWarningMessage("Syntax Tree Extension: Ballerina Source file has not been detected.");
+                    vscode.window.showWarningMessage("Syntax Tree Extension: ", BAL_SOURCE_NOT_FOUND);
                     return;
                 }
                 if (!hasOpenWebview) {
                     createSyntaxTreePanel(langClient);
                 }
-                visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path, syntaxTreePanel, null);
+                visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path,
+                                    null, false);
             }));
         }
     })
@@ -71,16 +90,21 @@ class CodeActionProvider implements vscode.CodeActionProvider {
             return [];
         } else {
             const codeActions: any = [];
-            codeActions.push({
+            codeActions.push(
+            {
                 command: "ballerina.codeBlock.visualizeSyntaxTree",
                 title: "Visualize Syntax Tree"
+            },
+            {
+                command: "ballerina.codeBlock.locateTreeNode",
+                title: "Locate Code on Syntax Tree"
             });
             return codeActions;
         }
     }
 }
 
-function createSyntaxTreePanel(langClient: ExtendedLangClient){
+function createSyntaxTreePanel(langClient: ExtendedLangClient) {
     syntaxTreePanel = vscode.window.createWebviewPanel(
         "visualizeSyntaxTree",
         "Syntax Tree Visualizer",
@@ -99,10 +123,10 @@ function createSyntaxTreePanel(langClient: ExtendedLangClient){
 }
 
 function visualizeSyntaxTree(sourceRoot: string,
-                            syntaxTreePanel: vscode.WebviewPanel,
-                            blockRange: any) {
-    
-    if (syntaxTreePanel && !blockRange) {
+                             blockRange: any,
+                             locateTreeNode: boolean) {
+
+    if (syntaxTreePanel && !blockRange && !locateTreeNode) {
         vscode.workspace.onDidChangeTextDocument(_.debounce(() => {
             syntaxTreePanel.webview.postMessage({
                 command: "update",
@@ -111,7 +135,7 @@ function visualizeSyntaxTree(sourceRoot: string,
         }, 100));
     }
 
-    const displayHtml = render(sourceRoot, blockRange);
+    const displayHtml = render(sourceRoot, blockRange, locateTreeNode);
     syntaxTreePanel.webview.html = displayHtml;
     syntaxTreePanel.reveal();
 }

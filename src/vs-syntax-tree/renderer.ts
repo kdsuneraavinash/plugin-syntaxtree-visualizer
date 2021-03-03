@@ -1,6 +1,6 @@
 import { getComposerWebViewOptions, getLibraryWebViewContent, WebViewOptions } from "../utils";
 
-export function render(sourceRoot: string, blockRange: any)
+export function render(sourceRoot: string, blockRange: any, locateTreeNode: boolean)
     : string {
 
     const body = `
@@ -27,6 +27,7 @@ export function render(sourceRoot: string, blockRange: any)
     const scripts = `
         function loadedScript() {
             let docUri = ${JSON.stringify(sourceRoot)};
+            let blockRange = ${JSON.stringify(blockRange)};
             let collapsedNode = "";
             let isGraphical = false;
             let errorMessage = "<h3>Oops! Something went wrong! :(</h3>";
@@ -42,29 +43,39 @@ export function render(sourceRoot: string, blockRange: any)
 
             function renderTree(){
                 return new Promise((resolve, reject) => {
-                    if (!${JSON.stringify(blockRange)}) {
+                    if (!blockRange) {
                         webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
                             if(!response.parseSuccess || !response.syntaxTree.source){
                                 document.getElementById("treeBody").innerHTML = errorMessage;
+                            } else {
+                                return resolve(fetchTreeGraph(response));
                             }
-                            else {
-                                webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
-                                    resolve(result);
-                                });
+                        });
+                    } else if (!${locateTreeNode}) {
+                        webViewRPCHandler.invokeRemoteMethod('fetchSubTree', [docUri, blockRange], (response) => {
+                            if(!response.parseSuccess || !response.syntaxTree.source){
+                                document.getElementById("treeBody").innerHTML = errorMessage;
+                            } else {
+                                return resolve(fetchTreeGraph(response));
                             }
                         });
                     } else {
-                        webViewRPCHandler.invokeRemoteMethod('fetchSubTree', [docUri, ${JSON.stringify(blockRange)}], (response) => {
-                            if(!response.parseSuccess){
+                        webViewRPCHandler.invokeRemoteMethod('fetchNodePath', [docUri, blockRange], (response) => {
+                            if(!response.parseSuccess || !response.syntaxTree.source){
                                 document.getElementById("treeBody").innerHTML = errorMessage;
-                            }
-                            else {
-                                webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response], (result) => {
-                                    resolve(result);
-                                });
+                            } else {
+                                return resolve(fetchTreeGraph(response));
                             }
                         });
                     }
+                })
+            }
+
+            function fetchTreeGraph(response){
+                return new Promise((resolve, reject) => {
+                    webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response, ${locateTreeNode}], (result) => {
+                        resolve(result);
+                    });
                 })
             }
 

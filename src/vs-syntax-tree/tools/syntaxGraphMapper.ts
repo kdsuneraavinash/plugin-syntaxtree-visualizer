@@ -1,6 +1,6 @@
 import { toInteger } from "lodash";
 import { TreeNode } from "../resources/interfaces";
-import { nodeEdges, nodeMembers } from "./syntaxTreeGenerator";
+import { isLocateAction, nodeEdges, nodeMembers } from "./syntaxTreeGenerator";
 
 export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {
@@ -14,9 +14,10 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
 
         if (isGraphical) {
             const position = toInteger(targetArray[i].nodeID.replace(/\D/g, ""));
+            const isParent = targetArray[i].nodeID.charAt(0) === "p";
             let diagnostics: any[] = [];
 
-            if (!targetArray[i].didCollapse && targetArray[i].nodeID.charAt(0) === "p") {
+            if (!targetArray[i].didCollapse && isParent) {
                 diagnostics = targetArray[i].diagnostics;
             }
 
@@ -36,8 +37,8 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 },
                 ifParent: targetArray[i].children.length ? true : false,
                 isCollapsible: targetArray[i].didCollapse ? false : (targetArray[i].children.length ? true : false),
-                nodeColor: targetArray[i].errorNode ? "#DB3247" :
-                    (targetArray[i].nodeID.charAt(0) === "p" ? "#20b6b0" : "#7f7f7f"),
+                nodeColor: targetArray[i].errorNode ? "#DB3247" : (isParent ? (isLocateAction ?
+                    (targetArray[i].isNodePath ? "#16837f" : "#20b6b0") : "#20b6b0") : "#7f7f7f"),
                 position: targetArray[i].position
             });
 

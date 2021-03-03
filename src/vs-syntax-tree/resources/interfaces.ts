@@ -8,6 +8,7 @@ export interface TreeNode {
     leadingMinutiae: any[];
     trailingMinutiae: any[];
     errorNode?: any;
+    isNodePath?: boolean;
     diagnostics: any[];
     position: Position;
 }

@@ -7,7 +7,7 @@ import { retrieveGraph, updateSyntaxTree } from "../tools/syntaxTreeGenerator";
 
 const elk = new ELK();
 
-export function getRemoteMethods (langClient: ExtendedLangClient) {
+export function getRemoteMethods(langClient: ExtendedLangClient) {
     const remoteMethods: WebViewMethod[] = [
         {
             methodName: "fetchSyntaxTree",
@@ -24,7 +24,7 @@ export function getRemoteMethods (langClient: ExtendedLangClient) {
         {
             methodName: "fetchTreeGraph",
             handler: (args: any[]): Thenable<any> => {
-                const response = retrieveGraph(args[0]);
+                const response = retrieveGraph(args[0], args[1]);
                 return evaluatePromise(response);
             }
         },
@@ -33,6 +33,12 @@ export function getRemoteMethods (langClient: ExtendedLangClient) {
             handler: (args: any[]): Thenable<any> => {
                 const response = updateSyntaxTree(args[0], args[1]);
                 return evaluatePromise(response);
+            }
+        },
+        {
+            methodName: "fetchNodePath",
+            handler: (args: any[]): Thenable<any> => {
+                return langClient.getSyntaxNodePath(vscode.Uri.file(args[0]), args[1]);
             }
         }
     ];

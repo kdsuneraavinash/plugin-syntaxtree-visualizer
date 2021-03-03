@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
 import { TreeNode } from "../resources/interfaces";
-import { syntaxTreeObj } from "./syntaxTreeGenerator";
+import { isLocateAction, syntaxTreeObj } from "./syntaxTreeGenerator";
 
 let treeNode: any;
 let nodeCount: number = -1;
@@ -14,7 +14,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
             if (nodeObj[props].hasOwnProperty("isToken")) {
                 if (nodeObj[props].leadingMinutiae && nodeObj[props].leadingMinutiae.length) {
                     for (const element of Object.keys(nodeObj[props].leadingMinutiae)) {
-                        if(nodeObj[props].leadingMinutiae[element].isInvalid) {
+                        if (nodeObj[props].leadingMinutiae[element].isInvalid) {
                             parentObj.children.push({
                                 nodeID: `c${++nodeCount}`,
                                 value: nodeObj[props].leadingMinutiae[element].minutiae,
@@ -51,7 +51,9 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
-                    didCollapse: treeLevel < 2 ? true : false,
+                    didCollapse: isLocateAction ? (nodeObj[props].isNodePath ? true : false) :
+                        (treeLevel < 2 ? true : false),
+                    isNodePath: nodeObj[props].isNodePath,
                     children: [],
                     diagnostics: nodeObj[props].syntaxDiagnostics ? nodeObj[props].syntaxDiagnostics : [],
                     position: nodeObj[props].position
@@ -84,15 +86,18 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
 }
 
 function assignProperties(node: TreeNode | any) {
-    let preceedingNode;
+    let preceedingNode: number | any;
 
     for (let count = 0; count < node.children.length; count++) {
         if (!preceedingNode && node.children[count].kind !== "Invalid token") {
             preceedingNode = count;
         }
-
         if (node.children[count].diagnostics.length) {
             node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[count].diagnostics));
+        }
+        if (isLocateAction && !node.didCollapse && node.children[count].didCollapse) {
+            node.didCollapse = true;
+            node.isNodePath = true;
         }
     }
 

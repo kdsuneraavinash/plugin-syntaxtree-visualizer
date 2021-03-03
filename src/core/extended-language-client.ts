@@ -64,4 +64,15 @@ export class ExtendedLangClient extends LanguageClient {
 
         return this.sendRequest("ballerinaDocument/syntaxTreeByRange", req);
     }
+
+    getSyntaxNodePath(uri: Uri, lineRange: Selection): Thenable<BallerinaSyntaxTreeResponse>{
+        const req: GetSyntaxTreeByRangeRequest = {
+            documentIdentifier: {
+                uri: uri.toString()
+            },
+            lineRange: lineRange
+        };
+
+        return this.sendRequest("ballerinaDocument/syntaxTreePath", req);
+    }
 }

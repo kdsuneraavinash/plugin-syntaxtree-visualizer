@@ -50,7 +50,8 @@ function DropdownNode(props: DropdownNodeProps) {
 
                 <div style = {{
                         ...styles.nodeLabelStyle,
-                        color: props.treeNode.errorNode ? "red" : "black"
+                        color: props.treeNode.errorNode ? "red" : "black",
+                        fontWeight: props.treeNode.isNodePath ? "bold" : "normal"
                     }}
                     onClick = {() => { props.onClick(props.treeNode); }}
                 >
