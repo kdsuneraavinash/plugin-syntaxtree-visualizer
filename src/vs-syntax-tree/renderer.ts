@@ -53,7 +53,7 @@ export function render(sourceRoot: string, blockRange: any, locateTreeNode: bool
                         });
                     } else if (!${locateTreeNode}) {
                         webViewRPCHandler.invokeRemoteMethod('fetchSubTree', [docUri, blockRange], (response) => {
-                            if(!response.parseSuccess || !response.syntaxTree.source){
+                            if(!response.parseSuccess){
                                 document.getElementById("treeBody").innerHTML = errorMessage;
                             } else {
                                 return resolve(fetchTreeGraph(response));

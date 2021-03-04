@@ -11,7 +11,9 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
         if (props === "source") {
             return;
         } else if (props !== "relativeResourcePath" && typeof nodeObj[props] === "object") {
-            if (nodeObj[props].hasOwnProperty("isToken")) {
+            if (Array.isArray(nodeObj[props]) && !nodeObj[props].length) {
+                continue;
+            } else if (nodeObj[props].hasOwnProperty("isToken")) {
                 if (nodeObj[props].leadingMinutiae && nodeObj[props].leadingMinutiae.length) {
                     for (const element of Object.keys(nodeObj[props].leadingMinutiae)) {
                         if (nodeObj[props].leadingMinutiae[element].isInvalid) {

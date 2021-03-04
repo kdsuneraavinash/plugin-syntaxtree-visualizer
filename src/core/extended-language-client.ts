@@ -73,6 +73,6 @@ export class ExtendedLangClient extends LanguageClient {
             lineRange: lineRange
         };
 
-        return this.sendRequest("ballerinaDocument/syntaxTreePath", req);
+        return this.sendRequest("ballerinaDocument/syntaxTreeLocate", req);
     }
 }
