@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { Button, Dimmer, Icon, Label, Loader, Radio } from "semantic-ui-react";
+import { Button, Dimmer, Icon, Label, Loader } from "semantic-ui-react";
 
 import DropdownTree from "./representations/dropdown-tree";
 import GraphicalTree from "./representations/graphical-tree";
-import { FULL_TREE_MODE } from "./resources/constants";
+import { FULL_TREE_MODE, SWITCH_DROPDOWN, SWITCH_GRAPHICAL } from "./resources/constants";
 import { SyntaxTreeProps, TreeGraph, TreeObjectNode } from "./resources/tree-interfaces";
 import * as styles from "./styles/primary.styles";
 
@@ -27,22 +27,28 @@ function SyntaxTree(props: SyntaxTreeProps) {
         <div style = {styles.bodyStyle}>
             <div style = {styles.optionsContainer}>
                 <div style = {styles.switchRepresentationDiv}>
-                    <p style={styles.switchStyle}> Dropdown Tree View </p>
-                    <Radio toggle onChange = {updateView} checked = {isDropdownView} />
+                    <Button as="div" labelPosition="right" onClick = {updateView}>
+                        <Button color="grey" icon disabled>
+                            {isDropdownView ? <Icon name="chart area" /> : <Icon name="bars" />}
+                        </Button>
+                        <Label basic color="teal" as = "a" pointing="left">
+                            {isDropdownView ? SWITCH_GRAPHICAL : SWITCH_DROPDOWN}
+                        </Label>
+                    </Button>
                 </div>
 
                 <div style = {styles.viewDiv}>
-                    <p style={styles.switchStyle}>Current View: {props.activatedCommand}</p>
+                    <p><b>Current View:</b> {props.activatedCommand}</p>
                 </div>
 
                 {props.activatedCommand !== FULL_TREE_MODE &&
                     <div style = {styles.switchModeDiv}>
                         <Button as="div" labelPosition="right" onClick = {() => props.switchFullTree()}>
-                            <Button icon disabled>
+                            <Button color="grey" icon disabled>
                                 <Icon name="share" />
                             </Button>
-                            <Label basic pointing="left">
-                                Switch to Full Tree
+                            <Label basic color="teal" as = "a" pointing="left">
+                                Switch to Full Tree View
                             </Label>
                         </Button>
                     </div>
