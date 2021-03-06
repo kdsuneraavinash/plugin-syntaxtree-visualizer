@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import * as DATA from "../data/syntaxTree-obj";
-import {retrieveGraph, updateSyntaxTree} from "../../src/vs-syntax-tree/tools/syntaxTreeGenerator";
+import {retrieveGraph, updateSyntaxTree} from "./tools/syntax-tree-generator";
 
 suite ("Syntax Tree Visualizer Tests", function () {
     test("Test Generate Graph and Tree Map", function (done): void {
-      expect(retrieveGraph(DATA.syntaxTreeObj, false)).to.contain.keys('treeGraph', 'syntaxTreeObj');
+      expect(retrieveGraph(DATA.syntaxTreeObj, "Full Tree View")).to.contain.keys('treeGraph', 'syntaxTreeObj');
       done();
     });
 

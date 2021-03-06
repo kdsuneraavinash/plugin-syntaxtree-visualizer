@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Icon} from "semantic-ui-react";
 
+import { DropdownNodeProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/dropdown-tree.styles";
-import { DropdownNodeProps } from "../../tree-interfaces";
 
 function DropdownNode(props: DropdownNodeProps) {
     const [ifCollapsible, updateIfCollapsible] = useState(false);

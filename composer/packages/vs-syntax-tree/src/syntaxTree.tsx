@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
-import { Dimmer, Loader, Radio } from "semantic-ui-react";
+import { Button, Dimmer, Icon, Label, Loader, Radio } from "semantic-ui-react";
 
 import DropdownTree from "./representations/dropdown-tree";
-import GraphicalSyntaxTree from "./representations/graphical-tree";
+import GraphicalTree from "./representations/graphical-tree";
+import { FULL_TREE_MODE } from "./resources/constants";
+import { SyntaxTreeProps, TreeGraph, TreeObjectNode } from "./resources/tree-interfaces";
 import * as styles from "./styles/primary.styles";
-import { SyntaxTreeProps, TreeGraph, TreeObjectNode } from "./tree-interfaces";
 
 function SyntaxTree(props: SyntaxTreeProps) {
     const [isDropdownView, updateIsDropdownView] = useState(false);
@@ -24,9 +25,28 @@ function SyntaxTree(props: SyntaxTreeProps) {
 
     return (
         <div style = {styles.bodyStyle}>
-            <div style = {styles.containerStyle}>
-                <p style={styles.switchStyle}> Dropdown Tree View </p>
-                <Radio toggle onChange = {updateView} checked = {isDropdownView} />
+            <div style = {styles.optionsContainer}>
+                <div style = {styles.switchRepresentationDiv}>
+                    <p style={styles.switchStyle}> Dropdown Tree View </p>
+                    <Radio toggle onChange = {updateView} checked = {isDropdownView} />
+                </div>
+
+                <div style = {styles.viewDiv}>
+                    <p style={styles.switchStyle}>Current View: {props.activatedCommand}</p>
+                </div>
+
+                {props.activatedCommand !== FULL_TREE_MODE &&
+                    <div style = {styles.switchModeDiv}>
+                        <Button as="div" labelPosition="right" onClick = {() => props.switchFullTree()}>
+                            <Button icon disabled>
+                                <Icon name="share" />
+                            </Button>
+                            <Label basic pointing="left">
+                                Switch to Full Tree
+                            </Label>
+                        </Button>
+                    </div>
+                }
             </div>
 
             <div style = {styles.bodyStyle}>
@@ -35,7 +55,7 @@ function SyntaxTree(props: SyntaxTreeProps) {
                 }
 
                 {!isDropdownView && syntaxTreeGraph &&
-                    <GraphicalSyntaxTree treeGraph = {syntaxTreeGraph} onCollapseTree = {props.onCollapseTree} />
+                    <GraphicalTree treeGraph = {syntaxTreeGraph} onCollapseTree = {props.onCollapseTree} />
                 }
 
                 {!syntaxTreeGraph &&

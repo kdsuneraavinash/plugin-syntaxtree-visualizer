@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 
+import { GraphicalDetailsProps, Minutiae } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
-import { GraphicalDetailsProps, Minutiae } from "../../tree-interfaces";
 
 function NodeDetails(props: GraphicalDetailsProps) {
     const [isEdgeNode, updateIsEdgeNode] = useState(false);

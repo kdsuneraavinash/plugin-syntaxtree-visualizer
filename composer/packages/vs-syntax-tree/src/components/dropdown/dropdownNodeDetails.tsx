@@ -1,7 +1,7 @@
 import React from "react";
 
+import { DropdownDetailsProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/dropdown-tree.styles";
-import { DropdownDetailsProps } from "../../tree-interfaces";
 import DropdownArrayDetails from "./detailsArrayCard";
 import DropdownDetails from "./detailsCard";
 

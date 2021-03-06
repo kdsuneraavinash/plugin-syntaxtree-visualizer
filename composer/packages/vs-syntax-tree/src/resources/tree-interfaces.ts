@@ -5,6 +5,7 @@ export interface TreeGraph {
     edges: TreeEdge[];
     width: number;
     height: number;
+    isLocateMode: boolean;
 }
 
 export interface TreeObjectNode {
@@ -39,6 +40,7 @@ export interface GraphNode {
     width: number;
     height: number;
     position: Position;
+    isNodePath: boolean;
 }
 
 export interface Minutiae {
@@ -83,8 +85,10 @@ export interface PrimaryProps {
 }
 
 export interface SyntaxTreeProps {
+    activatedCommand: string;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
     renderTree: () => Promise<PrimaryProps>;
+    switchFullTree: () => Promise<PrimaryProps>;
 }
 
 export interface GraphicalTreeProps {
@@ -94,6 +98,7 @@ export interface GraphicalTreeProps {
 
 export interface GraphicalNodeProps {
     node: GraphNode;
+    isLocateAction: boolean;
     onCollapseTree: any;
 }
 

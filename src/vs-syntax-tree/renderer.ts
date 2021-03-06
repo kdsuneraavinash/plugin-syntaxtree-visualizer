@@ -1,6 +1,13 @@
 import { getComposerWebViewOptions, getLibraryWebViewContent, WebViewOptions } from "../utils";
+import { FETCH_FULL_TREE_METHOD,
+         FETCH_SUB_TREE_METHOD,
+         FETCH_LOCATE_TREE_METHOD,
+         ON_COLLAPSE_METHOD,
+         MAP_TREE_GRAPH_METHOD,
+         FULL_TREE_VIEW,
+         SUB_TREE_VIEW } from "./resources/constant-resources";
 
-export function render(sourceRoot: string, blockRange: any, locateTreeNode: boolean)
+export function render(sourceRoot: string, blockRange: any, activatedCommand: string)
     : string {
 
     const body = `
@@ -28,9 +35,10 @@ export function render(sourceRoot: string, blockRange: any, locateTreeNode: bool
         function loadedScript() {
             let docUri = ${JSON.stringify(sourceRoot)};
             let blockRange = ${JSON.stringify(blockRange)};
+            let activatedCommand = ${JSON.stringify(activatedCommand)};
             let collapsedNode = "";
             let isGraphical = false;
-            let errorMessage = "<h3>Oops! Something went wrong! :(</h3>";
+            let errorMessage = "<h3> Ooops! Something went wrong! :(</h3>";
 
             window.addEventListener('message', event => {
                 let msg = event.data;
@@ -42,38 +50,46 @@ export function render(sourceRoot: string, blockRange: any, locateTreeNode: bool
             });
 
             function renderTree(){
+                if (activatedCommand == ${JSON.stringify(FULL_TREE_VIEW)}) {
+                    return renderFullTree();
+                } else {
+                    return new Promise((resolve, reject) => {
+                        if (activatedCommand == ${JSON.stringify(SUB_TREE_VIEW)}) {
+                            webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(FETCH_SUB_TREE_METHOD)}, [docUri, blockRange], (response) => {
+                                if(!response.parseSuccess){
+                                    document.getElementById("treeBody").innerHTML = errorMessage;
+                                } else {
+                                    return resolve(fetchTreeGraph(response));
+                                }
+                            });
+                        } else {
+                            webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(FETCH_LOCATE_TREE_METHOD)}, [docUri, blockRange], (response) => {
+                                if(!response.parseSuccess || !response.syntaxTree.source){
+                                    document.getElementById("treeBody").innerHTML = errorMessage;
+                                } else {
+                                    return resolve(fetchTreeGraph(response));
+                                }
+                            });
+                        }
+                    })
+                }
+            }
+
+            function renderFullTree () {
                 return new Promise((resolve, reject) => {
-                    if (!blockRange) {
-                        webViewRPCHandler.invokeRemoteMethod('fetchSyntaxTree', [docUri], (response) => {
-                            if(!response.parseSuccess || !response.syntaxTree.source){
-                                document.getElementById("treeBody").innerHTML = errorMessage;
-                            } else {
-                                return resolve(fetchTreeGraph(response));
-                            }
-                        });
-                    } else if (!${locateTreeNode}) {
-                        webViewRPCHandler.invokeRemoteMethod('fetchSubTree', [docUri, blockRange], (response) => {
-                            if(!response.parseSuccess){
-                                document.getElementById("treeBody").innerHTML = errorMessage;
-                            } else {
-                                return resolve(fetchTreeGraph(response));
-                            }
-                        });
-                    } else {
-                        webViewRPCHandler.invokeRemoteMethod('fetchNodePath', [docUri, blockRange], (response) => {
-                            if(!response.parseSuccess || !response.syntaxTree.source){
-                                document.getElementById("treeBody").innerHTML = errorMessage;
-                            } else {
-                                return resolve(fetchTreeGraph(response));
-                            }
-                        });
-                    }
+                    webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(FETCH_FULL_TREE_METHOD)}, [docUri], (response) => {
+                        if(!response.parseSuccess || !response.syntaxTree.source){
+                            document.getElementById("treeBody").innerHTML = errorMessage;
+                        } else {
+                            return resolve(fetchTreeGraph(response));
+                        }
+                    });
                 })
             }
 
             function fetchTreeGraph(response){
                 return new Promise((resolve, reject) => {
-                    webViewRPCHandler.invokeRemoteMethod('fetchTreeGraph', [response, ${locateTreeNode}], (result) => {
+                    webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(MAP_TREE_GRAPH_METHOD)}, [response, activatedCommand], (result) => {
                         resolve(result);
                     });
                 })
@@ -82,19 +98,24 @@ export function render(sourceRoot: string, blockRange: any, locateTreeNode: bool
             function collapseTree(nodeID, representationType){
                 collapsedNode = nodeID;
                 isGraphical = representationType;
-                ballerinaComposer.renderSyntaxTree(collapseTree, collapseNodes, document.getElementById("treeBody"));
+                ballerinaComposer.renderSyntaxTree(activatedCommand, collapseTree, collapseNodes, switchFullTree, document.getElementById("treeBody"));
+            }
+
+            function switchFullTree(){
+                activatedCommand = ${JSON.stringify(FULL_TREE_VIEW)};
+                ballerinaComposer.renderSyntaxTree(activatedCommand, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
             }
 
             function collapseNodes(){
                 return new Promise((resolve, reject) => {
-                    webViewRPCHandler.invokeRemoteMethod('onCollapseTree', [collapsedNode, isGraphical], (response) => {
+                    webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(ON_COLLAPSE_METHOD)}, [collapsedNode, isGraphical], (response) => {
                         resolve(response);
                     });
                 })
             }
 
             function initiateRendering(){
-                ballerinaComposer.renderSyntaxTree(collapseTree, renderTree, document.getElementById("treeBody"));
+                ballerinaComposer.renderSyntaxTree(activatedCommand, collapseTree, renderTree, switchFullTree, document.getElementById("treeBody"));
             }
 
             initiateRendering();

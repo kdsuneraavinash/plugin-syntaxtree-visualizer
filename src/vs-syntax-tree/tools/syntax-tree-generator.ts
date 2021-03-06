@@ -1,20 +1,28 @@
 import * as _ from "lodash";
 
-import { layoutOptions, TreeNode } from "../resources/interfaces";
-import { mapSyntaxGraph } from "./syntaxGraphMapper";
-import { mapSyntaxTree } from "./syntaxTreeMapper";
+import { TreeNode } from "../resources/interfaces";
+import { LOCATE_TREE_VIEW, LAYOUT_OPTIONS } from "../resources/constant-resources";
+import { mapSyntaxGraph } from "./syntax-graph-mapper";
+import { mapSyntaxTree } from "./syntax-tree-mapper";
 
-export let isLocateAction: boolean;
+export let checkNodePath: boolean;
 export let nodeMembers: any[];
 export let nodeEdges: any[];
 export let syntaxTreeObj: TreeNode[];
 let graphicalTreeObj: TreeNode[];
 
-export function retrieveGraph(responseTree: any, isLocate: boolean) {
+export function retrieveGraph(responseTree: any, activatedCommand: String) {
+    if (activatedCommand === LOCATE_TREE_VIEW) {
+        checkNodePath = true;
+    } else {
+        checkNodePath = false;
+    }
+
     syntaxTreeObj = [];
-    isLocateAction = isLocate;
+
     mapSyntaxTree(responseTree, {}, 0);
     graphicalTreeObj = _.cloneDeep(syntaxTreeObj);
+
     return updateSyntaxTree("", true);
 }
 
@@ -23,15 +31,17 @@ export function updateSyntaxTree(nodeID: string, isGraphical: boolean) {
         nodeEdges = []; nodeMembers = [];
     }
     mapSyntaxGraph(isGraphical ? graphicalTreeObj : syntaxTreeObj, nodeID, isGraphical);
+
     return setGraph();
 }
 
 function setGraph() {
     const treeGraph = {
         id: "root",
-        layoutOptions: layoutOptions,
+        layoutOptions: LAYOUT_OPTIONS,
         children: nodeMembers,
-        edges: nodeEdges
+        edges: nodeEdges,
+        isLocateMode: checkNodePath
     };
 
     return {treeGraph, syntaxTreeObj};

@@ -1,6 +1,10 @@
 import { toInteger } from "lodash";
 import { TreeNode } from "../resources/interfaces";
-import { isLocateAction, nodeEdges, nodeMembers } from "./syntaxTreeGenerator";
+import { checkNodePath, nodeEdges, nodeMembers } from "./syntax-tree-generator";
+import { PARENT_NODE_COLOR,
+         TOKEN_COLOR,
+         ERROR_NODE_COLOR,
+         PATH_NODE_COLOR } from "../resources/constant-resources";
 
 export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {
@@ -14,10 +18,10 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
 
         if (isGraphical) {
             const position = toInteger(targetArray[i].nodeID.replace(/\D/g, ""));
-            const isParent = targetArray[i].nodeID.charAt(0) === "p";
+            const ifParent = targetArray[i].nodeID.charAt(0) === "p";
             let diagnostics: any[] = [];
 
-            if (!targetArray[i].didCollapse && isParent) {
+            if (!targetArray[i].didCollapse && ifParent) {
                 diagnostics = targetArray[i].diagnostics;
             }
 
@@ -35,10 +39,11 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 layoutOptions: {
                     "elk.position": "(" + position + ", 0)"
                 },
-                ifParent: targetArray[i].children.length ? true : false,
-                isCollapsible: targetArray[i].didCollapse ? false : (targetArray[i].children.length ? true : false),
-                nodeColor: targetArray[i].errorNode ? "#DB3247" : (isParent ? (isLocateAction ?
-                    (targetArray[i].isNodePath ? "#16837f" : "#20b6b0") : "#20b6b0") : "#7f7f7f"),
+                ifParent: ifParent,
+                isCollapsible: targetArray[i].didCollapse ? false : (ifParent ? true : false),
+                isNodePath: checkNodePath ? targetArray[i].isNodePath : false,
+                nodeColor: targetArray[i].errorNode ? ERROR_NODE_COLOR : 
+                    (ifParent ? (checkNodePath ? PATH_NODE_COLOR : PARENT_NODE_COLOR) : TOKEN_COLOR),
                 position: targetArray[i].position
             });
 

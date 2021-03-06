@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Icon} from "semantic-ui-react";
 
+import { GraphicalNodeProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
-import { GraphicalNodeProps } from "../../tree-interfaces";
 import Diagnostics from "./diagnosticsPopup";
 import NodeDetails from "./nodeDetailsPopup";
 
@@ -40,6 +40,7 @@ function TreeNode(props: GraphicalNodeProps) {
                     boxShadow: props.node.isCollapsible ? "2px 4px 2px #9E9E9E" : "none",
                     height: props.node.height,
                     left: props.node.x,
+                    opacity: props.isLocateAction ? (props.node.isNodePath ? 1 : 0.55) : 1,
                     top: props.node.y,
                     width: props.node.width
                 }}

@@ -1,7 +1,8 @@
 import * as _ from "lodash";
 
 import { TreeNode } from "../resources/interfaces";
-import { isLocateAction, syntaxTreeObj } from "./syntaxTreeGenerator";
+import { checkNodePath, syntaxTreeObj } from "./syntax-tree-generator";
+import { INVALID_TOKEN, MISSING } from "../resources/constant-resources";
 
 let treeNode: any;
 let nodeCount: number = -1;
@@ -10,7 +11,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
     for (const props in nodeObj) {
         if (props === "source") {
             return;
-        } else if (props !== "relativeResourcePath" && typeof nodeObj[props] === "object") {
+        } else if (props !== "relativeResourcePath" && nodeObj[props] instanceof Object) {
             if (Array.isArray(nodeObj[props]) && !nodeObj[props].length) {
                 continue;
             } else if (nodeObj[props].hasOwnProperty("isToken")) {
@@ -20,12 +21,12 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                             parentObj.children.push({
                                 nodeID: `c${++nodeCount}`,
                                 value: nodeObj[props].leadingMinutiae[element].minutiae,
-                                kind: "Invalid token",
+                                kind: INVALID_TOKEN,
                                 parentID: parentObj.nodeID,
                                 children: [],
                                 errorNode: true,
                                 diagnostics: [{
-                                    message: "Invalid token '" + nodeObj[props].leadingMinutiae[element].minutiae + "'"
+                                    message: INVALID_TOKEN + nodeObj[props].leadingMinutiae[element].minutiae
                                 }]
                             });
                         }
@@ -38,12 +39,12 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                         nodeObj[props].kind : nodeObj[props].value,
                     parentID: parentObj.nodeID,
                     children: [],
-                    kind: nodeObj[props].isMissing ? "Missing " + nodeObj[props].kind : nodeObj[props].kind,
+                    kind: nodeObj[props].isMissing ? MISSING + nodeObj[props].kind : nodeObj[props].kind,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     errorNode: nodeObj[props].isMissing,
                     diagnostics: nodeObj[props].isMissing ? [{
-                        message: "Missing " + nodeObj[props].kind
+                        message: MISSING + nodeObj[props].kind
                     }] : [],
                     position: nodeObj[props].position
                 });
@@ -53,7 +54,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
-                    didCollapse: isLocateAction ? (nodeObj[props].isNodePath ? true : false) :
+                    didCollapse: checkNodePath ? (nodeObj[props].isNodePath ? true : false) :
                         (treeLevel < 2 ? true : false),
                     isNodePath: nodeObj[props].isNodePath,
                     children: [],
@@ -91,13 +92,13 @@ function assignProperties(node: TreeNode | any) {
     let preceedingNode: number | any;
 
     for (let count = 0; count < node.children.length; count++) {
-        if (!preceedingNode && node.children[count].kind !== "Invalid token") {
+        if (!preceedingNode && node.children[count].kind !== INVALID_TOKEN) {
             preceedingNode = count;
         }
         if (node.children[count].diagnostics.length) {
             node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[count].diagnostics));
         }
-        if (isLocateAction && !node.didCollapse && node.children[count].didCollapse) {
+        if (checkNodePath && !node.didCollapse && node.children[count].didCollapse) {
             node.didCollapse = true;
             node.isNodePath = true;
         }
