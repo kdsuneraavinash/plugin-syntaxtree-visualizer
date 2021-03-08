@@ -55,7 +55,10 @@ function SyntaxTree(props: SyntaxTreeProps) {
                 }
             </div>
 
-            <div style = {styles.bodyStyle}>
+            <div style = {{
+                ...styles.bodyStyle,
+                top: 77
+            }}>
                 {isDropdownView && syntaxTreeArray &&
                     <DropdownTree treeNode = {syntaxTreeArray[0]} onCollapseTree = {props.onCollapseTree} />
                 }

@@ -19,11 +19,8 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
     const styles = `
         .container {
             overflow-x: auto;
-            position: relative;
             height: 100%;
             text-align: center;
-            padding-bottom: 2%;
-            padding-top: 2%;
         }
 
         #treeBody {
