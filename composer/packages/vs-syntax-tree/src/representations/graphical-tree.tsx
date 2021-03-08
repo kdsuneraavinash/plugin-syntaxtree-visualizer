@@ -35,8 +35,9 @@ function GraphicalTree(props: GraphicalTreeProps) {
                         {
                             props.treeGraph.edges.map((item, id) => {
                                 return <TreeNodeEdge
-                                            edge = {item}
                                             key = {id}
+                                            edge = {item}
+                                            isLocateAction = {isLocateAction}
                                         />;
                             })
                         }

@@ -1,8 +1,7 @@
 import { CSSProperties } from "react";
 
 export const treeEdgeStyles: CSSProperties = {
-    stroke: "black",
-    strokeWidth: 1
+    stroke: "black"
 };
 
 export const nodeContainerStyle: CSSProperties = {

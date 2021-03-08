@@ -54,6 +54,7 @@ export interface TreeEdge {
     sources: [];
     targets: [];
     sections: EdgeSections[];
+    isNodePath: boolean;
 }
 
 export interface EdgeSections {
@@ -108,6 +109,7 @@ export interface GraphicalDetailsProps {
 
 export interface TreeEdgeProps {
     edge: TreeEdge;
+    isLocateAction: boolean;
 }
 
 export interface DropdownTreeProps {

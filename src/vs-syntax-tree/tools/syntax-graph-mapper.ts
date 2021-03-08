@@ -18,11 +18,15 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
 
         if (isGraphical) {
             const position = toInteger(targetArray[i].nodeID.replace(/\D/g, ""));
-            const ifParent = targetArray[i].nodeID.charAt(0) === "p";
+            const ifParent : boolean = targetArray[i].nodeID.charAt(0) === "p";
+            let isNodePath : boolean = false;
             let diagnostics: any[] = [];
 
             if (!targetArray[i].didCollapse && ifParent) {
                 diagnostics = targetArray[i].diagnostics;
+            }
+            if (checkNodePath && targetArray[i].isNodePath) {
+                isNodePath = true;
             }
 
             nodeMembers.push({
@@ -41,7 +45,7 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 },
                 ifParent: ifParent,
                 isCollapsible: targetArray[i].didCollapse ? false : (ifParent ? true : false),
-                isNodePath: checkNodePath ? targetArray[i].isNodePath : false,
+                isNodePath: isNodePath,
                 nodeColor: targetArray[i].errorNode ? ERROR_NODE_COLOR : 
                     (ifParent ? (checkNodePath ? PATH_NODE_COLOR : PARENT_NODE_COLOR) : TOKEN_COLOR),
                 position: targetArray[i].position
@@ -51,7 +55,8 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 nodeEdges.push({
                     id: `e${targetArray[i].nodeID}`,
                     sources: [targetArray[i].parentID],
-                    targets: [targetArray[i].nodeID]
+                    targets: [targetArray[i].nodeID],
+                    isNodePath: isNodePath
                 });
             }
         }
