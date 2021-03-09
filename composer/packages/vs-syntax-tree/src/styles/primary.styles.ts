@@ -8,15 +8,19 @@ export const bodyStyle: CSSProperties = {
 };
 
 export const optionsContainer: CSSProperties = {
-    backgroundColor: "white",
-    borderBottom: "1px solid #20b6b0",
+    backgroundColor: "#999999",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     display: "flex",
     flexDirection: "row",
-    height: "75px",
-    padding: "15px",
+    height: "70px",
+    left: 0,
+    opacity: 0.85,
+    padding: "12px",
     position: "fixed",
+    top: 0,
     width: "100vw",
-    zIndex: 100
+    zIndex: 10
 };
 
 export const switchRepresentationDiv: CSSProperties = {
@@ -29,7 +33,9 @@ export const switchRepresentationDiv: CSSProperties = {
 };
 
 export const viewDiv: CSSProperties = {
-    fontSize: "16.5px",
+    color: "white",
+    fontFamily: "Times New Roman",
+    fontSize: "20px",
     left: window.innerWidth / 2,
     position: "fixed",
     top: 25,

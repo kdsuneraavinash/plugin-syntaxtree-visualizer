@@ -20,7 +20,7 @@ export function retrieveGraph(responseTree: any, activatedCommand: String) {
 
     syntaxTreeObj = [];
 
-    mapSyntaxTree(responseTree, {}, 0);
+    mapSyntaxTree(responseTree, {}, 0, false);
     graphicalTreeObj = _.cloneDeep(syntaxTreeObj);
 
     return updateSyntaxTree("", true);

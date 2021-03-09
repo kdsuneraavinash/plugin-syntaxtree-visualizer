@@ -33,5 +33,5 @@ export const LAYOUT_OPTIONS = {
     "elk.edgeRouting": "POLYLINE",
     "elk.layered.crossingMinimization.semiInteractive": "true",
     "elk.layered.mergeEdges": "true",
-    "elk.spacing.nodeNode": "30"
+    "elk.spacing.nodeNode": "15"
 };

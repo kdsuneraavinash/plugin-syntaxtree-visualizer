@@ -27,7 +27,7 @@ function TreeNodeEdge(props: TreeEdgeProps) {
             style = {{
                 ...treeEdgeStyles,
                 opacity: isLocateAction ? (isNodePath ? 1 : 0.3) : 1,
-                strokeWidth: isLocateAction ? (isNodePath ? 1.5 : 1) : 1
+                strokeWidth: isLocateAction ? (isNodePath ? 1.1 : 1) : 1
             }}
         />
     );

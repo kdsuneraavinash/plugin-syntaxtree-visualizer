@@ -26,33 +26,33 @@ function SyntaxTree(props: SyntaxTreeProps) {
     return (
         <div style = {styles.bodyStyle}>
             <div style = {styles.optionsContainer}>
-                <div style = {styles.switchRepresentationDiv}>
-                    <Button as="div" labelPosition="right" onClick = {updateView}>
-                        <Button color="teal" icon>
-                            {isDropdownView ? <Icon name="chart area" /> : <Icon name="bars" />}
-                        </Button>
-                        <Label basic color="teal" as = "a" pointing="left">
-                            {isDropdownView ? SWITCH_GRAPHICAL : SWITCH_DROPDOWN}
-                        </Label>
-                    </Button>
-                </div>
-
-                <div style = {styles.viewDiv}>
-                    <p><b>Current View:</b> {props.activatedCommand}</p>
-                </div>
-
                 {props.activatedCommand !== FULL_TREE_MODE &&
                     <div style = {styles.switchModeDiv}>
-                        <Button as="div" labelPosition="right" onClick = {() => props.switchFullTree()}>
-                            <Button color="teal" icon>
-                                <Icon name="share" />
+                        <Button as = "div" labelPosition = "right" onClick = {() => props.switchFullTree()}>
+                            <Button color = "teal" icon>
+                                <Icon name = "share" />
                             </Button>
-                            <Label basic color="teal" as = "a" pointing="left">
+                            <Label basic color = "teal" as = "a" pointing = "left">
                                 Switch to Full Tree View
                             </Label>
                         </Button>
                     </div>
                 }
+
+                <div style = {styles.viewDiv}>
+                    <b>{props.activatedCommand}</b>
+                </div>
+
+                <div style = {styles.switchRepresentationDiv}>
+                    <Button as = "div" labelPosition = "right" onClick = {updateView}>
+                        <Button color="teal" icon>
+                            {isDropdownView ? <Icon name = "chart area" /> : <Icon name = "bars" />}
+                        </Button>
+                        <Label basic color = "teal" as = "a" pointing = "left">
+                            {isDropdownView ? SWITCH_GRAPHICAL : SWITCH_DROPDOWN}
+                        </Label>
+                    </Button>
+                </div>
             </div>
 
             <div style = {{

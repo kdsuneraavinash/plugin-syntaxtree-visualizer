@@ -7,7 +7,7 @@ import { INVALID_TOKEN, MISSING } from "../resources/constant-resources";
 let treeNode: any;
 let nodeCount: number = -1;
 
-export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLevel: number) {
+export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLevel: number, foundNodeBlock: boolean) {
     for (const props in nodeObj) {
         if (props === "source") {
             return;
@@ -42,6 +42,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                     kind: nodeObj[props].isMissing ? MISSING + nodeObj[props].kind : nodeObj[props].kind,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
+                    isNodePath: foundNodeBlock,
                     errorNode: nodeObj[props].isMissing,
                     diagnostics: nodeObj[props].isMissing ? [{
                         message: MISSING + nodeObj[props].kind
@@ -54,13 +55,20 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
-                    didCollapse: checkNodePath ? (nodeObj[props].isNodePath ? true : false) :
+                    didCollapse: checkNodePath ? (nodeObj[props].isNodePath ? (nodeObj[props].isLocatedNode ? false : true) : false):
                         (treeLevel < 2 ? true : false),
-                    isNodePath: nodeObj[props].isNodePath,
+                    isNodePath: nodeObj[props].isNodePath ? nodeObj[props].isNodePath : foundNodeBlock,
                     children: [],
                     diagnostics: nodeObj[props].syntaxDiagnostics ? nodeObj[props].syntaxDiagnostics : [],
                     position: nodeObj[props].position
                 };
+
+                let currentBlockStatus: boolean;
+                if (checkNodePath && nodeObj[props].isNodePath){
+                    currentBlockStatus = nodeObj[props].isLocatedNode ? true : foundNodeBlock;
+                } else {
+                    currentBlockStatus = foundNodeBlock;
+                }
 
                 if (!props.match(/^[0-9]+$/)) {
                     const parentNode: any = {
@@ -69,7 +77,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                         kind: syntaxTreeObj.length ? props : (nodeObj[props].kind ? nodeObj[props].kind : props)
                     };
                     syntaxTreeObj.length ? parentObj.children.push(parentNode) : syntaxTreeObj.push(parentNode);
-                    mapSyntaxTree(nodeObj[props], parentNode, treeLevel + 1);
+                    mapSyntaxTree(nodeObj[props], parentNode, treeLevel + 1, currentBlockStatus);
 
                     if (!nodeObj[props].source && parentNode.children.length) {
                         assignProperties(parentNode);
@@ -81,7 +89,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                         kind: nodeObj[props].kind
                     };
                     parentObj.children.push(treeNode);
-                    mapSyntaxTree(nodeObj[props], treeNode, treeLevel + 1);
+                    mapSyntaxTree(nodeObj[props], treeNode, treeLevel + 1, currentBlockStatus);
                 }
             }
         }
@@ -98,7 +106,7 @@ function assignProperties(node: TreeNode | any) {
         if (node.children[count].diagnostics.length) {
             node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[count].diagnostics));
         }
-        if (checkNodePath && !node.didCollapse && node.children[count].didCollapse) {
+        if (checkNodePath && !node.didCollapse && node.children[count].isNodePath) {
             node.didCollapse = true;
             node.isNodePath = true;
         }
