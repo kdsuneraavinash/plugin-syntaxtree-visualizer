@@ -19,7 +19,8 @@ import { EXTENSION_ID,
 
 let syntaxTreePanel: vscode.WebviewPanel;
 let hasOpenWebview: boolean = false;
-let activeTextEditor: String;
+let activeTextEditor: string;
+let executedCommand: string;
 
 export function activate(ballerinaExtInstance: BallerinaExtension) {
     const context = <vscode.ExtensionContext> ballerinaExtInstance.context;
@@ -72,7 +73,7 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
                     createSyntaxTreePanel(langClient);
                 }
                 visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path,
-                                    null, FULL_TREE_VIEW);
+                                    vscode.window.activeTextEditor.selection, FULL_TREE_VIEW);
             }));
         }
     })
@@ -115,7 +116,6 @@ function createSyntaxTreePanel(langClient: ExtendedLangClient) {
         getCommonWebViewOptions()
     );
     hasOpenWebview = true;
-
     syntaxTreePanel.onDidDispose(() => {
         hasOpenWebview = false;
     });
@@ -124,23 +124,32 @@ function createSyntaxTreePanel(langClient: ExtendedLangClient) {
 }
 
 function visualizeSyntaxTree(sourceRoot: string,
-                             blockRange: any,
+                             blockRange: vscode.Selection,
                              activatedCommand: string) {
-
     if (syntaxTreePanel) {
-        vscode.workspace.onDidChangeTextDocument(_.debounce(() => {
+        vscode.workspace.onDidChangeTextDocument(_.debounce((event) => {
             if (vscode.window.activeTextEditor &&
                 activeTextEditor === vscode.window.activeTextEditor.document.uri.path) {
-                syntaxTreePanel.webview.postMessage({
-                    command: "update",
-                    docUri: sourceRoot
-                });
+                if (executedCommand === FULL_TREE_VIEW || executedCommand === LOCATE_TREE_VIEW) {
+                    syntaxTreePanel.webview.postMessage({
+                        command: "update",
+                        docUri: sourceRoot
+                    });
+                } else {
+                    if (blockRange.contains(event.contentChanges[0].range)) {
+                        syntaxTreePanel.webview.postMessage({
+                            command: "update",
+                            docUri: sourceRoot
+                        });
+                    }
+                }
             }
-        }, 100));
+        }, 500));
     }
 
     const displayHtml = render(sourceRoot, blockRange, activatedCommand);
     syntaxTreePanel.webview.html = displayHtml;
     syntaxTreePanel.reveal();
     activeTextEditor = sourceRoot;
+    executedCommand = activatedCommand;
 }
