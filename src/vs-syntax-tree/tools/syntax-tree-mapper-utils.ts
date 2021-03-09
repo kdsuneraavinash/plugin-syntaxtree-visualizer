@@ -13,9 +13,11 @@ export function assignProperties(node: TreeNode | any) {
         if (node.children[count].diagnostics.length) {
             node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[count].diagnostics));
         }
-        if (checkNodePath && !node.didCollapse && node.children[count].isNodePath) {
-            node.didCollapse = true;
-            node.isNodePath = true;
+        if (checkNodePath && !node.isNodePath) {
+            if (node.children[count].isNodePath) {
+                node.isNodePath = true;
+                node.didCollapse = true;
+            }
         }
     }
 
