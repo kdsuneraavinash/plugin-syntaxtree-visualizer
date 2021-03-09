@@ -34,7 +34,9 @@ function DropdownTree(props: DropdownTreeProps) {
                 ...styles.sideDividersStyle,
                 width: "450px"
             }}>
-                {detailedNode && <DropdownNodeDetails treeNode = {detailedNode} />}
+                {detailedNode &&
+                    <DropdownNodeDetails treeNode = {detailedNode} onFindNode = {props.onFindNode} />
+                }
             </div>
         </div>
     );

@@ -18,13 +18,17 @@ export const labelContainerStyle: CSSProperties = {
     color: "white",
     flexGrow: 1,
     fontSize: 14,
-    paddingLeft: "5px",
     textAlign: "center"
 };
 
 export const warningIconStyle: CSSProperties = {
     height: "100%",
     paddingRight: "8px"
+};
+
+export const pinIconStyle: CSSProperties = {
+    height: "100%",
+    paddingLeft: "8px"
 };
 
 export const popupArrowStyle: CSSProperties = {

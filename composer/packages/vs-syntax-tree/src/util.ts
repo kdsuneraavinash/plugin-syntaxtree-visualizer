@@ -4,7 +4,8 @@ import { PrimaryProps } from "./resources/tree-interfaces";
 import SyntaxTree from "./syntaxTree";
 
 export function renderSyntaxTree(activatedCommand: string,
-                                 onCollapseTree: (nodeID: string) => void,
+                                 onFindNode: (node: object) => void,
+                                 onCollapseTree: (position: string) => void,
                                  renderTree: () => Promise<PrimaryProps>,
                                  switchFullTree: () => Promise<PrimaryProps>,
                                  target: HTMLElement
@@ -12,6 +13,7 @@ export function renderSyntaxTree(activatedCommand: string,
     const responseDataProps = {
         activatedCommand,
         onCollapseTree,
+        onFindNode,
         renderTree,
         switchFullTree
     };

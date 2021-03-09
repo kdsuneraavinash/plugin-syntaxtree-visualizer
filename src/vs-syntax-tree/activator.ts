@@ -145,6 +145,17 @@ function visualizeSyntaxTree(sourceRoot: string,
                 }
             }
         }, 500));
+
+        syntaxTreePanel.webview.onDidReceiveMessage(
+            message => {
+                switch (message.command) {
+                    case 'alert':
+                    vscode.window.showErrorMessage(JSON.stringify(message.position));
+                    console.log(message.position);
+                    return;
+                }
+            },
+        );
     }
 
     const displayHtml = render(sourceRoot, blockRange, activatedCommand);

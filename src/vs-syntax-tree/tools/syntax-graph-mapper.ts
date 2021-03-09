@@ -32,8 +32,8 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
             nodeMembers.push({
                 id: targetArray[i].nodeID,
                 height: 50,
-                width: diagnostics.length ? (targetArray[i].value.length * 7.5) + 50 :
-                    Math.max((targetArray[i].value.length * 8.5), 82),
+                width: diagnostics.length ? (targetArray[i].value.length * 8) + 75 :
+                    Math.max((targetArray[i].value.length * 8) + 30, 100),
                 label: targetArray[i].value,
                 kind: targetArray[i].kind,
                 leadingMinutiae: targetArray[i].leadingMinutiae,

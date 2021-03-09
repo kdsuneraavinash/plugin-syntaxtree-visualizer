@@ -23,6 +23,7 @@ function GraphicalTree(props: GraphicalTreeProps) {
                                     key = {id}
                                     node = {item}
                                     isLocateAction = {isLocateAction}
+                                    onFindNode = {() => props.onFindNode(item.position)}
                                     onCollapseTree = {() => props.onCollapseTree(item.id, true)}
                                 />;
                     })

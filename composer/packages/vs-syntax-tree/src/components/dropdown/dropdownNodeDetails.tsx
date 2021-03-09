@@ -1,4 +1,5 @@
 import React from "react";
+import {Button, Icon} from "semantic-ui-react";
 
 import { DropdownDetailsProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/dropdown-tree.styles";
@@ -12,7 +13,10 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
 
             {props.treeNode &&
                 <div>
-                    <DropdownDetails title = "kind" value = {props.treeNode.kind} />
+                    <DropdownDetails
+                        title = "kind"
+                        value = {props.treeNode.kind}
+                    />
 
                     {props.treeNode.position &&
                         <div>
@@ -39,7 +43,10 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
                     }
 
                     {(!props.treeNode.leadingMinutiae || props.treeNode.leadingMinutiae.length < 1) &&
-                        <DropdownDetails title = "Leading Minutiae" value = "None" />
+                        <DropdownDetails
+                            title = "Leading Minutiae"
+                            value = "None"
+                        />
                     }
 
                     {props.treeNode.trailingMinutiae && props.treeNode.trailingMinutiae.length > 0 &&
@@ -51,7 +58,10 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
                     }
 
                     {(!props.treeNode.trailingMinutiae || props.treeNode.trailingMinutiae.length < 1) &&
-                        <DropdownDetails title = "Trailing Minutiae" value = "None" />
+                        <DropdownDetails
+                            title = "Trailing Minutiae"
+                            value = "None"
+                        />
                     }
 
                     {props.treeNode.diagnostics && props.treeNode.diagnostics.length > 0 &&
@@ -63,8 +73,24 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
                     }
 
                     {(!props.treeNode.diagnostics || props.treeNode.diagnostics.length < 1) &&
-                        <DropdownDetails title = "Diagnostics" value = "None" />
+                        <DropdownDetails
+                            title = "Diagnostics"
+                            value = "None"
+                        />
                     }
+                </div>
+            }
+            {props.treeNode.position &&
+                <div style = {styles.findNodeButtonStyle}>
+                    <Button
+                        icon
+                        color = "teal"
+                        labelPosition = "left"
+                        onClick = {() => { props.onFindNode(props.treeNode.position); }}
+                    >
+                        <Icon name = "map pin" />
+                        Locate Node
+                    </Button>
                 </div>
             }
         </div>

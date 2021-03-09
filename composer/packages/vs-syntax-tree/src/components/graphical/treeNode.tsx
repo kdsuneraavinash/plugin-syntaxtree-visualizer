@@ -45,6 +45,21 @@ function TreeNode(props: GraphicalNodeProps) {
                     width: props.node.width
                 }}
             >
+                {props.node.position &&
+                    <div
+                        style = {styles.pinIconStyle}
+                        onClick = {props.onFindNode}
+                    >
+                        <Icon
+                            name = "map pin"
+                            size = "small"
+                            circular
+                            inverted
+                            color = "grey"
+                        />
+                    </div>
+                }
+
                 <div
                     style = {styles.labelContainerStyle}
                     onClick = {props.node.ifParent ? onClickNode : () => {}}

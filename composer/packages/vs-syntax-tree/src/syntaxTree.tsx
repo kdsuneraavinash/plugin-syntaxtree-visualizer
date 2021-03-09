@@ -60,11 +60,19 @@ function SyntaxTree(props: SyntaxTreeProps) {
                 top: 77
             }}>
                 {isDropdownView && syntaxTreeArray &&
-                    <DropdownTree treeNode = {syntaxTreeArray[0]} onCollapseTree = {props.onCollapseTree} />
+                    <DropdownTree
+                        treeNode = {syntaxTreeArray[0]}
+                        onCollapseTree = {props.onCollapseTree}
+                        onFindNode = {props.onFindNode}
+                    />
                 }
 
                 {!isDropdownView && syntaxTreeGraph &&
-                    <GraphicalTree treeGraph = {syntaxTreeGraph} onCollapseTree = {props.onCollapseTree} />
+                    <GraphicalTree
+                        treeGraph = {syntaxTreeGraph}
+                        onCollapseTree = {props.onCollapseTree}
+                        onFindNode = {props.onFindNode}
+                    />
                 }
 
                 {!syntaxTreeGraph &&

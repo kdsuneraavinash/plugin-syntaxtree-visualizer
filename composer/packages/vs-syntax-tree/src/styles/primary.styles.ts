@@ -8,9 +8,7 @@ export const bodyStyle: CSSProperties = {
 };
 
 export const optionsContainer: CSSProperties = {
-    backgroundColor: "#999999",
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    backgroundColor: "#b3b3b3",
     display: "flex",
     flexDirection: "row",
     height: "70px",

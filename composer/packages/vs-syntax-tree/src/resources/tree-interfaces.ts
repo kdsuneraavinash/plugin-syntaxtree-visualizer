@@ -87,12 +87,14 @@ export interface PrimaryProps {
 
 export interface SyntaxTreeProps {
     activatedCommand: string;
+    onFindNode: (node: object) => void;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
     renderTree: () => Promise<PrimaryProps>;
     switchFullTree: () => Promise<PrimaryProps>;
 }
 
 export interface GraphicalTreeProps {
+    onFindNode: (node: object) => void;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
     treeGraph?: TreeGraph;
 }
@@ -101,6 +103,7 @@ export interface GraphicalNodeProps {
     node: GraphNode;
     isLocateAction: boolean;
     onCollapseTree: any;
+    onFindNode: any;
 }
 
 export interface GraphicalDetailsProps {
@@ -115,6 +118,7 @@ export interface TreeEdgeProps {
 export interface DropdownTreeProps {
     treeNode: TreeObjectNode;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
+    onFindNode: (node: object) => void;
 }
 
 export interface DropdownNodeProps {
@@ -126,6 +130,7 @@ export interface DropdownNodeProps {
 
 export interface DropdownDetailsProps {
     treeNode: TreeObjectNode;
+    onFindNode: (node: object) => void;
 }
 
 export interface DetailsCardProp {

@@ -92,15 +92,22 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                 })
             }
 
+            function findNode (position) {
+                vscode.postMessage({
+                    command: 'alert',
+                    position: position
+                })
+            }
+
             function collapseTree(nodeID, representationType){
                 collapsedNode = nodeID;
                 isGraphical = representationType;
-                ballerinaComposer.renderSyntaxTree(activatedCommand, collapseTree, collapseNodes, switchFullTree, document.getElementById("treeBody"));
+                ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, collapseNodes, switchFullTree, document.getElementById("treeBody"));
             }
 
             function switchFullTree(){
                 activatedCommand = ${JSON.stringify(FULL_TREE_VIEW)};
-                ballerinaComposer.renderSyntaxTree(activatedCommand, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
+                ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
             }
 
             function collapseNodes(){
@@ -112,7 +119,7 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
             }
 
             function initiateRendering(){
-                ballerinaComposer.renderSyntaxTree(activatedCommand, collapseTree, renderTree, switchFullTree, document.getElementById("treeBody"));
+                ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, renderTree, switchFullTree, document.getElementById("treeBody"));
             }
 
             initiateRendering();
