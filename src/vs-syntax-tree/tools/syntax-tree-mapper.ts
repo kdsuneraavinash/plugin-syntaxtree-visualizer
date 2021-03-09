@@ -1,8 +1,7 @@
-import * as _ from "lodash";
-
+import { INVALID_TOKEN, MISSING } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
 import { checkNodePath, syntaxTreeObj } from "./syntax-tree-generator";
-import { INVALID_TOKEN, MISSING } from "../resources/constant-resources";
+import { assignProperties } from "./syntax-tree-mapper-utils";
 
 let treeNode: any;
 let nodeCount: number = -1;
@@ -55,7 +54,8 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
-                    didCollapse: checkNodePath ? (nodeObj[props].isNodePath ? (nodeObj[props].isLocatedNode ? false : true) : false):
+                    didCollapse: checkNodePath ?
+                        (nodeObj[props].isNodePath ? (nodeObj[props].isLocatedNode ? false : true) : false) :
                         (treeLevel < 2 ? true : false),
                     isNodePath: nodeObj[props].isNodePath ? nodeObj[props].isNodePath : foundNodeBlock,
                     children: [],
@@ -94,30 +94,4 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
             }
         }
     }
-}
-
-function assignProperties(node: TreeNode | any) {
-    let preceedingNode: number | any;
-
-    for (let count = 0; count < node.children.length; count++) {
-        if (!preceedingNode && node.children[count].kind !== INVALID_TOKEN) {
-            preceedingNode = count;
-        }
-        if (node.children[count].diagnostics.length) {
-            node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[count].diagnostics));
-        }
-        if (checkNodePath && !node.didCollapse && node.children[count].isNodePath) {
-            node.didCollapse = true;
-            node.isNodePath = true;
-        }
-    }
-
-    node.leadingMinutiae = _.cloneDeep(node.children[preceedingNode].leadingMinutiae);
-    node.trailingMinutiae = _.cloneDeep(node.children[node.children.length - 1].trailingMinutiae);
-    node.position = {
-        startLine: node.children[preceedingNode].position.startLine,
-        startColumn: node.children[preceedingNode].position.startColumn,
-        endLine: node.children[node.children.length - 1].position.endLine,
-        endColumn: node.children[node.children.length - 1].position.endColumn
-    };
 }

@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
+import { LAYOUT_OPTIONS, LOCATE_TREE_VIEW } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
-import { LOCATE_TREE_VIEW, LAYOUT_OPTIONS } from "../resources/constant-resources";
 import { mapSyntaxGraph } from "./syntax-graph-mapper";
 import { mapSyntaxTree } from "./syntax-tree-mapper";
 
@@ -11,18 +11,11 @@ export let nodeEdges: any[];
 export let syntaxTreeObj: TreeNode[];
 let graphicalTreeObj: TreeNode[];
 
-export function retrieveGraph(responseTree: any, activatedCommand: String) {
-    if (activatedCommand === LOCATE_TREE_VIEW) {
-        checkNodePath = true;
-    } else {
-        checkNodePath = false;
-    }
-
+export function retrieveGraph(responseTree: any, activatedCommand: string) {
     syntaxTreeObj = [];
-
+    checkNodePath = activatedCommand === LOCATE_TREE_VIEW ? true : false;
     mapSyntaxTree(responseTree, {}, 0, false);
     graphicalTreeObj = _.cloneDeep(syntaxTreeObj);
-
     return updateSyntaxTree("", true);
 }
 
