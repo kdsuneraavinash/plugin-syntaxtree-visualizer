@@ -27,7 +27,7 @@ function SyntaxTree(props: SyntaxTreeProps) {
         <div style = {styles.bodyStyle}>
             <div style = {styles.optionsContainer}>
                 {props.activatedCommand !== FULL_TREE_MODE &&
-                    <div style = {styles.switchModeDiv}>
+                    <div style = {styles.optionBlock}>
                         <Button as = "div" labelPosition = "right" onClick = {() => props.switchFullTree()}>
                             <Button color = "teal" icon>
                                 <Icon name = "share" />
@@ -38,12 +38,7 @@ function SyntaxTree(props: SyntaxTreeProps) {
                         </Button>
                     </div>
                 }
-
-                <div style = {styles.viewDiv}>
-                    <b>{props.activatedCommand}</b>
-                </div>
-
-                <div style = {styles.switchRepresentationDiv}>
+                <div style = {styles.optionBlock}>
                     <Button as = "div" labelPosition = "right" onClick = {updateView}>
                         <Button color="teal" icon>
                             {isDropdownView ? <Icon name = "chart area" /> : <Icon name = "bars" />}

@@ -4,10 +4,10 @@ import { TreeNode } from "../resources/interfaces";
 import { checkNodePath } from "./syntax-tree-generator";
 
 export function assignProperties(node: TreeNode | any) {
-    let preceedingNode: number | any;
+    let preceedingNode: number | any = -1;
 
     for (let count = 0; count < node.children.length; count++) {
-        if (!preceedingNode && node.children[count].kind !== INVALID_TOKEN) {
+        if (preceedingNode < 0 && node.children[count].kind !== INVALID_TOKEN) {
             preceedingNode = count;
         }
         if (node.children[count].diagnostics.length) {
@@ -21,12 +21,14 @@ export function assignProperties(node: TreeNode | any) {
         }
     }
 
-    node.leadingMinutiae = _.cloneDeep(node.children[preceedingNode].leadingMinutiae);
-    node.trailingMinutiae = _.cloneDeep(node.children[node.children.length - 1].trailingMinutiae);
-    node.position = {
-        startLine: node.children[preceedingNode].position.startLine,
-        startColumn: node.children[preceedingNode].position.startColumn,
-        endLine: node.children[node.children.length - 1].position.endLine,
-        endColumn: node.children[node.children.length - 1].position.endColumn
-    };
+    if (preceedingNode >= 0) {
+        node.leadingMinutiae = _.cloneDeep(node.children[preceedingNode].leadingMinutiae);
+        node.trailingMinutiae = _.cloneDeep(node.children[node.children.length - 1].trailingMinutiae);
+        node.position = {
+            startLine: node.children[preceedingNode].position.startLine,
+            startColumn: node.children[preceedingNode].position.startColumn,
+            endLine: node.children[node.children.length - 1].position.endLine,
+            endColumn: node.children[node.children.length - 1].position.endColumn
+        };
+    }
 }

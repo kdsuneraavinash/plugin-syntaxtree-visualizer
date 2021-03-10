@@ -94,7 +94,7 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
 
             function findNode (position) {
                 vscode.postMessage({
-                    command: 'alert',
+                    command: 'findNode',
                     position: position
                 })
             }
@@ -107,6 +107,10 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
 
             function switchFullTree(){
                 activatedCommand = ${JSON.stringify(FULL_TREE_VIEW)};
+                vscode.postMessage({
+                    command: 'switchView',
+                    viewType: activatedCommand
+                })
                 ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
             }
 

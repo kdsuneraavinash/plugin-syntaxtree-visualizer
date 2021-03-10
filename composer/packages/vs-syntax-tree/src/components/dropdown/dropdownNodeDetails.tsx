@@ -84,11 +84,11 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
                 <div style = {styles.findNodeButtonStyle}>
                     <Button
                         icon
-                        color = "teal"
                         labelPosition = "left"
+                        color = "teal"
                         onClick = {() => { props.onFindNode(props.treeNode.position); }}
                     >
-                        <Icon name = "map pin" />
+                        <Icon name = "code" color = "olive" />
                         Locate Node
                     </Button>
                 </div>

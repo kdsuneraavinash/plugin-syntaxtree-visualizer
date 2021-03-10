@@ -16,9 +16,11 @@ export const nodeContainerStyle: CSSProperties = {
 
 export const labelContainerStyle: CSSProperties = {
     color: "white",
+    display: "flex",
+    flexDirection: "row",
     flexGrow: 1,
     fontSize: 14,
-    textAlign: "center"
+    justifyContent: "center"
 };
 
 export const warningIconStyle: CSSProperties = {
@@ -26,9 +28,10 @@ export const warningIconStyle: CSSProperties = {
     paddingRight: "8px"
 };
 
-export const pinIconStyle: CSSProperties = {
+export const locateNodeIconStyle: CSSProperties = {
+    display: "inline-block",
     height: "100%",
-    paddingLeft: "8px"
+    verticalAlign: "center"
 };
 
 export const popupArrowStyle: CSSProperties = {
