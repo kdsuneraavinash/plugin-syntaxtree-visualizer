@@ -8,22 +8,19 @@ export const bodyStyle: CSSProperties = {
 };
 
 export const optionsContainer: CSSProperties = {
-    backgroundColor: "white",
     display: "flex",
     flexDirection: "row",
-    height: "65px",
     justifyContent: "flex-end",
-    left: 0,
-    opacity: 0.95,
+    minWidth: "450px",
     padding: "12px",
     paddingRight: "20px",
     position: "fixed",
+    right: 0,
     top: 0,
-    width: "100vw",
+    width: "30vw",
     zIndex: 10
 };
 
 export const optionBlock: CSSProperties = {
-    paddingLeft: "15px",
-    paddingRight: "15px"
+    marginRight: "10px"
 };

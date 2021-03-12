@@ -12,7 +12,6 @@ export let syntaxTreeObj: TreeNode[];
 let graphicalTreeObj: TreeNode[];
 
 export function retrieveGraph(responseTree: any, activatedCommand: string) {
-    console.log(responseTree);
     syntaxTreeObj = [];
     checkNodePath = activatedCommand === LOCATE_TREE_VIEW ? true : false;
     mapSyntaxTree(responseTree, {}, 0, false);

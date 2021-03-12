@@ -20,6 +20,7 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
         .container {
             overflow-x: auto;
             height: 100%;
+            margin-top: 10px;
             text-align: center;
         }
 

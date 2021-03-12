@@ -9,6 +9,8 @@ import * as styles from "./styles/primary.styles";
 
 function SyntaxTree(props: SyntaxTreeProps) {
     const [isDropdownView, updateIsDropdownView] = useState(false);
+    const [onSwitchView, updateOnSwitchView] = useState(false);
+    const [onSwitchFullTree, updateOnSwitchFullTree] = useState(false);
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
     const [syntaxTreeArray, setSyntaxTreeArray] = useState<TreeObjectNode [] | undefined>(undefined);
 
@@ -23,37 +25,62 @@ function SyntaxTree(props: SyntaxTreeProps) {
         updateIsDropdownView(!isDropdownView);
     }
 
+    function onHoverViewMode() {
+        updateOnSwitchView(true);
+    }
+
+    function undoHoverViewMode() {
+        updateOnSwitchView(false);
+    }
+
+    function onHoverSwitchFullTree() {
+        updateOnSwitchFullTree(true);
+    }
+
+    function undoHoverSwitchFullTree() {
+        updateOnSwitchFullTree(false);
+    }
+
     return (
         <div style = {styles.bodyStyle}>
             <div style = {styles.optionsContainer}>
                 {props.activatedCommand !== FULL_TREE_MODE &&
-                    <div style = {styles.optionBlock}>
-                        <Button as = "div" labelPosition = "right" onClick = {() => props.switchFullTree()}>
+                    <div
+                        style = {styles.optionBlock}
+                        onMouseLeave = {undoHoverSwitchFullTree}
+                        onMouseOver = {onHoverSwitchFullTree}
+                    >
+                        <Button as = "div" labelPosition = "left" onClick = {() => props.switchFullTree()}>
+                            {onSwitchFullTree &&
+                                <Label basic color = "teal" as = "a" pointing = "right">
+                                    Switch to Full Tree View
+                                </Label>
+                            }
                             <Button color = "teal" icon>
                                 <Icon name = "share" />
                             </Button>
-                            <Label basic color = "teal" as = "a" pointing = "left">
-                                Switch to Full Tree View
-                            </Label>
                         </Button>
                     </div>
                 }
-                <div style = {styles.optionBlock}>
-                    <Button as = "div" labelPosition = "right" onClick = {updateView}>
+                <div
+                    style = {styles.optionBlock}
+                    onMouseLeave = {undoHoverViewMode}
+                    onMouseOver = {onHoverViewMode}
+                >
+                    <Button as = "div" labelPosition = "left" onClick = {updateView}>
+                        {onSwitchView &&
+                            <Label basic color = "teal" as = "a" pointing = "right">
+                                {isDropdownView ? SWITCH_GRAPHICAL : SWITCH_DROPDOWN}
+                            </Label>
+                        }
                         <Button color="teal" icon>
                             {isDropdownView ? <Icon name = "chart area" /> : <Icon name = "bars" />}
                         </Button>
-                        <Label basic color = "teal" as = "a" pointing = "left">
-                            {isDropdownView ? SWITCH_GRAPHICAL : SWITCH_DROPDOWN}
-                        </Label>
                     </Button>
                 </div>
             </div>
 
-            <div style = {{
-                ...styles.bodyStyle,
-                top: 77
-            }}>
+            <div style = {styles.bodyStyle}>
                 {isDropdownView && syntaxTreeArray &&
                     <DropdownTree
                         treeNode = {syntaxTreeArray[0]}
