@@ -53,7 +53,7 @@ function TreeNode(props: GraphicalNodeProps) {
                 >
                     {didHoverNode && props.node.position &&
                         <div
-                            style = {styles.locateNodeIconStyle}
+                            style = {styles.iconStyle}
                             onClick = {props.onFindNode}
                         >
                             <Icon
@@ -71,7 +71,7 @@ function TreeNode(props: GraphicalNodeProps) {
 
                 {props.node.hasDiagnostics && props.node.diagnostics.length &&
                     <div
-                        style = {styles.warningIconStyle}
+                        style = {styles.iconStyle}
                         onMouseLeave = {undoHoverWarning}
                         onMouseOver = {onHoverWarning}
                     >

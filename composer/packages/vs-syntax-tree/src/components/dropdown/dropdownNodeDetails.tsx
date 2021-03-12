@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon} from "semantic-ui-react";
+import {Button, Icon, Label} from "semantic-ui-react";
 
 import { DropdownDetailsProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/dropdown-tree.styles";
@@ -83,15 +83,16 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
             {props.treeNode.position &&
                 <div style = {styles.findNodeButtonStyle}>
                     <Button
-                        icon
-                        color = "teal"
+                        labelPosition="right"
                         size = "large"
                         onClick = {() => { props.onFindNode(props.treeNode.position); }}
                     >
-                        <Icon
-                            name = "file code outline"
-                        />
-                        Locate Node
+                        <Button icon color="teal">
+                            <Icon name="code" />
+                        </Button>
+                        <Label as="a" basic color="teal">
+                            Locate Node
+                        </Label>
                     </Button>
                 </div>
             }

@@ -21,18 +21,13 @@ export const labelContainerStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
     flexGrow: 1,
-    fontSize: 14,
     justifyContent: "center"
 };
 
-export const warningIconStyle: CSSProperties = {
+export const iconStyle: CSSProperties = {
     height: "100%",
-    paddingLeft: "4px"
-};
-
-export const locateNodeIconStyle: CSSProperties = {
-    height: "100%",
-    paddingRight: "4px"
+    paddingLeft: 2,
+    paddingRight: 2
 };
 
 export const popupArrowStyle: CSSProperties = {
