@@ -87,10 +87,10 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
                         size = "large"
                         onClick = {() => { props.onFindNode(props.treeNode.position); }}
                     >
-                        <Button icon color="teal">
-                            <Icon name="code" />
+                        <Button icon color = "teal">
+                            <Icon name = "code" />
                         </Button>
-                        <Label as="a" basic color="teal">
+                        <Label as = "a" basic color = "teal">
                             Locate Node
                         </Label>
                     </Button>

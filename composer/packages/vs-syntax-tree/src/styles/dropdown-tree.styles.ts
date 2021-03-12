@@ -6,7 +6,9 @@ export const containerStyle: CSSProperties = {
     justifyContent: "center",
     maxHeight: "85vh",
     maxWidth: "95vw",
-    minWidth: "800px"
+    minWidth: "800px",
+    position: "fixed",
+    top: 50
 };
 
 export const sideDividersStyle: CSSProperties = {

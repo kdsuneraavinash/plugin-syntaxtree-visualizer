@@ -10,7 +10,7 @@ function DropdownTree(props: DropdownTreeProps) {
 
     useEffect(() => {
         setDetailedNode(props.treeNode);
-    }, [props]);
+    }, []);
 
     function updateDetailedNode(nodeProp: TreeObjectNode) {
         setDetailedNode(nodeProp);
