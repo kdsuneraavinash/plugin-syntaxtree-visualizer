@@ -25,12 +25,15 @@ export const labelContainerStyle: CSSProperties = {
 
 export const warningIconStyle: CSSProperties = {
     height: "100%",
-    paddingRight: "8px"
+    paddingLeft: "2px",
+    paddingRight: "6px"
 };
 
 export const locateNodeIconStyle: CSSProperties = {
     display: "inline-block",
     height: "100%",
+    paddingLeft: "6px",
+    paddingRight: "4px",
     verticalAlign: "center"
 };
 

@@ -150,11 +150,11 @@ function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
 
         syntaxTreePanel.webview.onDidReceiveMessage((message) => {
             switch (message.command) {
-                case 'findNode': {
+                case "findNode": {
                     findNode(activeEditor, message.position);
                     return;
                 }
-                case 'switchView': {
+                case "switchView": {
                     executedCommand = message.viewType;
                     return;
                 }

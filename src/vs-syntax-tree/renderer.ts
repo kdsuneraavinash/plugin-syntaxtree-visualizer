@@ -99,6 +99,14 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                 })
             }
 
+            function collapseNodes(){
+                return new Promise((resolve, reject) => {
+                    webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(ON_COLLAPSE_METHOD)}, [collapsedNode, isGraphical], (response) => {
+                        resolve(response);
+                    });
+                })
+            }
+
             function collapseTree(nodeID, representationType){
                 collapsedNode = nodeID;
                 isGraphical = representationType;
@@ -112,14 +120,6 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                     viewType: activatedCommand
                 })
                 ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
-            }
-
-            function collapseNodes(){
-                return new Promise((resolve, reject) => {
-                    webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(ON_COLLAPSE_METHOD)}, [collapsedNode, isGraphical], (response) => {
-                        resolve(response);
-                    });
-                })
             }
 
             function initiateRendering(){

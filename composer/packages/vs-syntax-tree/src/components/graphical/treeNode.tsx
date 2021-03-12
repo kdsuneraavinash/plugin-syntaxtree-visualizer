@@ -57,11 +57,10 @@ function TreeNode(props: GraphicalNodeProps) {
                             onClick = {props.onFindNode}
                         >
                             <Icon
-                                name = "code"
-                                size = "small"
+                                name = "file code outline"
+                                color = {props.node.ifParent ? "grey" : "teal"}
                                 circular
                                 inverted
-                                color = "olive"
                             />
                         </div>
                     }
@@ -77,11 +76,9 @@ function TreeNode(props: GraphicalNodeProps) {
                         onMouseOver = {onHoverWarning}
                     >
                         <Icon
-                            name = "warning"
-                            size = "small"
-                            circular
-                            inverted
+                            name = "warning sign"
                             color = "red"
+                            size = "large"
                         />
                     </div>
                 }
