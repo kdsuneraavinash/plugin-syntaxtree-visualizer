@@ -53,7 +53,7 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                     return new Promise((resolve, reject) => {
                         if (activatedCommand == ${JSON.stringify(SUB_TREE_VIEW)}) {
                             webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(FETCH_SUB_TREE_METHOD)}, [docUri, blockRange], (response) => {
-                                if(!response.parseSuccess){
+                                if(!response.parseSuccess || !response.syntaxTree.source){
                                     document.getElementById("treeBody").innerHTML = errorMessage;
                                 } else {
                                     return resolve(fetchTreeGraph(response));
@@ -117,7 +117,7 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                 activatedCommand = ${JSON.stringify(FULL_TREE_VIEW)};
                 vscode.postMessage({
                     command: 'switchView',
-                    viewType: activatedCommand
+                    didSwitch: true
                 })
                 ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
             }

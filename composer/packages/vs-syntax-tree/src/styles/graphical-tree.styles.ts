@@ -11,6 +11,8 @@ export const nodeContainerStyle: CSSProperties = {
     flexDirection: "row",
     justifyContent: "space-around",
     lineHeight: "50px",
+    paddingLeft: "3px",
+    paddingRight: "3px",
     position: "absolute"
 };
 
@@ -25,16 +27,12 @@ export const labelContainerStyle: CSSProperties = {
 
 export const warningIconStyle: CSSProperties = {
     height: "100%",
-    paddingLeft: "2px",
-    paddingRight: "6px"
+    paddingLeft: "4px"
 };
 
 export const locateNodeIconStyle: CSSProperties = {
-    display: "inline-block",
     height: "100%",
-    paddingLeft: "6px",
-    paddingRight: "4px",
-    verticalAlign: "center"
+    paddingRight: "4px"
 };
 
 export const popupArrowStyle: CSSProperties = {

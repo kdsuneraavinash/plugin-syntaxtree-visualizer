@@ -76,7 +76,7 @@ function TreeNode(props: GraphicalNodeProps) {
                         onMouseOver = {onHoverWarning}
                     >
                         <Icon
-                            name = "warning sign"
+                            name = "warning circle"
                             color = "red"
                             size = "large"
                         />

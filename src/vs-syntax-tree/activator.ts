@@ -132,18 +132,13 @@ function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
         vscode.workspace.onDidChangeTextDocument(_.debounce((event) => {
             if (vscode.window.activeTextEditor &&
                 activeTextEditor.document.uri === vscode.window.activeTextEditor.document.uri) {
-                if (executedCommand === FULL_TREE_VIEW || executedCommand === LOCATE_TREE_VIEW) {
+                if (executedCommand === FULL_TREE_VIEW || 
+                    executedCommand === LOCATE_TREE_VIEW ||
+                    blockRange.contains(event.contentChanges[0].range)) {
                     syntaxTreePanel.webview.postMessage({
                         command: "update",
                         docUri: sourceRoot
                     });
-                } else {
-                    if (blockRange.contains(event.contentChanges[0].range)) {
-                        syntaxTreePanel.webview.postMessage({
-                            command: "update",
-                            docUri: sourceRoot
-                        });
-                    }
                 }
             }
         }, 400));
@@ -155,7 +150,9 @@ function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
                     return;
                 }
                 case "switchView": {
-                    executedCommand = message.viewType;
+                    if(message.didSwitch) {
+                        executedCommand = FULL_TREE_VIEW;
+                    }
                     return;
                 }
             }
