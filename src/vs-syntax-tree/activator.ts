@@ -128,7 +128,7 @@ function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
                              activatedCommand: string) {
     const sourceRoot = activeEditor.document.uri.path;
 
-    if (syntaxTreePanel) {
+    if (hasOpenWebview) {
         vscode.workspace.onDidChangeTextDocument(_.debounce((event) => {
             if (vscode.window.activeTextEditor &&
                 activeTextEditor.document.uri === vscode.window.activeTextEditor.document.uri) {
