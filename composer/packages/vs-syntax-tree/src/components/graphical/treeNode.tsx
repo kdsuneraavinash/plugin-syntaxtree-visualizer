@@ -5,6 +5,7 @@ import { GRAPHICAL_LOCATE_ICON,
          GRAPHICAL_WARNING_ICON,
          LARGE_ICON, PRIMARY_COLOR,
          SECONDARY_COLOR,
+         TOKEN_COLOR,
          WARNING_COLOR } from "../../resources/constants";
 import { GraphicalNodeProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
@@ -63,7 +64,7 @@ function TreeNode(props: GraphicalNodeProps) {
                         >
                             <Icon
                                 name = {GRAPHICAL_LOCATE_ICON}
-                                color = {props.node.ifParent ? SECONDARY_COLOR : PRIMARY_COLOR}
+                                color = {props.node.nodeColor === TOKEN_COLOR ? PRIMARY_COLOR : SECONDARY_COLOR}
                                 circular
                                 inverted
                             />

@@ -5,6 +5,7 @@ export const ERROR_MESSAGE = "Oops! Something went wrong! :(";
 
 export const PRIMARY_COLOR = "teal";
 export const SECONDARY_COLOR = "grey";
+export const TOKEN_COLOR = "#7f7f7f";
 export const WARNING_COLOR = "red";
 export const DROPDOWN_COLOR = "black";
 
