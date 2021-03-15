@@ -7,9 +7,7 @@ import { FETCH_FULL_TREE_METHOD,
          FULL_TREE_VIEW,
          SUB_TREE_VIEW } from "./resources/constant-resources";
 
-export function render(sourceRoot: string, blockRange: any, activatedCommand: string)
-    : string {
-
+export function render(sourceRoot: string, blockRange: any, activatedCommand: string) : string {
     const body = `
             <div class = "container">
                 <div id = "treeBody" />
@@ -54,19 +52,11 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                     return new Promise((resolve, reject) => {
                         if (activatedCommand == ${JSON.stringify(SUB_TREE_VIEW)}) {
                             webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(FETCH_SUB_TREE_METHOD)}, [docUri, blockRange], (response) => {
-                                if(!response.parseSuccess || !response.syntaxTree.source){
-                                    document.getElementById("treeBody").innerHTML = errorMessage;
-                                } else {
-                                    return resolve(fetchTreeGraph(response));
-                                }
+                                return resolve(fetchTreeGraph(response));
                             });
                         } else {
                             webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(FETCH_LOCATE_TREE_METHOD)}, [docUri, blockRange], (response) => {
-                                if(!response.parseSuccess || !response.syntaxTree.source){
-                                    document.getElementById("treeBody").innerHTML = errorMessage;
-                                } else {
-                                    return resolve(fetchTreeGraph(response));
-                                }
+                                return resolve(fetchTreeGraph(response));
                             });
                         }
                     })
@@ -76,11 +66,7 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
             function renderFullTree () {
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(FETCH_FULL_TREE_METHOD)}, [docUri], (response) => {
-                        if(!response.parseSuccess || !response.syntaxTree.source){
-                            document.getElementById("treeBody").innerHTML = errorMessage;
-                        } else {
-                            return resolve(fetchTreeGraph(response));
-                        }
+                        return resolve(fetchTreeGraph(response));
                     });
                 })
             }
@@ -88,7 +74,11 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
             function fetchTreeGraph(response){
                 return new Promise((resolve, reject) => {
                     webViewRPCHandler.invokeRemoteMethod(${JSON.stringify(MAP_TREE_GRAPH_METHOD)}, [response, activatedCommand], (result) => {
-                        resolve(result);
+                        if(!response.parseSuccess || !response.syntaxTree.source){
+                            document.getElementById("treeBody").innerHTML = errorMessage;
+                        } else {
+                            resolve(result);
+                        }
                     });
                 })
             }
@@ -98,6 +88,15 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                     command: 'findNode',
                     position: position
                 })
+            }
+
+            function switchFullTree(){
+                activatedCommand = ${JSON.stringify(FULL_TREE_VIEW)};
+                vscode.postMessage({
+                    command: 'switchView',
+                    didSwitch: true
+                })
+                ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
             }
 
             function collapseNodes(){
@@ -112,15 +111,6 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                 collapsedNode = nodeID;
                 isGraphical = representationType;
                 ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, collapseNodes, switchFullTree, document.getElementById("treeBody"));
-            }
-
-            function switchFullTree(){
-                activatedCommand = ${JSON.stringify(FULL_TREE_VIEW)};
-                vscode.postMessage({
-                    command: 'switchView',
-                    didSwitch: true
-                })
-                ballerinaComposer.renderSyntaxTree(activatedCommand, findNode, collapseTree, renderFullTree, switchFullTree, document.getElementById("treeBody"));
             }
 
             function initiateRendering(){

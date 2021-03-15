@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { NONE } from "../../resources/constants";
 
 import { GraphicalDetailsProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
@@ -22,7 +23,7 @@ function Diagnostics(props: GraphicalDetailsProps) {
             <div
                 style = {{
                     ...styles.popupArrowStyle,
-                    borderBottom: isBottomNode ? "none" : "15px solid #FFE7E7",
+                    borderBottom: isBottomNode ? NONE : "15px solid #FFE7E7",
                     borderTop: isBottomNode ? "15px solid #FFE7E7" : "none",
                     left: props.node.x + props.node.width - 25,
                     top: isBottomNode ? props.node.y - 10 : props.node.y + 45
@@ -41,8 +42,8 @@ function Diagnostics(props: GraphicalDetailsProps) {
                 <p> <b>This block contains :</b></p> <hr/>
                 {props.node.diagnostics.map((item, id) => {
                         return <p key = {id}>
-                            {item.message}
-                        </p>;
+                                   {item.message}
+                               </p>;
                     })
                 }
             </div>

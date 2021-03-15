@@ -4,12 +4,13 @@ import ELK from "elkjs/lib/elk.bundled";
 import { ExtendedLangClient } from "../../core";
 import { WebViewMethod } from "../../utils";
 import { retrieveGraph, updateSyntaxTree } from "../tools/syntax-tree-generator";
-import { EXTENSION_NAME, ERROR_MESSAGE,
+import { ERROR_MESSAGE,
+         EXTENSION_NAME,
          FETCH_FULL_TREE_METHOD,
-         FETCH_SUB_TREE_METHOD,
          FETCH_LOCATE_TREE_METHOD,
-         ON_COLLAPSE_METHOD,
-         MAP_TREE_GRAPH_METHOD } from "./constant-resources";
+         FETCH_SUB_TREE_METHOD,
+         MAP_TREE_GRAPH_METHOD,
+         ON_COLLAPSE_METHOD } from "./constant-resources";
 
 const elk = new ELK();
 

@@ -1,10 +1,10 @@
 import { toInteger } from "lodash";
+import { ERROR_NODE_COLOR,
+         PARENT_NODE_COLOR,
+         PATH_NODE_COLOR,
+         TOKEN_COLOR } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
 import { checkNodePath, nodeEdges, nodeMembers } from "./syntax-tree-generator";
-import { PARENT_NODE_COLOR,
-         TOKEN_COLOR,
-         ERROR_NODE_COLOR,
-         PATH_NODE_COLOR } from "../resources/constant-resources";
 
 export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {
@@ -43,9 +43,9 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 layoutOptions: {
                     "elk.position": "(" + position + ", 0)"
                 },
-                ifParent: ifParent,
+                ifParent,
                 isCollapsible: targetArray[i].didCollapse ? false : (ifParent ? true : false),
-                isNodePath: isNodePath,
+                isNodePath,
                 nodeColor: targetArray[i].errorNode ? ERROR_NODE_COLOR : 
                     (ifParent ? (checkNodePath ? PATH_NODE_COLOR : PARENT_NODE_COLOR) : TOKEN_COLOR),
                 position: targetArray[i].position

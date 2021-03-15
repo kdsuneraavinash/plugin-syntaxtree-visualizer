@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { LEADING_MINUTIAE, NODE_KIND, NONE, TRAILING_MINUTIAE } from "../../resources/constants";
 
 import { GraphicalDetailsProps, Minutiae } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
@@ -50,7 +51,7 @@ function NodeDetails(props: GraphicalDetailsProps) {
                         (isEdgeNode ? "translateX(-80%)" : "translateX(-10%)")
                 }}
             >
-                <p> <b>Kind :</b>  {props.node.kind}</p><hr/>
+                <p> <b>{NODE_KIND} :</b>  {props.node.kind}</p><hr/>
 
                 {props.node.position &&
                     <div>
@@ -65,20 +66,20 @@ function NodeDetails(props: GraphicalDetailsProps) {
                 }
 
                 <p style = {styles.titleFontStyle}>
-                    Leading Minutiae
+                    {LEADING_MINUTIAE}
                 </p>
                 {props.node.leadingMinutiae && props.node.leadingMinutiae.length  > 0 &&
                     mapMinutiae(props.node.leadingMinutiae)
                 }
-                {(!props.node.leadingMinutiae || props.node.leadingMinutiae.length < 1) && <p>None</p>} <hr/>
+                {(!props.node.leadingMinutiae || props.node.leadingMinutiae.length < 1) && <p> {NONE} </p>} <hr/>
 
                 <p style = {styles.titleFontStyle}>
-                    Trailing Minutiae
+                    {TRAILING_MINUTIAE}
                 </p>
                 {props.node.trailingMinutiae && props.node.trailingMinutiae.length > 0 &&
                     mapMinutiae(props.node.trailingMinutiae)
                 }
-                {(!props.node.trailingMinutiae || props.node.trailingMinutiae.length < 1) && <p>None</p>}
+                {(!props.node.trailingMinutiae || props.node.trailingMinutiae.length < 1) && <p> {NONE} </p>}
             </div>
         </div>
     );

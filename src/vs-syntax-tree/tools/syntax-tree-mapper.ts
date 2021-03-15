@@ -64,7 +64,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                 };
 
                 let currentBlockStatus: boolean;
-                if (checkNodePath && nodeObj[props].isNodePath){
+                if (checkNodePath && nodeObj[props].isNodePath) {
                     currentBlockStatus = nodeObj[props].isLocatedNode ? true : foundNodeBlock;
                 } else {
                     currentBlockStatus = foundNodeBlock;

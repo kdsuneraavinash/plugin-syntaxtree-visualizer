@@ -1,6 +1,11 @@
 import React, {useState} from "react";
 import {Icon} from "semantic-ui-react";
 
+import { GRAPHICAL_LOCATE_ICON,
+         GRAPHICAL_WARNING_ICON,
+         LARGE_ICON, PRIMARY_COLOR,
+         SECONDARY_COLOR,
+         WARNING_COLOR } from "../../resources/constants";
 import { GraphicalNodeProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
 import Diagnostics from "./diagnosticsPopup";
@@ -57,8 +62,8 @@ function TreeNode(props: GraphicalNodeProps) {
                             onClick = {props.onFindNode}
                         >
                             <Icon
-                                name = "file code outline"
-                                color = {props.node.ifParent ? "grey" : "teal"}
+                                name = {GRAPHICAL_LOCATE_ICON}
+                                color = {props.node.ifParent ? SECONDARY_COLOR : PRIMARY_COLOR}
                                 circular
                                 inverted
                             />
@@ -76,9 +81,9 @@ function TreeNode(props: GraphicalNodeProps) {
                         onMouseOver = {onHoverWarning}
                     >
                         <Icon
-                            name = "warning circle"
-                            color = "red"
-                            size = "large"
+                            name = {GRAPHICAL_WARNING_ICON}
+                            color = {WARNING_COLOR}
+                            size = {LARGE_ICON}
                         />
                     </div>
                 }
