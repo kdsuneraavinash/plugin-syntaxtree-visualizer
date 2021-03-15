@@ -8,15 +8,15 @@ Through this, developers can get an simplified representation of their code bloc
 ## VSCode Extension
 
 > The capabilities of the VSCode extension come in 3 main forms.
-* Generate the full syntax tree of a Ballerina source file
-    - ![Full Syntax Tree Screenshot](docs/GraphicalTree.png)
+* Generate the full syntax tree of a Ballerina source file    
 * Generate the subtree of the syntax tree for a particular block of code
-    - ![Sub Syntax Tree Screenshot](docs/SubTree.png)
 * Locate a particular piece of code on the full syntax tree
-    - ![Locate Syntax Tree Screenshot](docs/LocateTree.png)
 
-### These tree representations can be views as dropdowns as well.
-![Dropdown Syntax Tree Screenshot](docs/DropdownTree.png)
+### These tree representations can be viewed in two forms.
+* The Graphical Representation
+    - ![Full Syntax Tree Screenshot](docs/GraphicalTree.png)
+* The Dropdown Representation
+    - ![Dropdown Syntax Tree Screenshot](docs/DropdownTree.png)
 
 ### Basic Usage
 
