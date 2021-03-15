@@ -307,7 +307,8 @@ export const resultObj = [
             "kind":"imports",
             "leadingMinutiae": undefined,
             "trailingMinutiae": undefined,
-            "position": undefined
+            "position": undefined,
+            "isNodePath": undefined
          },
          {
             "nodeID":"p2",
@@ -315,6 +316,7 @@ export const resultObj = [
             "trailingMinutiae":[],
             "parentID":"p0",
             "didCollapse":false,
+            "isNodePath": undefined,
             "children":[
                {
                   "nodeID":"p3",
@@ -333,7 +335,8 @@ export const resultObj = [
                         "kind":"qualifierList",
                         "leadingMinutiae": undefined,
                         "trailingMinutiae": undefined,
-                        "position": undefined
+                        "position": undefined,
+                        "isNodePath": undefined
                      },
                      {
                         "nodeID":"c5",
@@ -380,6 +383,7 @@ export const resultObj = [
                         "leadingMinutiae":[],
                         "trailingMinutiae":[],
                         "parentID":"p3",
+                        "isNodePath": undefined,
                         "didCollapse":false,
                         "children":[
                            {
@@ -409,7 +413,8 @@ export const resultObj = [
                               "kind":"parameters",
                               "leadingMinutiae": undefined,
                               "trailingMinutiae": undefined,
-                              "position": undefined
+                              "position": undefined,
+                              "isNodePath": undefined
                            },
                            {
                               "nodeID":"c10",
@@ -518,7 +523,8 @@ export const resultObj = [
                               "kind":"statements",
                               "leadingMinutiae": undefined,
                               "trailingMinutiae": undefined,
-                              "position": undefined
+                              "position": undefined,
+                              "isNodePath": undefined
                            },
                            {
                               "nodeID":"c15",
@@ -565,7 +571,8 @@ export const resultObj = [
                            "endColumn":26
                         },
                         "value":"functionBody",
-                        "kind":"functionBody"
+                        "kind":"functionBody",
+                        "isNodePath": undefined
                      }
                   ],
                   "diagnostics":[
@@ -591,7 +598,8 @@ export const resultObj = [
                      "endColumn":26
                   },
                   "value":"FunctionDefinition",
-                  "kind":"FunctionDefinition"
+                  "kind":"FunctionDefinition",
+                  "isNodePath": undefined
                }
             ],
             "diagnostics":[
@@ -671,6 +679,7 @@ export const resultObj = [
       },
       "value":"ModulePart",
       "kind":"ModulePart",
-      "parentID": undefined
+      "parentID": undefined,
+      "isNodePath": undefined
    }
 ];

@@ -1,6 +1,10 @@
 import { toInteger } from "lodash";
+import { ERROR_NODE_COLOR,
+         PARENT_NODE_COLOR,
+         PATH_NODE_COLOR,
+         TOKEN_COLOR } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
-import { nodeEdges, nodeMembers } from "./syntaxTreeGenerator";
+import { checkNodePath, nodeEdges, nodeMembers } from "./syntax-tree-generator";
 
 export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {
@@ -14,17 +18,22 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
 
         if (isGraphical) {
             const position = toInteger(targetArray[i].nodeID.replace(/\D/g, ""));
+            const ifParent : boolean = targetArray[i].nodeID.charAt(0) === "p";
+            let isNodePath : boolean = false;
             let diagnostics: any[] = [];
 
-            if (!targetArray[i].didCollapse && targetArray[i].nodeID.charAt(0) === "p") {
+            if (!targetArray[i].didCollapse && ifParent) {
                 diagnostics = targetArray[i].diagnostics;
+            }
+            if (checkNodePath && targetArray[i].isNodePath) {
+                isNodePath = true;
             }
 
             nodeMembers.push({
                 id: targetArray[i].nodeID,
                 height: 50,
-                width: diagnostics.length ? (targetArray[i].value.length * 7.5) + 50 :
-                    Math.max((targetArray[i].value.length * 8.5), 82),
+                width: diagnostics.length ? Math.max((targetArray[i].value.length * 7) + 80, 145) :
+                    Math.max((targetArray[i].value.length * 9) + 30, 115),
                 label: targetArray[i].value,
                 kind: targetArray[i].kind,
                 leadingMinutiae: targetArray[i].leadingMinutiae,
@@ -34,10 +43,11 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 layoutOptions: {
                     "elk.position": "(" + position + ", 0)"
                 },
-                ifParent: targetArray[i].children.length ? true : false,
-                isCollapsible: targetArray[i].didCollapse ? false : (targetArray[i].children.length ? true : false),
-                nodeColor: targetArray[i].errorNode ? "#DB3247" :
-                    (targetArray[i].nodeID.charAt(0) === "p" ? "#20b6b0" : "#7f7f7f"),
+                ifParent,
+                isCollapsible: targetArray[i].didCollapse ? false : (ifParent ? true : false),
+                isNodePath,
+                nodeColor: targetArray[i].errorNode ? ERROR_NODE_COLOR : 
+                    (ifParent ? (checkNodePath ? PATH_NODE_COLOR : PARENT_NODE_COLOR) : TOKEN_COLOR),
                 position: targetArray[i].position
             });
 
@@ -45,7 +55,8 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 nodeEdges.push({
                     id: `e${targetArray[i].nodeID}`,
                     sources: [targetArray[i].parentID],
-                    targets: [targetArray[i].nodeID]
+                    targets: [targetArray[i].nodeID],
+                    isNodePath: isNodePath
                 });
             }
         }

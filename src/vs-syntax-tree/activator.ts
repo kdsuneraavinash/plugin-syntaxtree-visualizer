@@ -1,13 +1,26 @@
-import * as vscode from "vscode";
 import * as _ from "lodash";
+import * as vscode from "vscode";
 
 import { BallerinaExtension, ExtendedLangClient } from "../core";
+import { BAL_SOURCE_NOT_FOUND, SELECTION_NOT_FOUND_LOCATE, SELECTION_NOT_FOUND_SUBTREE } from "../core/messages";
 import { getCommonWebViewOptions, WebViewRPCHandler } from "../utils";
-import { getRemoteMethods } from "./resources/remoteMethods";
 import { render } from "./renderer";
+import { EXTENSION_ID,
+         EXTENSION_NAME,
+         FULL_TREE_VIEW,
+         FULL_TREE_VISUALIZER_COMMAND,
+         LOCATE_NODE_COMMAND,
+         LOCATE_NODE_TITLE,
+         LOCATE_TREE_VIEW,
+         SUB_TREE_VIEW,
+         SUBTREE_VISUALIZER_COMMAND,
+         SUBTREE_VISUALIZER_TITLE } from "./resources/constant-resources";
+import { getRemoteMethods } from "./resources/remote-methods";
 
+let activeTextEditor: vscode.TextEditor;
 let syntaxTreePanel: vscode.WebviewPanel;
 let hasOpenWebview: boolean = false;
+let executedCommand: string;
 
 export function activate(ballerinaExtInstance: BallerinaExtension) {
     const context = <vscode.ExtensionContext> ballerinaExtInstance.context;
@@ -28,31 +41,39 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
                 )
             );
 
-            context.subscriptions.push(
-                vscode.commands.registerCommand(
-                    "ballerina.codeBlock.visualizeSyntaxTree",
-                    () => {
-                        if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
-                            vscode.window.showWarningMessage("Syntax Tree Extension: No code block chosen for visualization.");
-                            return;
-                        } else if (!hasOpenWebview) {
-                            createSyntaxTreePanel(langClient);
-                        }
-                        visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path, syntaxTreePanel, vscode.window.activeTextEditor.selection);
-                    }
-                )
-            );
+            context.subscriptions.push(vscode.commands.registerCommand(SUBTREE_VISUALIZER_COMMAND, () => {
+                if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
+                    vscode.window.showWarningMessage(EXTENSION_NAME, ": ", SELECTION_NOT_FOUND_SUBTREE);
+                    return;
+                } else if (!hasOpenWebview) {
+                    createSyntaxTreePanel(langClient);
+                }
+                visualizeSyntaxTree(vscode.window.activeTextEditor,
+                                    vscode.window.activeTextEditor.selection, SUB_TREE_VIEW);
+            }));
 
-            context.subscriptions.push(vscode.commands.registerCommand("ballerina.visualizeSyntaxTree", () => {
+            context.subscriptions.push(vscode.commands.registerCommand(LOCATE_NODE_COMMAND, () => {
+                if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
+                    vscode.window.showWarningMessage(EXTENSION_NAME, ": ", SELECTION_NOT_FOUND_LOCATE);
+                    return;
+                } else if (!hasOpenWebview) {
+                    createSyntaxTreePanel(langClient);
+                }
+                visualizeSyntaxTree(vscode.window.activeTextEditor, 
+                                    vscode.window.activeTextEditor.selection, LOCATE_TREE_VIEW);
+            }));
+
+            context.subscriptions.push(vscode.commands.registerCommand(FULL_TREE_VISUALIZER_COMMAND, () => {
                 if (!vscode.window.activeTextEditor ||
                     !vscode.window.activeTextEditor.document.fileName.endsWith(".bal")) {
-                    vscode.window.showWarningMessage("Syntax Tree Extension: Ballerina Source file has not been detected.");
+                    vscode.window.showWarningMessage(EXTENSION_NAME, ": ", BAL_SOURCE_NOT_FOUND);
                     return;
                 }
                 if (!hasOpenWebview) {
                     createSyntaxTreePanel(langClient);
                 }
-                visualizeSyntaxTree(vscode.window.activeTextEditor.document.uri.path, syntaxTreePanel, null);
+                visualizeSyntaxTree(vscode.window.activeTextEditor,
+                                    vscode.window.activeTextEditor.selection, FULL_TREE_VIEW);
             }));
         }
     })
@@ -71,26 +92,30 @@ class CodeActionProvider implements vscode.CodeActionProvider {
             return [];
         } else {
             const codeActions: any = [];
-            codeActions.push({
-                command: "ballerina.codeBlock.visualizeSyntaxTree",
-                title: "Visualize Syntax Tree"
+            codeActions.push(
+            {
+                command: SUBTREE_VISUALIZER_COMMAND,
+                title: SUBTREE_VISUALIZER_TITLE
+            },
+            {
+                command: LOCATE_NODE_COMMAND,
+                title: LOCATE_NODE_TITLE
             });
             return codeActions;
         }
     }
 }
 
-function createSyntaxTreePanel(langClient: ExtendedLangClient){
+function createSyntaxTreePanel(langClient: ExtendedLangClient) {
     syntaxTreePanel = vscode.window.createWebviewPanel(
-        "visualizeSyntaxTree",
-        "Syntax Tree Visualizer",
+        EXTENSION_ID,
+        EXTENSION_NAME,
         {
-            viewColumn: vscode.ViewColumn.Two
+            viewColumn: vscode.ViewColumn.One
         },
         getCommonWebViewOptions()
     );
     hasOpenWebview = true;
-
     syntaxTreePanel.onDidDispose(() => {
         hasOpenWebview = false;
     });
@@ -98,20 +123,53 @@ function createSyntaxTreePanel(langClient: ExtendedLangClient){
     WebViewRPCHandler.create(syntaxTreePanel, langClient, getRemoteMethods(langClient));
 }
 
-function visualizeSyntaxTree(sourceRoot: string,
-                            syntaxTreePanel: vscode.WebviewPanel,
-                            blockRange: any) {
-    
-    if (syntaxTreePanel && !blockRange) {
-        vscode.workspace.onDidChangeTextDocument(_.debounce(() => {
-            syntaxTreePanel.webview.postMessage({
-                command: "update",
-                docUri: sourceRoot,
-            });
-        }, 100));
+function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
+                             blockRange: vscode.Selection,
+                             activatedCommand: string) {
+    const sourceRoot = activeEditor.document.uri.path;
+
+    if (hasOpenWebview) {
+        vscode.workspace.onDidChangeTextDocument(_.debounce((event) => {
+            if (vscode.window.activeTextEditor &&
+                activeTextEditor.document.uri === vscode.window.activeTextEditor.document.uri) {
+                if (executedCommand === FULL_TREE_VIEW ||
+                    executedCommand === LOCATE_TREE_VIEW ||
+                    blockRange.contains(event.contentChanges[0].range)) {
+                    syntaxTreePanel.webview.postMessage({
+                        command: "update",
+                        docUri: sourceRoot
+                    });
+                }
+            }
+        }, 400));
+
+        syntaxTreePanel.webview.onDidReceiveMessage((message) => {
+            switch (message.command) {
+                case "findNode": {
+                    findNode(activeEditor, message.position);
+                    return;
+                }
+                case "switchView": {
+                    if (message.didSwitch) {
+                        executedCommand = FULL_TREE_VIEW;
+                    }
+                    return;
+                }
+            }
+        });
     }
 
-    const displayHtml = render(sourceRoot, blockRange);
+    const displayHtml = render(sourceRoot, blockRange, activatedCommand);
     syntaxTreePanel.webview.html = displayHtml;
     syntaxTreePanel.reveal();
+    activeTextEditor = activeEditor;
+    executedCommand = activatedCommand;
+}
+
+function findNode(editor: vscode.TextEditor, position: any) {
+    vscode.window.showTextDocument(editor.document).then((textEditor) => {
+        const startPos = new vscode.Position(position.startLine, position.startColumn);
+        const endPos = new vscode.Position(position.endLine, position.endColumn);
+        textEditor.selection = new vscode.Selection(startPos, endPos);
+    });
 }

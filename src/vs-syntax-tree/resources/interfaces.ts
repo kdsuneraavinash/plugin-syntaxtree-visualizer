@@ -8,6 +8,7 @@ export interface TreeNode {
     leadingMinutiae: any[];
     trailingMinutiae: any[];
     errorNode?: any;
+    isNodePath?: boolean;
     diagnostics: any[];
     position: Position;
 }
@@ -18,12 +19,3 @@ export interface Position {
     startColumn: number;
     endColumn: number;
 }
-
-export const layoutOptions = {
-    "elk.algorithm": "layered",
-    "elk.direction": "DOWN",
-    "elk.edgeRouting": "POLYLINE",
-    "elk.layered.crossingMinimization.semiInteractive": "true",
-    "elk.layered.mergeEdges": "true",
-    "elk.spacing.nodeNode": "30"
-};

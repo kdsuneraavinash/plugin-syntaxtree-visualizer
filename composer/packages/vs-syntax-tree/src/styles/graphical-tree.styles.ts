@@ -1,8 +1,7 @@
 import { CSSProperties } from "react";
 
 export const treeEdgeStyles: CSSProperties = {
-    stroke: "black",
-    strokeWidth: 1
+    stroke: "black"
 };
 
 export const nodeContainerStyle: CSSProperties = {
@@ -12,20 +11,23 @@ export const nodeContainerStyle: CSSProperties = {
     flexDirection: "row",
     justifyContent: "space-around",
     lineHeight: "50px",
+    paddingLeft: "3px",
+    paddingRight: "3px",
     position: "absolute"
 };
 
 export const labelContainerStyle: CSSProperties = {
     color: "white",
+    display: "flex",
+    flexDirection: "row",
     flexGrow: 1,
-    fontSize: 14,
-    paddingLeft: "5px",
-    textAlign: "center"
+    justifyContent: "center"
 };
 
-export const warningIconStyle: CSSProperties = {
+export const iconStyle: CSSProperties = {
     height: "100%",
-    paddingRight: "8px"
+    paddingLeft: 2,
+    paddingRight: 2
 };
 
 export const popupArrowStyle: CSSProperties = {

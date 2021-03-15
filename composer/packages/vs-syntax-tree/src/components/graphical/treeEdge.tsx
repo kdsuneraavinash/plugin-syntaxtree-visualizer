@@ -1,10 +1,21 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
+import { TreeEdgeProps } from "../../resources/tree-interfaces";
 import { treeEdgeStyles } from "../../styles/graphical-tree.styles";
-import { TreeEdgeProps } from "../../tree-interfaces";
 
 function TreeNodeEdge(props: TreeEdgeProps) {
+    const [isLocateAction, setIsLocateAction] = useState(false);
+    const [isNodePath, setIsNodePath] = useState(false);
     const edgeCoords = props.edge.sections;
+
+    useEffect(() => {
+        if (props.isLocateAction) {
+            setIsLocateAction(props.isLocateAction);
+        }
+        if (props.isLocateAction) {
+            setIsNodePath(props.edge.isNodePath);
+        }
+    }, [props]);
 
     return (
         <line
@@ -13,7 +24,11 @@ function TreeNodeEdge(props: TreeEdgeProps) {
             x2 = {edgeCoords[0].endPoint.x}
             y2 = {edgeCoords[0].endPoint.y}
 
-            style = {treeEdgeStyles}
+            style = {{
+                ...treeEdgeStyles,
+                opacity: isLocateAction ? (isNodePath ? 1 : 0.3) : 1,
+                strokeWidth: isLocateAction ? (isNodePath ? 1.1 : 1) : 1
+            }}
         />
     );
 }

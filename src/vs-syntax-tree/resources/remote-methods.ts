@@ -3,33 +3,46 @@ import ELK from "elkjs/lib/elk.bundled";
 
 import { ExtendedLangClient } from "../../core";
 import { WebViewMethod } from "../../utils";
-import { retrieveGraph, updateSyntaxTree } from "../tools/syntaxTreeGenerator";
+import { retrieveGraph, updateSyntaxTree } from "../tools/syntax-tree-generator";
+import { ERROR_MESSAGE,
+         EXTENSION_NAME,
+         FETCH_FULL_TREE_METHOD,
+         FETCH_LOCATE_TREE_METHOD,
+         FETCH_SUB_TREE_METHOD,
+         MAP_TREE_GRAPH_METHOD,
+         ON_COLLAPSE_METHOD } from "./constant-resources";
 
 const elk = new ELK();
 
-export function getRemoteMethods (langClient: ExtendedLangClient) {
+export function getRemoteMethods(langClient: ExtendedLangClient) {
     const remoteMethods: WebViewMethod[] = [
         {
-            methodName: "fetchSyntaxTree",
+            methodName: FETCH_FULL_TREE_METHOD,
             handler: (args: any[]): Thenable<any> => {
                 return langClient.getSyntaxTree(vscode.Uri.file(args[0]));
             }
         },
         {
-            methodName: "fetchSubTree",
+            methodName: FETCH_SUB_TREE_METHOD,
             handler: (args: any[]): Thenable<any> => {
                 return langClient.getSyntaxTreeByRange(vscode.Uri.file(args[0]), args[1]);
             }
         },
         {
-            methodName: "fetchTreeGraph",
+            methodName: FETCH_LOCATE_TREE_METHOD,
             handler: (args: any[]): Thenable<any> => {
-                const response = retrieveGraph(args[0]);
+                return langClient.getSyntaxNodePath(vscode.Uri.file(args[0]), args[1]);
+            }
+        },
+        {
+            methodName: MAP_TREE_GRAPH_METHOD,
+            handler: (args: any[]): Thenable<any> => {
+                const response = retrieveGraph(args[0], args[1]);
                 return evaluatePromise(response);
             }
         },
         {
-            methodName: "onCollapseTree",
+            methodName: ON_COLLAPSE_METHOD,
             handler: (args: any[]): Thenable<any> => {
                 const response = updateSyntaxTree(args[0], args[1]);
                 return evaluatePromise(response);
@@ -52,7 +65,7 @@ function evaluatePromise(mapGeneratorResponse: any) {
             })
 
             .catch((e) => {
-                console.log("Syntax Tree Extension : Oops! Something went wrong!", e);
+                console.log(EXTENSION_NAME, ": ", ERROR_MESSAGE, e);
                 reject(e);
             });
     });

@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import TreeNodeEdge from "../components/graphical/treeEdge";
 import TreeNode from "../components/graphical/treeNode";
-import { GraphicalTreeProps } from "../tree-interfaces";
+import { GraphicalTreeProps } from "../resources/tree-interfaces";
 
-function GraphicalSyntaxTree(props: GraphicalTreeProps) {
+function GraphicalTree(props: GraphicalTreeProps) {
+    const [isLocateAction, setIsLocateAction] = useState(false);
+
+    useEffect(() => {
+        if (props.treeGraph) {
+            setIsLocateAction(props.treeGraph.isLocateMode);
+        }
+    }, [props]);
+
     return (
         <div>
             {props.treeGraph &&
@@ -14,6 +22,8 @@ function GraphicalSyntaxTree(props: GraphicalTreeProps) {
                         return <TreeNode
                                     key = {id}
                                     node = {item}
+                                    isLocateAction = {isLocateAction}
+                                    onFindNode = {() => props.onFindNode(item.position)}
                                     onCollapseTree = {() => props.onCollapseTree(item.id, true)}
                                 />;
                     })
@@ -26,8 +36,9 @@ function GraphicalSyntaxTree(props: GraphicalTreeProps) {
                         {
                             props.treeGraph.edges.map((item, id) => {
                                 return <TreeNodeEdge
-                                            edge = {item}
                                             key = {id}
+                                            edge = {item}
+                                            isLocateAction = {isLocateAction}
                                         />;
                             })
                         }
@@ -38,4 +49,4 @@ function GraphicalSyntaxTree(props: GraphicalTreeProps) {
     );
 }
 
-export default GraphicalSyntaxTree;
+export default GraphicalTree;

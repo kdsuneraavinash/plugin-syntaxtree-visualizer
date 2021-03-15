@@ -7,13 +7,20 @@ export const bodyStyle: CSSProperties = {
     position: "relative"
 };
 
-export const containerStyle: CSSProperties = {
+export const optionsContainer: CSSProperties = {
     display: "flex",
     flexDirection: "row",
-    fontSize: "15px",
-    paddingBottom: "10px"
+    justifyContent: "flex-end",
+    minWidth: "450px",
+    padding: "12px",
+    paddingRight: "20px",
+    position: "fixed",
+    right: 0,
+    top: 0,
+    width: "30vw",
+    zIndex: 10
 };
 
-export const switchStyle: CSSProperties = {
-    paddingRight: "15px"
+export const optionBlock: CSSProperties = {
+    marginRight: "10px"
 };

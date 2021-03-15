@@ -1,29 +1,31 @@
-import * as _ from "lodash";
-
+import { INVALID_TOKEN, MISSING } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
-import { syntaxTreeObj } from "./syntaxTreeGenerator";
+import { checkNodePath, syntaxTreeObj } from "./syntax-tree-generator";
+import { assignProperties } from "./syntax-tree-mapper-utils";
 
 let treeNode: any;
 let nodeCount: number = -1;
 
-export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLevel: number) {
+export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLevel: number, foundNodeBlock: boolean) {
     for (const props in nodeObj) {
         if (props === "source") {
             return;
-        } else if (props !== "relativeResourcePath" && typeof nodeObj[props] === "object") {
-            if (nodeObj[props].hasOwnProperty("isToken")) {
+        } else if (props !== "relativeResourcePath" && nodeObj[props] instanceof Object) {
+            if (Array.isArray(nodeObj[props]) && !nodeObj[props].length) {
+                continue;
+            } else if (nodeObj[props].hasOwnProperty("isToken")) {
                 if (nodeObj[props].leadingMinutiae && nodeObj[props].leadingMinutiae.length) {
                     for (const element of Object.keys(nodeObj[props].leadingMinutiae)) {
-                        if(nodeObj[props].leadingMinutiae[element].isInvalid) {
+                        if (nodeObj[props].leadingMinutiae[element].isInvalid) {
                             parentObj.children.push({
                                 nodeID: `c${++nodeCount}`,
                                 value: nodeObj[props].leadingMinutiae[element].minutiae,
-                                kind: "Invalid token",
+                                kind: INVALID_TOKEN,
                                 parentID: parentObj.nodeID,
                                 children: [],
                                 errorNode: true,
                                 diagnostics: [{
-                                    message: "Invalid token '" + nodeObj[props].leadingMinutiae[element].minutiae + "'"
+                                    message: INVALID_TOKEN + nodeObj[props].leadingMinutiae[element].minutiae
                                 }]
                             });
                         }
@@ -36,12 +38,13 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                         nodeObj[props].kind : nodeObj[props].value,
                     parentID: parentObj.nodeID,
                     children: [],
-                    kind: nodeObj[props].isMissing ? "Missing " + nodeObj[props].kind : nodeObj[props].kind,
+                    kind: nodeObj[props].isMissing ? MISSING + nodeObj[props].kind : nodeObj[props].kind,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
+                    isNodePath: foundNodeBlock,
                     errorNode: nodeObj[props].isMissing,
                     diagnostics: nodeObj[props].isMissing ? [{
-                        message: "Missing " + nodeObj[props].kind
+                        message: MISSING + nodeObj[props].kind
                     }] : [],
                     position: nodeObj[props].position
                 });
@@ -51,11 +54,21 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     parentID: parentObj.nodeID,
-                    didCollapse: treeLevel < 2 ? true : false,
+                    didCollapse: checkNodePath ?
+                        (nodeObj[props].isNodePath ? (nodeObj[props].isLocatedNode ? false : true) : false) :
+                        (treeLevel < 2 ? true : false),
+                    isNodePath: nodeObj[props].isNodePath ? nodeObj[props].isNodePath : foundNodeBlock,
                     children: [],
                     diagnostics: nodeObj[props].syntaxDiagnostics ? nodeObj[props].syntaxDiagnostics : [],
                     position: nodeObj[props].position
                 };
+
+                let currentBlockStatus: boolean;
+                if (checkNodePath && nodeObj[props].isNodePath) {
+                    currentBlockStatus = nodeObj[props].isLocatedNode ? true : foundNodeBlock;
+                } else {
+                    currentBlockStatus = foundNodeBlock;
+                }
 
                 if (!props.match(/^[0-9]+$/)) {
                     const parentNode: any = {
@@ -64,7 +77,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                         kind: syntaxTreeObj.length ? props : (nodeObj[props].kind ? nodeObj[props].kind : props)
                     };
                     syntaxTreeObj.length ? parentObj.children.push(parentNode) : syntaxTreeObj.push(parentNode);
-                    mapSyntaxTree(nodeObj[props], parentNode, treeLevel + 1);
+                    mapSyntaxTree(nodeObj[props], parentNode, treeLevel + 1, currentBlockStatus);
 
                     if (!nodeObj[props].source && parentNode.children.length) {
                         assignProperties(parentNode);
@@ -76,32 +89,9 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                         kind: nodeObj[props].kind
                     };
                     parentObj.children.push(treeNode);
-                    mapSyntaxTree(nodeObj[props], treeNode, treeLevel + 1);
+                    mapSyntaxTree(nodeObj[props], treeNode, treeLevel + 1, currentBlockStatus);
                 }
             }
         }
     }
-}
-
-function assignProperties(node: TreeNode | any) {
-    let preceedingNode;
-
-    for (let count = 0; count < node.children.length; count++) {
-        if (!preceedingNode && node.children[count].kind !== "Invalid token") {
-            preceedingNode = count;
-        }
-
-        if (node.children[count].diagnostics.length) {
-            node.diagnostics = node.diagnostics.concat(_.cloneDeep(node.children[count].diagnostics));
-        }
-    }
-
-    node.leadingMinutiae = _.cloneDeep(node.children[preceedingNode].leadingMinutiae);
-    node.trailingMinutiae = _.cloneDeep(node.children[node.children.length - 1].trailingMinutiae);
-    node.position = {
-        startLine: node.children[preceedingNode].position.startLine,
-        startColumn: node.children[preceedingNode].position.startColumn,
-        endLine: node.children[node.children.length - 1].position.endLine,
-        endColumn: node.children[node.children.length - 1].position.endColumn
-    };
 }

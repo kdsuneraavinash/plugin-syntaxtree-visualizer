@@ -1,8 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {Icon} from "semantic-ui-react";
+import { COLLAPSED_ARROW_ICON,
+         COLLAPSIBLE_ARROW_ICON,
+         DROPDOWN_COLOR,
+         DROPDOWN_WARNING_ICON,
+         LARGE_ICON,
+         NON_COLLAPSIBLE_ICON,
+         SMALL_ICON,
+         WARNING_COLOR } from "../../resources/constants";
 
+import { DropdownNodeProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/dropdown-tree.styles";
-import { DropdownNodeProps } from "../../tree-interfaces";
 
 function DropdownNode(props: DropdownNodeProps) {
     const [ifCollapsible, updateIfCollapsible] = useState(false);
@@ -24,7 +32,7 @@ function DropdownNode(props: DropdownNodeProps) {
             }}>
                 <div style ={styles.dropdownArrowStyle}>
                     {!ifCollapsible &&
-                        <Icon name = "dot circle" size = "small" />
+                        <Icon name = {NON_COLLAPSIBLE_ICON} size = {SMALL_ICON} />
                     }
 
                     {ifCollapsible && isCollapsed &&
@@ -33,7 +41,7 @@ function DropdownNode(props: DropdownNodeProps) {
                             // tslint:disable-next-line: no-empty
                             : () => {}}
                         >
-                            <Icon name = "angle down" size = "large" />
+                            <Icon name = {COLLAPSED_ARROW_ICON} size = {LARGE_ICON} />
                         </div>
                     }
 
@@ -43,14 +51,15 @@ function DropdownNode(props: DropdownNodeProps) {
                             // tslint:disable-next-line: no-empty
                             : () => {}}
                         >
-                            <Icon name = "angle right" size = "large" />
+                            <Icon name = {COLLAPSIBLE_ARROW_ICON} size = {LARGE_ICON} />
                         </div>
                     }
                 </div>
 
                 <div style = {{
                         ...styles.nodeLabelStyle,
-                        color: props.treeNode.errorNode ? "red" : "black"
+                        color: props.treeNode.errorNode ? WARNING_COLOR : DROPDOWN_COLOR,
+                        fontWeight: props.treeNode.isNodePath ? "bold" : "normal"
                     }}
                     onClick = {() => { props.onClick(props.treeNode); }}
                 >
@@ -60,8 +69,8 @@ function DropdownNode(props: DropdownNodeProps) {
                         props.treeNode.diagnostics.length > 0 &&
                         <div style = {styles.warningIconStyle}>
                             <Icon
-                                name = "warning sign"
-                                color = "red"
+                                name = {DROPDOWN_WARNING_ICON}
+                                color = {WARNING_COLOR}
                             />
                         </div>
                     }

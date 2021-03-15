@@ -2,15 +2,15 @@ import React, {useEffect, useState} from "react";
 
 import DropdownNode from "../components/dropdown/dropdownNode";
 import DropdownNodeDetails from "../components/dropdown/dropdownNodeDetails";
+import { DropdownTreeProps, TreeObjectNode } from "../resources/tree-interfaces";
 import * as styles from "../styles/dropdown-tree.styles";
-import { DropdownTreeProps, TreeObjectNode } from "../tree-interfaces";
 
 function DropdownTree(props: DropdownTreeProps) {
     const [detailedNode, setDetailedNode] = useState<TreeObjectNode | undefined>(undefined);
 
     useEffect(() => {
         setDetailedNode(props.treeNode);
-    }, [props]);
+    }, []);
 
     function updateDetailedNode(nodeProp: TreeObjectNode) {
         setDetailedNode(nodeProp);
@@ -34,7 +34,9 @@ function DropdownTree(props: DropdownTreeProps) {
                 ...styles.sideDividersStyle,
                 width: "450px"
             }}>
-                {detailedNode && <DropdownNodeDetails treeNode = {detailedNode} />}
+                {detailedNode &&
+                    <DropdownNodeDetails treeNode = {detailedNode} onFindNode = {props.onFindNode} />
+                }
             </div>
         </div>
     );

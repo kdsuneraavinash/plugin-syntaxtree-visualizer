@@ -1,7 +1,7 @@
 import React from "react";
 
+import { DetailsCardProp } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/dropdown-tree.styles";
-import { DetailsCardProp } from "../../tree-interfaces";
 
 function DropdownDetails(props: DetailsCardProp) {
     return (
