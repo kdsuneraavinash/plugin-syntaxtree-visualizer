@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import * as vscode from "vscode";
 
 import { BallerinaExtension, ExtendedLangClient } from "../core";
-import { BAL_SOURCE_NOT_FOUND, SELECTION_NOT_FOUND_LOCATE, SELECTION_NOT_FOUND_SUBTREE } from "../core/messages";
+import { BAL_SOURCE_NOT_FOUND, SELECTION_NOT_FOUND } from "../core/messages";
 import { getCommonWebViewOptions, WebViewRPCHandler } from "../utils";
 import { render } from "./renderer";
 import { EXTENSION_ID,
@@ -10,17 +10,15 @@ import { EXTENSION_ID,
          FULL_TREE_VIEW,
          FULL_TREE_VISUALIZER_COMMAND,
          LOCATE_NODE_COMMAND,
-         LOCATE_NODE_TITLE,
          LOCATE_TREE_VIEW,
          SUB_TREE_VIEW,
-         SUBTREE_VISUALIZER_COMMAND,
-         SUBTREE_VISUALIZER_TITLE } from "./resources/constant-resources";
+         SUBTREE_VISUALIZER_COMMAND } from "./resources/constant-resources";
 import { getRemoteMethods } from "./resources/remote-methods";
+import { CodeActionProvider, findNode, postWebviewMessage } from "./tools/activator-utils";
 
 let activeTextEditor: vscode.TextEditor;
 let syntaxTreePanel: vscode.WebviewPanel;
 let hasOpenWebview: boolean = false;
-let executedCommand: string;
 
 export function activate(ballerinaExtInstance: BallerinaExtension) {
     const context = <vscode.ExtensionContext> ballerinaExtInstance.context;
@@ -42,38 +40,15 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
             );
 
             context.subscriptions.push(vscode.commands.registerCommand(SUBTREE_VISUALIZER_COMMAND, () => {
-                if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
-                    vscode.window.showWarningMessage(EXTENSION_NAME, ": ", SELECTION_NOT_FOUND_SUBTREE);
-                    return;
-                } else if (!hasOpenWebview) {
-                    createSyntaxTreePanel(langClient);
-                }
-                visualizeSyntaxTree(vscode.window.activeTextEditor,
-                                    vscode.window.activeTextEditor.selection, SUB_TREE_VIEW);
+                activateCommand(langClient, SUB_TREE_VIEW);
             }));
 
             context.subscriptions.push(vscode.commands.registerCommand(LOCATE_NODE_COMMAND, () => {
-                if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
-                    vscode.window.showWarningMessage(EXTENSION_NAME, ": ", SELECTION_NOT_FOUND_LOCATE);
-                    return;
-                } else if (!hasOpenWebview) {
-                    createSyntaxTreePanel(langClient);
-                }
-                visualizeSyntaxTree(vscode.window.activeTextEditor, 
-                                    vscode.window.activeTextEditor.selection, LOCATE_TREE_VIEW);
+                activateCommand(langClient, LOCATE_TREE_VIEW);
             }));
 
             context.subscriptions.push(vscode.commands.registerCommand(FULL_TREE_VISUALIZER_COMMAND, () => {
-                if (!vscode.window.activeTextEditor ||
-                    !vscode.window.activeTextEditor.document.fileName.endsWith(".bal")) {
-                    vscode.window.showWarningMessage(EXTENSION_NAME, ": ", BAL_SOURCE_NOT_FOUND);
-                    return;
-                }
-                if (!hasOpenWebview) {
-                    createSyntaxTreePanel(langClient);
-                }
-                visualizeSyntaxTree(vscode.window.activeTextEditor,
-                                    vscode.window.activeTextEditor.selection, FULL_TREE_VIEW);
+                activateCommand(langClient, FULL_TREE_VIEW);
             }));
         }
     })
@@ -86,32 +61,12 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
     });
 }
 
-class CodeActionProvider implements vscode.CodeActionProvider {
-    public provideCodeActions(): vscode.Command[] {
-        if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.selection.isEmpty) {
-            return [];
-        } else {
-            const codeActions: any = [];
-            codeActions.push(
-            {
-                command: SUBTREE_VISUALIZER_COMMAND,
-                title: SUBTREE_VISUALIZER_TITLE
-            },
-            {
-                command: LOCATE_NODE_COMMAND,
-                title: LOCATE_NODE_TITLE
-            });
-            return codeActions;
-        }
-    }
-}
-
 function createSyntaxTreePanel(langClient: ExtendedLangClient) {
     syntaxTreePanel = vscode.window.createWebviewPanel(
         EXTENSION_ID,
         EXTENSION_NAME,
         {
-            viewColumn: vscode.ViewColumn.One
+            viewColumn: vscode.ViewColumn.Beside
         },
         getCommonWebViewOptions()
     );
@@ -123,37 +78,41 @@ function createSyntaxTreePanel(langClient: ExtendedLangClient) {
     WebViewRPCHandler.create(syntaxTreePanel, langClient, getRemoteMethods(langClient));
 }
 
+function activateCommand (langClient: ExtendedLangClient, command: string) {
+    if (!vscode.window.activeTextEditor ||
+        !vscode.window.activeTextEditor.document.fileName.endsWith(".bal")) {
+        vscode.window.showWarningMessage(EXTENSION_NAME, ": ", BAL_SOURCE_NOT_FOUND);
+        return;
+    } else if (command !== FULL_TREE_VIEW &&
+        vscode.window.activeTextEditor.selection.isEmpty) {
+        vscode.window.showWarningMessage(EXTENSION_NAME, ": ", SELECTION_NOT_FOUND);
+        return;
+    } else if (!hasOpenWebview) {
+        createSyntaxTreePanel(langClient);
+    }
+
+    visualizeSyntaxTree(vscode.window.activeTextEditor,
+                        vscode.window.activeTextEditor.selection,
+                        command);
+}
+
 function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
                              blockRange: vscode.Selection,
                              activatedCommand: string) {
     const sourceRoot = activeEditor.document.uri.path;
 
     if (hasOpenWebview) {
-        vscode.workspace.onDidChangeTextDocument(_.debounce((event) => {
+        vscode.workspace.onDidChangeTextDocument(_.debounce(() => {
             if (vscode.window.activeTextEditor &&
                 activeTextEditor.document.uri === vscode.window.activeTextEditor.document.uri) {
-                if (executedCommand === FULL_TREE_VIEW ||
-                    executedCommand === LOCATE_TREE_VIEW ||
-                    blockRange.contains(event.contentChanges[0].range)) {
-                    syntaxTreePanel.webview.postMessage({
-                        command: "update",
-                        docUri: sourceRoot
-                    });
-                    executedCommand = FULL_TREE_VIEW;
-                }
+                postWebviewMessage(syntaxTreePanel);
             }
-        }, 400));
+        }, 500));
 
         syntaxTreePanel.webview.onDidReceiveMessage((message) => {
             switch (message.command) {
                 case "findNode": {
                     findNode(activeEditor, message.position);
-                    return;
-                }
-                case "switchView": {
-                    if (message.didSwitch) {
-                        executedCommand = FULL_TREE_VIEW;
-                    }
                     return;
                 }
             }
@@ -164,13 +123,4 @@ function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
     syntaxTreePanel.webview.html = displayHtml;
     syntaxTreePanel.reveal();
     activeTextEditor = activeEditor;
-    executedCommand = activatedCommand;
-}
-
-function findNode(editor: vscode.TextEditor, position: any) {
-    vscode.window.showTextDocument(editor.document).then((textEditor) => {
-        const startPos = new vscode.Position(position.startLine, position.startColumn);
-        const endPos = new vscode.Position(position.endLine, position.endColumn);
-        textEditor.selection = new vscode.Selection(startPos, endPos);
-    });
 }

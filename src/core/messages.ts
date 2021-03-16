@@ -33,5 +33,4 @@ export const INVALID_FILE: string = "The current file is not a valid ballerina f
 export const UNKNOWN_ERROR: string = "Unknown Error : Failed to start Ballerina Plugin.";
 export const API_DESIGNER_NO_SERVICE: string = "There are no services available in current file. Please add a service and try again.";
 export const BAL_SOURCE_NOT_FOUND: string = "Ballerina Source file has not been detected.";
-export const SELECTION_NOT_FOUND_LOCATE: string = "No code block chosen for locating.";
-export const SELECTION_NOT_FOUND_SUBTREE: string = "No code block chosen for visualization.";
+export const SELECTION_NOT_FOUND: string = "Code block has not been detected for visualization.";
