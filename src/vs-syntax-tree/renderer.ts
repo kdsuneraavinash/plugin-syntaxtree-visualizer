@@ -40,7 +40,8 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
                 let msg = event.data;
                 switch(msg.command){
                     case 'update':
-                        docUri: msg.docUri;
+                        docUri = msg.docUri;
+                        activatedCommand = ${JSON.stringify(FULL_TREE_VIEW)};
                         initiateRendering();
                 }
             });

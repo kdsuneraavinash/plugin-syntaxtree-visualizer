@@ -139,6 +139,7 @@ function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
                         command: "update",
                         docUri: sourceRoot
                     });
+                    executedCommand = FULL_TREE_VIEW;
                 }
             }
         }, 400));
