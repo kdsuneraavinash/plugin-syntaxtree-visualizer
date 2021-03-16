@@ -4,20 +4,19 @@ export const containerStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    maxHeight: "85vh",
-    maxWidth: "95vw",
+    maxHeight: "90vh",
     minWidth: "800px",
-    position: "fixed",
-    top: 50
+    overflow: "auto",
+    width: "95vw"
 };
 
 export const sideDividersStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
+    margin: 15,
     minHeight: "300px",
-    minWidth: "400px",
     overflow: "auto",
-    padding: "2vh"
+    width: "50%"
 };
 
 export const dropdownNodeStyle: CSSProperties = {
@@ -52,7 +51,7 @@ export const detailsBlockStyle: CSSProperties = {
     fontSize: 15,
     justifyContent: "center",
     textAlign: "left",
-    width: "100%"
+    width: "auto"
 };
 
 export const detailsCardStyle: CSSProperties = {
@@ -73,7 +72,7 @@ export const detailsArrayValueBlock: CSSProperties = {
 export const detailsCardTitleStyle: CSSProperties = {
     height: "45px",
     lineHeight: "45px",
-    width: "40%"
+    minWidth: 150
 };
 
 export const detailsCardValueStyle: CSSProperties = {
