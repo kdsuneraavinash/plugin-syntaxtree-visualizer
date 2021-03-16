@@ -18,7 +18,7 @@ export function render(sourceRoot: string, blockRange: any, activatedCommand: st
         .container {
             overflow-x: auto;
             height: 100%;
-            margin-top: 15px;
+            padding-top: 15px;
             text-align: center;
         }
 
