@@ -24,3 +24,9 @@ export const optionsContainer: CSSProperties = {
 export const optionBlock: CSSProperties = {
     marginRight: "10px"
 };
+
+export const errorStyle: CSSProperties = {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10
+};

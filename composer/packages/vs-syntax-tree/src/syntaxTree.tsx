@@ -3,14 +3,14 @@ import { Button, Dimmer, Icon, Label, Loader } from "semantic-ui-react";
 
 import DropdownTree from "./representations/dropdown-tree";
 import GraphicalTree from "./representations/graphical-tree";
-import { FULL_TREE_MODE, SWITCH_DROPDOWN, SWITCH_GRAPHICAL } from "./resources/constants";
+import { ERROR_MESSAGE, FULL_TREE_MODE, SWITCH_DROPDOWN, SWITCH_GRAPHICAL } from "./resources/constants";
 import { SyntaxTreeProps, TreeGraph, TreeObjectNode } from "./resources/tree-interfaces";
 import * as styles from "./styles/primary.styles";
 
 function SyntaxTree(props: SyntaxTreeProps) {
     const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
     const [syntaxTreeArray, setSyntaxTreeArray] = useState<TreeObjectNode[] | undefined>(undefined);
-    const [isErrorResponse, updateErrorResponse] = useState(false);
+    const [responseStatus, updateResponseStatus] = useState(true);
     const [isDropdownView, updateIsDropdownView] = useState(false);
     const [hoverViewSwitch, updateHoverViewSwitch] = useState(false);
     const [hoverFullTreeSwitch, updateHoverFullTreeSwitch] = useState(false);
@@ -18,10 +18,11 @@ function SyntaxTree(props: SyntaxTreeProps) {
     useEffect(() => {
         props.renderTree().then((result) => {
             if (result.treeArray && result.treeGraph) {
+                updateResponseStatus(true);
                 setSyntaxTreeGraph(result.treeGraph);
                 setSyntaxTreeArray(result.treeArray);
             } else {
-                updateErrorResponse(true);
+                updateResponseStatus(false);
             }
         });
     }, [props]);
@@ -48,7 +49,7 @@ function SyntaxTree(props: SyntaxTreeProps) {
 
     return (
         <div style = {styles.bodyStyle}>
-            {!isErrorResponse &&
+            {responseStatus &&
                 <div>
                     <div style = {styles.optionsContainer}>
                         {props.activatedCommand !== FULL_TREE_MODE &&
@@ -111,6 +112,9 @@ function SyntaxTree(props: SyntaxTreeProps) {
                         }
                     </div>
                 </div>
+            }
+            {!responseStatus &&
+                <p style = {styles.errorStyle}> {ERROR_MESSAGE} </p>
             }
         </div>
     );
