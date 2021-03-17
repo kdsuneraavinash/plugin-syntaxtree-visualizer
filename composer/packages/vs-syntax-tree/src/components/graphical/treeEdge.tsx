@@ -9,11 +9,11 @@ function TreeNodeEdge(props: TreeEdgeProps) {
     const edgeCoords = props.edge.sections;
 
     useEffect(() => {
+        setIsLocateAction(props.isLocateAction);
         if (props.isLocateAction) {
-            setIsLocateAction(props.isLocateAction);
             setIsNodePath(props.edge.isNodePath);
         }
-    }, [props.isLocateAction]);
+    }, [props]);
 
     return (
         <line
