@@ -11,7 +11,7 @@ function GraphicalTree(props: GraphicalTreeProps) {
         if (props.treeGraph) {
             setIsLocateAction(props.treeGraph.isLocateMode);
         }
-    }, [props]);
+    }, [props.treeGraph]);
 
     return (
         <div>

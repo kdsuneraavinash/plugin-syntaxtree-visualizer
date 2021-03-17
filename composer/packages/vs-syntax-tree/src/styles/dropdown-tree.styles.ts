@@ -5,7 +5,7 @@ export const containerStyle: CSSProperties = {
     flexDirection: "row",
     justifyContent: "center",
     maxHeight: "90vh",
-    minWidth: "800px",
+    minWidth: "750px",
     overflow: "auto",
     width: "95vw"
 };
@@ -13,10 +13,9 @@ export const containerStyle: CSSProperties = {
 export const sideDividersStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
-    margin: 15,
+    margin: "15px",
     minHeight: "300px",
-    overflow: "auto",
-    width: "50%"
+    overflow: "auto"
 };
 
 export const dropdownNodeStyle: CSSProperties = {

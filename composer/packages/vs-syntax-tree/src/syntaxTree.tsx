@@ -4,12 +4,12 @@ import { Button, Dimmer, Icon, Label, Loader } from "semantic-ui-react";
 import DropdownTree from "./representations/dropdown-tree";
 import GraphicalTree from "./representations/graphical-tree";
 import { ERROR_MESSAGE, FULL_TREE_MODE, SWITCH_DROPDOWN, SWITCH_GRAPHICAL } from "./resources/constants";
-import { SyntaxTreeProps, TreeGraph, TreeObjectNode } from "./resources/tree-interfaces";
+import { PrimaryProps, TreeGraph, TreeNodeObject } from "./resources/tree-interfaces";
 import * as styles from "./styles/primary.styles";
 
-function SyntaxTree(props: SyntaxTreeProps) {
-    const [syntaxTreeGraph, setSyntaxTreeGraph] = useState<TreeGraph | undefined>(undefined);
-    const [syntaxTreeArray, setSyntaxTreeArray] = useState<TreeObjectNode[] | undefined>(undefined);
+function SyntaxTree(props: PrimaryProps) {
+    const [graphicalTree, setGraphicalTree] = useState<TreeGraph | undefined>(undefined);
+    const [dropdownTree, setDropdownTree] = useState<TreeNodeObject[] | undefined>(undefined);
     const [responseStatus, updateResponseStatus] = useState(true);
     const [isDropdownView, updateIsDropdownView] = useState(false);
     const [hoverViewSwitch, updateHoverViewSwitch] = useState(false);
@@ -19,8 +19,8 @@ function SyntaxTree(props: SyntaxTreeProps) {
         props.renderTree().then((result) => {
             if (result.treeArray && result.treeGraph) {
                 updateResponseStatus(true);
-                setSyntaxTreeGraph(result.treeGraph);
-                setSyntaxTreeArray(result.treeArray);
+                setGraphicalTree(result.treeGraph);
+                setDropdownTree(result.treeArray);
             } else {
                 updateResponseStatus(false);
             }
@@ -92,23 +92,23 @@ function SyntaxTree(props: SyntaxTreeProps) {
                         ...styles.bodyStyle,
                         marginTop: 30
                     }}>
-                        {isDropdownView && syntaxTreeArray &&
+                        {isDropdownView && dropdownTree &&
                             <DropdownTree
-                                treeNode = {syntaxTreeArray[0]}
+                                treeNode = {dropdownTree[0]}
                                 onCollapseTree = {props.onCollapseTree}
                                 onFindNode = {props.onFindNode}
                             />
                         }
 
-                        {!isDropdownView && syntaxTreeGraph &&
+                        {!isDropdownView && graphicalTree &&
                             <GraphicalTree
-                                treeGraph = {syntaxTreeGraph}
+                                treeGraph = {graphicalTree}
                                 onCollapseTree = {props.onCollapseTree}
                                 onFindNode = {props.onFindNode}
                             />
                         }
 
-                        {!syntaxTreeGraph &&
+                        {!graphicalTree &&
                             <Dimmer active inverted>
                                 <Loader size = "medium" />
                             </Dimmer>
