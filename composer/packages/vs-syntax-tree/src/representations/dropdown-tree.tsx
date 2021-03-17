@@ -2,17 +2,17 @@ import React, {useEffect, useState} from "react";
 
 import DropdownNode from "../components/dropdown/dropdownNode";
 import DropdownNodeDetails from "../components/dropdown/dropdownNodeDetails";
-import { DropdownTreeProps, TreeObjectNode } from "../resources/tree-interfaces";
+import { DropdownTreeProps, TreeNodeObject } from "../resources/tree-interfaces";
 import * as styles from "../styles/dropdown-tree.styles";
 
 function DropdownTree(props: DropdownTreeProps) {
-    const [detailedNode, setDetailedNode] = useState<TreeObjectNode | undefined>(undefined);
+    const [detailedNode, setDetailedNode] = useState<TreeNodeObject | undefined>(undefined);
 
     useEffect(() => {
         setDetailedNode(props.treeNode);
-    }, []);
+    }, [props.treeNode.nodeID]);
 
-    function updateDetailedNode(nodeProp: TreeObjectNode) {
+    function updateDetailedNode(nodeProp: TreeNodeObject) {
         setDetailedNode(nodeProp);
     }
 
@@ -20,7 +20,8 @@ function DropdownTree(props: DropdownTreeProps) {
         <div style = {styles.containerStyle}>
             <div style = {{
                 ...styles.sideDividersStyle,
-                flexGrow: 1
+                flexGrow: 1,
+                width: "45%"
             }}>
                 <DropdownNode
                     treeNode = {props.treeNode}
@@ -30,7 +31,10 @@ function DropdownTree(props: DropdownTreeProps) {
                 />
             </div>
 
-            <div style = {styles.sideDividersStyle}>
+            <div style = {{
+                ...styles.sideDividersStyle,
+                width: "55%"
+            }}>
                 {detailedNode &&
                     <DropdownNodeDetails treeNode = {detailedNode} onFindNode = {props.onFindNode} />
                 }

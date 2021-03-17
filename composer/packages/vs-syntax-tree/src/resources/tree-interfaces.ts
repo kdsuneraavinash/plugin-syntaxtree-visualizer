@@ -8,14 +8,14 @@ export interface TreeGraph {
     isLocateMode: boolean;
 }
 
-export interface TreeObjectNode {
+export interface TreeNodeObject {
     nodeID: string;
     value: string;
     kind: string;
     parentID: string;
     didCollapse: boolean;
     ifParent: boolean;
-    children: TreeObjectNode[];
+    children: TreeNodeObject[];
     leadingMinutiae: any[];
     trailingMinutiae: any[];
     errorNode?: any;
@@ -80,17 +80,17 @@ export interface Diagnostics {
     diagnosticInfo: any[];
 }
 
-export interface PrimaryProps {
+export interface ResponseProps {
     treeGraph: TreeGraph;
-    treeArray: TreeObjectNode[];
+    treeArray: TreeNodeObject[];
 }
 
-export interface SyntaxTreeProps {
+export interface PrimaryProps {
     activatedCommand: string;
     onFindNode: (node: object) => void;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
-    renderTree: () => Promise<PrimaryProps>;
-    switchFullTree: () => Promise<PrimaryProps>;
+    renderTree: () => Promise<ResponseProps>;
+    switchFullTree: () => Promise<ResponseProps>;
 }
 
 export interface GraphicalTreeProps {
@@ -116,20 +116,20 @@ export interface TreeEdgeProps {
 }
 
 export interface DropdownTreeProps {
-    treeNode: TreeObjectNode;
+    treeNode: TreeNodeObject;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
     onFindNode: (node: object) => void;
 }
 
 export interface DropdownNodeProps {
-    treeNode: TreeObjectNode;
+    treeNode: TreeNodeObject;
     treeLevel: number;
-    onClick: (nodeProp: TreeObjectNode) => void;
+    onClick: (nodeProp: TreeNodeObject) => void;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
 }
 
 export interface DropdownDetailsProps {
-    treeNode: TreeObjectNode;
+    treeNode: TreeNodeObject;
     onFindNode: (node: object) => void;
 }
 
