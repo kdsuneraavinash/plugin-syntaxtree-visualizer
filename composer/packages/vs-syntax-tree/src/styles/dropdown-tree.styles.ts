@@ -5,7 +5,7 @@ export const containerStyle: CSSProperties = {
     flexDirection: "row",
     justifyContent: "center",
     maxHeight: "90vh",
-    minWidth: "750px",
+    minWidth: "775px",
     overflow: "auto",
     width: "95vw"
 };
@@ -36,7 +36,6 @@ export const dropdownArrowStyle: CSSProperties = {
 export const nodeLabelStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
-    flexGrow: 1,
     fontSize: 15,
     paddingLeft: "25px",
     paddingRight: "10px",
@@ -75,9 +74,11 @@ export const detailsCardTitleStyle: CSSProperties = {
 };
 
 export const detailsCardValueStyle: CSSProperties = {
-    height: "45px",
     lineHeight: "45px",
-    paddingLeft: 20
+    minHeight: "45px",
+    overflowWrap: "anywhere",
+    paddingLeft: 15,
+    paddingRight: 10
 };
 
 export const warningIconStyle: CSSProperties = {

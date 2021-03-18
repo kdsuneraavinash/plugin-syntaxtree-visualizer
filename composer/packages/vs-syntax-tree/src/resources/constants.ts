@@ -18,6 +18,8 @@ export const STARTING_POS = "Starting Position";
 export const ENDING_POS = "Ending Position";
 export const NONE = "None";
 
+export const INVALID_TOKEN = "InvalidToken";
+
 export const SMALL_ICON = "small";
 export const LARGE_ICON = "large";
 

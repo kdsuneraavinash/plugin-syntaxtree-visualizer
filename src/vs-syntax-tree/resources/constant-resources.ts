@@ -19,7 +19,9 @@ export const ON_COLLAPSE_METHOD = "onCollapseTree";
 export const MAP_TREE_GRAPH_METHOD = "fetchTreeGraph";
 
 export const ERROR_MESSAGE = "Oops! Something went wrong!";
-export const INVALID_TOKEN = "Invalid Token";
+export const END_TOKEN = "EofToken";
+export const INVALID_TOKEN = "InvalidToken";
+export const INVALID_TOKEN_MESSAGE = "Invalid Token ";
 export const MISSING = "Missing ";
 
 export const ERROR_NODE_COLOR = "#DB3247";

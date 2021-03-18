@@ -5,6 +5,7 @@ import { DIAGNOSTICS,
          DROPDOWN_LOCATE_ICON,
          ENDING_POS,
          ERROR_MESSAGE,
+         INVALID_TOKEN,
          LARGE_ICON,
          LEADING_MINUTIAE,
          MINUTIAE,
@@ -25,6 +26,13 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
 
             {props.treeNode &&
                 <div>
+                    {props.treeNode.value.length > 25 && props.treeNode.kind === INVALID_TOKEN &&
+                        <DropdownDetails
+                            title = "Value"
+                            value = {props.treeNode.value}
+                        />
+                    }
+
                     <DropdownDetails
                         title = {NODE_KIND}
                         value = {props.treeNode.kind}

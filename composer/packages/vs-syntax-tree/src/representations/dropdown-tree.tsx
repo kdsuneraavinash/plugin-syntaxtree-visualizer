@@ -33,6 +33,7 @@ function DropdownTree(props: DropdownTreeProps) {
 
             <div style = {{
                 ...styles.sideDividersStyle,
+                maxWidth: 450,
                 width: "55%"
             }}>
                 {detailedNode &&

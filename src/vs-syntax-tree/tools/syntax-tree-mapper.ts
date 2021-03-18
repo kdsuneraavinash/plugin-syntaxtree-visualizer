@@ -1,4 +1,4 @@
-import { INVALID_TOKEN, MISSING } from "../resources/constant-resources";
+import { END_TOKEN, INVALID_TOKEN, INVALID_TOKEN_MESSAGE, MISSING } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
 import { checkNodePath, syntaxTreeObj } from "./syntax-tree-generator";
 import { assignProperties } from "./syntax-tree-mapper-utils";
@@ -25,7 +25,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                                 children: [],
                                 errorNode: true,
                                 diagnostics: [{
-                                    message: INVALID_TOKEN + nodeObj[props].leadingMinutiae[element].minutiae
+                                    message: INVALID_TOKEN_MESSAGE + nodeObj[props].leadingMinutiae[element].minutiae
                                 }]
                             });
                         }
@@ -34,7 +34,7 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
 
                 parentObj.children.push({
                     nodeID: `c${++nodeCount}`,
-                    value: (nodeObj[props].isMissing || nodeObj[props].kind === "EofToken") ?
+                    value: (nodeObj[props].isMissing || nodeObj[props].kind === END_TOKEN) ?
                         nodeObj[props].kind : nodeObj[props].value,
                     parentID: parentObj.nodeID,
                     children: [],
