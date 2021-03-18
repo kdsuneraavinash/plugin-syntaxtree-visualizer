@@ -63,7 +63,7 @@ function DropdownNode(props: DropdownNodeProps) {
                     }}
                     onClick = {() => { props.onClick(props.treeNode); }}
                 >
-                    {props.treeNode.value}
+                    {props.treeNode.value.length > 25 ? props.treeNode.kind : props.treeNode.value}
 
                     {ifCollapsible && !props.treeNode.didCollapse && props.treeNode.diagnostics &&
                         props.treeNode.diagnostics.length > 0 &&

@@ -19,7 +19,7 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
                                 return <div key = {id}
                                             style = {styles.detailsCardValueStyle}
                                         >
-                                            {item.kind}
+                                            - {item.kind}
                                         </div>;
                             } else {
                                 return ;
@@ -28,7 +28,7 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
                             return <div key = {id}
                                         style = {styles.detailsCardValueStyle}
                                    >
-                                {item.message}
+                                - {item.message}
                             </div>;
                         }
                     })}
