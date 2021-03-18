@@ -20,8 +20,8 @@ function DropdownTree(props: DropdownTreeProps) {
         <div style = {styles.containerStyle}>
             <div style = {{
                 ...styles.sideDividersStyle,
-                flexGrow: 1,
-                width: "45%"
+                marginRight: 30,
+                paddingRight: 20
             }}>
                 <DropdownNode
                     treeNode = {props.treeNode}
@@ -34,7 +34,7 @@ function DropdownTree(props: DropdownTreeProps) {
             <div style = {{
                 ...styles.sideDividersStyle,
                 maxWidth: 450,
-                width: "55%"
+                minWidth: 400
             }}>
                 {detailedNode &&
                     <DropdownNodeDetails treeNode = {detailedNode} onFindNode = {props.onFindNode} />
