@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from "react";
-import { NONE } from "../../resources/constants";
+import React, { useEffect, useState } from "react";
 
+import { NONE } from "../../resources/constants";
 import { GraphicalDetailsProps } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
 
 function Diagnostics(props: GraphicalDetailsProps) {
-    const [isEdgeNode, updateIsEdgeNode] = useState(false);
-    const [isBottomNode, updateIsBottomNode] = useState(false);
+    const [isEdgeNode, setIsEdgeNode] = useState(false);
+    const [isBottomNode, setIsBottomNode] = useState(false);
 
     useEffect(() => {
         if (props.node.x + 400 > window.innerWidth) {
-            updateIsEdgeNode(true);
+            setIsEdgeNode(true);
         }
 
         if (props.node.y + 250 > window.innerHeight) {
-            updateIsBottomNode(true);
+            setIsBottomNode(true);
         }
     }, []);
 

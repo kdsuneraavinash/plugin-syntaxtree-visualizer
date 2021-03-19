@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from "react";
-import { LEADING_MINUTIAE, NODE_KIND, NONE, TRAILING_MINUTIAE } from "../../resources/constants";
+import React, { useEffect, useState } from "react";
 
+import { LEADING_MINUTIAE, NODE_KIND, NONE, TRAILING_MINUTIAE } from "../../resources/constants";
 import { GraphicalDetailsProps, Minutiae } from "../../resources/tree-interfaces";
 import * as styles from "../../styles/graphical-tree.styles";
 
 function NodeDetails(props: GraphicalDetailsProps) {
-    const [isEdgeNode, updateIsEdgeNode] = useState(false);
-    const [isBottomNode, updateIsBottomNode] = useState(false);
+    const [isEdgeNode, setIsEdgeNode] = useState(false);
+    const [isBottomNode, setIsBottomNode] = useState(false);
 
     useEffect(() => {
         if (props.node.x + 400 > window.innerWidth) {
-            updateIsEdgeNode(true);
+            setIsEdgeNode(true);
         }
 
         if (props.node.y + 350 > window.innerHeight) {
-            updateIsBottomNode(true);
+            setIsBottomNode(true);
         }
     }, []);
 
