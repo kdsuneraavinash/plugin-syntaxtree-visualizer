@@ -31,19 +31,21 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                         }
                     }
                 }
+                
+                const isMissing = nodeObj[props].isMissing;
 
                 parentObj.children.push({
                     nodeID: `c${++nodeCount}`,
-                    value: (nodeObj[props].isMissing || nodeObj[props].kind === END_TOKEN) ?
+                    value: ((isMissing && nodeObj[props].value.length < 1) || nodeObj[props].kind === END_TOKEN) ?
                         nodeObj[props].kind : nodeObj[props].value,
                     parentID: parentObj.nodeID,
                     children: [],
-                    kind: nodeObj[props].isMissing ? MISSING + nodeObj[props].kind : nodeObj[props].kind,
+                    kind: isMissing ? MISSING + nodeObj[props].kind : nodeObj[props].kind,
                     leadingMinutiae: nodeObj[props].leadingMinutiae,
                     trailingMinutiae: nodeObj[props].trailingMinutiae,
                     isNodePath: foundNodeBlock,
-                    errorNode: nodeObj[props].isMissing,
-                    diagnostics: nodeObj[props].isMissing ? [{
+                    errorNode: isMissing,
+                    diagnostics: isMissing ? [{
                         message: MISSING + nodeObj[props].kind
                     }] : [],
                     position: nodeObj[props].position

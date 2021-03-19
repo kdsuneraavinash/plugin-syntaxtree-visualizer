@@ -1,17 +1,13 @@
 import React from "react";
-import {Button, Icon, Label} from "semantic-ui-react";
 
 import { DIAGNOSTICS,
-         DROPDOWN_LOCATE_ICON,
          ENDING_POS,
          ERROR_MESSAGE,
          INVALID_TOKEN,
-         LARGE_ICON,
          LEADING_MINUTIAE,
          MINUTIAE,
          NODE_KIND,
          NONE,
-         PRIMARY_COLOR,
          STARTING_POS,
          TRAILING_MINUTIAE } from "../../resources/constants";
 import { DropdownDetailsProps } from "../../resources/tree-interfaces";
@@ -98,23 +94,6 @@ function DropdownNodeDetails(props: DropdownDetailsProps) {
                             value = {NONE}
                         />
                     }
-                </div>
-            }
-            {props.treeNode.position &&
-                <div style = {styles.findNodeButtonStyle}>
-                    <Button
-                        as = "div"
-                        labelPosition = "right"
-                        size = {LARGE_ICON}
-                        onClick = {() => { props.onFindNode(props.treeNode.position); }}
-                    >
-                        <Button icon color = {PRIMARY_COLOR}>
-                            <Icon name = {DROPDOWN_LOCATE_ICON} />
-                        </Button>
-                        <Label as = "a" basic color = {PRIMARY_COLOR}>
-                            Locate Node
-                        </Label>
-                    </Button>
                 </div>
             }
         </div>

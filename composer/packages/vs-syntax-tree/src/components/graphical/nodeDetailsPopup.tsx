@@ -35,8 +35,8 @@ function NodeDetails(props: GraphicalDetailsProps) {
             <div
                 style = {{
                     ...styles.popupArrowStyle,
-                    borderBottom: isBottomNode ? "none" : "15px solid #FFFFCE",
-                    borderTop: isBottomNode ? "15px solid #FFFFCE" : "none",
+                    borderBottom: isBottomNode ? "none" : "15px solid #f5f5f0",
+                    borderTop: isBottomNode ? "15px solid #f5f5f0" : "none",
                     left: props.node.x + (props.node.width / 2),
                     top: isBottomNode ? (props.node.y - 15) : (props.node.y + 50),
                     transform: "translateX(-40%)"

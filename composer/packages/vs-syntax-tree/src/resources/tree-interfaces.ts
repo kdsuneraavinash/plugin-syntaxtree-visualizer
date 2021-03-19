@@ -126,11 +126,11 @@ export interface DropdownNodeProps {
     treeLevel: number;
     onClick: (nodeProp: TreeNodeObject) => void;
     onCollapseTree: (nodeID: string, representationType: boolean) => void;
+    onFindNode: (node: object) => void;
 }
 
 export interface DropdownDetailsProps {
     treeNode: TreeNodeObject;
-    onFindNode: (node: object) => void;
 }
 
 export interface DetailsCardProp {
