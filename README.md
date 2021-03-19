@@ -7,7 +7,16 @@ Through this, developers can get an simplified representation of their code bloc
 
 ## VSCode Extension
 
-> The capabilities of the VSCode extension come in 3 main forms.
+### Building the Extension
+> Building with Tests
+* If you want to build the VSIX of the extension with the tests, you need to:
+    - Copy a released Ballerina distribution to a new "extractedDistribution" folder in the project root
+    - Run a ```./gradlew build``` from the project root
+
+> Building with Tests
+* If you want to build the VSIX of the extension without the tests, you can run a ```./gradlew build -x test``` from the project root
+
+### The capabilities of the VSCode extension come in 3 main forms.
 * Generate the full syntax tree of a Ballerina source file    
 * Generate the subtree of the syntax tree for a particular block of code
 * Locate a particular piece of code on the full syntax tree
@@ -29,6 +38,7 @@ The sub syntax tree retrieval and locate code options can be found as Code Actio
 ### Features
 > The syntax trees rendered through the visualizer have muliple features.
 * Full collapsibility
+    - ![Collapsibility](docs/Collapsible.gif)
 * View node details
     - ![Node Details](docs/NodeDetails.gif)
 * Track syntax diagnostics
@@ -38,4 +48,4 @@ The sub syntax tree retrieval and locate code options can be found as Code Actio
 * Switch to full tree mode from sub syntax trees and locate trees
     - ![Switch to Full Tree](docs/SwitchFullTree.gif)    
 
-**All of these features are available on the Dropdown Representation as well.**
+*All of these features are available in the Dropdown Representation as well.*
