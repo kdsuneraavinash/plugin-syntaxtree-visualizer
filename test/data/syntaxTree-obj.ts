@@ -299,50 +299,25 @@ export const resultObj = [
       "children":[
          {
             "nodeID":"p1",
-            "parentID":"p0",
-            "didCollapse":true,
-            "children":[],
-            "diagnostics":[],
-            "value":"imports",
-            "kind":"imports",
-            "leadingMinutiae": undefined,
-            "trailingMinutiae": undefined,
-            "position": undefined,
-            "isNodePath": undefined
-         },
-         {
-            "nodeID":"p2",
             "leadingMinutiae":[],
             "trailingMinutiae":[],
             "parentID":"p0",
-            "didCollapse":false,
-            "isNodePath": undefined,
+            "didCollapse":true,
+            "isNodePath": false,
             "children":[
                {
-                  "nodeID":"p3",
+                  "nodeID":"p2",
                   "leadingMinutiae":[],
                   "trailingMinutiae":[],
-                  "parentID":"p2",
-                  "didCollapse":false,
+                  "parentID":"p1",
+                  "didCollapse":true,
                   "children":[
                      {
-                        "nodeID":"p4",
-                        "parentID":"p3",
-                        "didCollapse":false,
-                        "children":[],
-                        "diagnostics":[],
-                        "value":"qualifierList",
-                        "kind":"qualifierList",
-                        "leadingMinutiae": undefined,
-                        "trailingMinutiae": undefined,
-                        "position": undefined,
-                        "isNodePath": undefined
-                     },
-                     {
-                        "nodeID":"c5",
+                        "nodeID":"c3",
                         "value":"function",
-                        "parentID":"p3",
+                        "parentID":"p2",
                         "children":[],
+                        "isNodePath": false,
                         "kind":"FunctionKeyword",
                         "leadingMinutiae":[],
                         "trailingMinutiae":[
@@ -362,11 +337,12 @@ export const resultObj = [
                         }
                      },
                      {
-                        "nodeID":"c6",
+                        "nodeID":"c4",
                         "value":"testFunction",
-                        "parentID":"p3",
+                        "parentID":"p2",
                         "children":[],
                         "kind":"IdentifierToken",
+                        "isNodePath": false,
                         "leadingMinutiae":[],
                         "trailingMinutiae":[],
                         "errorNode":false,
@@ -379,19 +355,20 @@ export const resultObj = [
                         }
                      },
                      {
-                        "nodeID":"p7",
+                        "nodeID":"p5",
                         "leadingMinutiae":[],
                         "trailingMinutiae":[],
-                        "parentID":"p3",
-                        "isNodePath": undefined,
+                        "parentID":"p2",
+                        "isNodePath": false,
                         "didCollapse":false,
                         "children":[
                            {
-                              "nodeID":"c8",
+                              "nodeID":"c6",
                               "value":"(",
-                              "parentID":"p7",
+                              "parentID":"p5",
                               "children":[],
                               "kind":"OpenParenToken",
+                              "isNodePath": false,
                               "leadingMinutiae":[],
                               "trailingMinutiae":[],
                               "errorNode":false,
@@ -404,24 +381,12 @@ export const resultObj = [
                               }
                            },
                            {
-                              "nodeID":"p9",
-                              "parentID":"p7",
-                              "didCollapse":false,
-                              "children":[],
-                              "diagnostics":[],
-                              "value":"parameters",
-                              "kind":"parameters",
-                              "leadingMinutiae": undefined,
-                              "trailingMinutiae": undefined,
-                              "position": undefined,
-                              "isNodePath": undefined
-                           },
-                           {
-                              "nodeID":"c10",
+                              "nodeID":"c7",
                               "value":")",
-                              "parentID":"p7",
+                              "parentID":"p5",
                               "children":[],
                               "kind":"CloseParenToken",
+                              "isNodePath": false,
                               "leadingMinutiae":[],
                               "trailingMinutiae":[],
                               "errorNode":false,
@@ -445,7 +410,7 @@ export const resultObj = [
                         "kind":"functionSignature"
                      },
                      {
-                        "nodeID":"p11",
+                        "nodeID":"p8",
                         "leadingMinutiae":[
                            {
                               "kind":"INVALID_NODE_MINUTIAE",
@@ -459,30 +424,31 @@ export const resultObj = [
                            }
                         ],
                         "trailingMinutiae":[],
-                        "parentID":"p3",
+                        "parentID":"p2",
                         "didCollapse":false,
                         "children":[
                            {
-                              "nodeID":"c12",
+                              "nodeID":"c9",
                               "value":")",
-                              "kind":"Invalid token",
-                              "parentID":"p11",
+                              "kind":"InvalidToken",
+                              "parentID":"p8",
                               "children":[
                                  
                               ],
                               "errorNode":true,
                               "diagnostics":[
                                  {
-                                    "message":"Invalid token ')'"
+                                    "message":"Invalid Token ')'"
                                  }
                               ]
                            },
                            {
-                              "nodeID":"c13",
+                              "nodeID":"c10",
                               "value":"{",
-                              "parentID":"p11",
+                              "parentID":"p8",
                               "children":[],
                               "kind":"OpenBraceToken",
+                              "isNodePath": false,
                               "leadingMinutiae":[
                                  {
                                     "kind":"INVALID_NODE_MINUTIAE",
@@ -514,24 +480,12 @@ export const resultObj = [
                               }
                            },
                            {
-                              "nodeID":"p14",
-                              "parentID":"p11",
-                              "didCollapse":false,
-                              "children":[],
-                              "diagnostics":[],
-                              "value":"statements",
-                              "kind":"statements",
-                              "leadingMinutiae": undefined,
-                              "trailingMinutiae": undefined,
-                              "position": undefined,
-                              "isNodePath": undefined
-                           },
-                           {
-                              "nodeID":"c15",
-                              "value":"CloseBraceToken",
-                              "parentID":"p11",
+                              "nodeID":"c11",
+                              "value":"}",
+                              "parentID":"p8",
                               "children":[],
                               "kind":"Missing CloseBraceToken",
+                              "isNodePath": false,
                               "leadingMinutiae":[],
                               "trailingMinutiae":[],
                               "errorNode":true,
@@ -572,7 +526,7 @@ export const resultObj = [
                         },
                         "value":"functionBody",
                         "kind":"functionBody",
-                        "isNodePath": undefined
+                        "isNodePath": false
                      }
                   ],
                   "diagnostics":[
@@ -599,7 +553,7 @@ export const resultObj = [
                   },
                   "value":"FunctionDefinition",
                   "kind":"FunctionDefinition",
-                  "isNodePath": undefined
+                  "isNodePath": false
                }
             ],
             "diagnostics":[
@@ -628,8 +582,9 @@ export const resultObj = [
             "kind":"members"
          },
          {
-            "nodeID":"c16",
+            "nodeID":"c12",
             "value":"EofToken",
+            "isNodePath": false,
             "parentID":"p0",
             "children":[
                
@@ -680,6 +635,6 @@ export const resultObj = [
       "value":"ModulePart",
       "kind":"ModulePart",
       "parentID": undefined,
-      "isNodePath": undefined
+      "isNodePath": false
    }
 ];
