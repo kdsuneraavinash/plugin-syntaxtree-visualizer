@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import DropdownNode from "../components/dropdown/dropdownNode";
 import DropdownNodeDetails from "../components/dropdown/dropdownNodeDetails";
@@ -19,7 +19,7 @@ function DropdownTree(props: DropdownTreeProps) {
     return (
         <div style = {styles.containerStyle}>
             <div style = {{
-                ...styles.sideDividersStyle,
+                ...styles.sideDividerStyle,
                 marginRight: 30,
                 paddingRight: 20
             }}>
@@ -33,7 +33,7 @@ function DropdownTree(props: DropdownTreeProps) {
             </div>
 
             <div style = {{
-                ...styles.sideDividersStyle,
+                ...styles.sideDividerStyle,
                 maxWidth: 450,
                 minWidth: 400
             }}>

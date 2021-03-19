@@ -11,7 +11,7 @@ export const containerStyle: CSSProperties = {
     overflow: "auto"
 };
 
-export const sideDividersStyle: CSSProperties = {
+export const sideDividerStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
     margin: "15px",
@@ -38,8 +38,8 @@ export const nodeLabelStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
     fontSize: 15,
-    textAlign: "left",
-    width: "auto"
+    minWidth: 30,
+    textAlign: "left"
 };
 
 export const detailsBlockStyle: CSSProperties = {
@@ -68,6 +68,7 @@ export const detailsArrayValueBlock: CSSProperties = {
 };
 
 export const detailsCardTitleStyle: CSSProperties = {
+    fontWeight: "bold",
     height: "45px",
     lineHeight: "45px",
     minWidth: 150

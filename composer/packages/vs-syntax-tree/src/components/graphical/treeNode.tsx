@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Icon} from "semantic-ui-react";
+import React, { useState } from "react";
+import { Icon } from "semantic-ui-react";
 
 import { GRAPHICAL_LOCATE_ICON,
          GRAPHICAL_WARNING_ICON,
@@ -13,27 +13,19 @@ import Diagnostics from "./diagnosticsPopup";
 import NodeDetails from "./nodeDetailsPopup";
 
 function TreeNode(props: GraphicalNodeProps) {
-    const [didHoverNode, setDidHoverNode] = useState(false);
-    const [didHoverWarning, setDidHoverWarning] = useState(false);
+    const [didHoverNode, setHoverNodeState] = useState(false);
+    const [didHoverWarning, setHoverWarningState] = useState(false);
 
-    function onHoverNode() {
-        setDidHoverNode(true);
+    function updateHoverNodeState(status: boolean) {
+        setHoverNodeState(status);
     }
 
-    function undoHoverNode() {
-        setDidHoverNode(false);
-    }
-
-    function onHoverWarning() {
-        setDidHoverWarning(true);
-    }
-
-    function undoHoverWarning() {
-        setDidHoverWarning(false);
+    function updateHoverWarningState(status: boolean) {
+        setHoverWarningState(status);
     }
 
     function onClickNode() {
-        undoHoverNode();
+        updateHoverNodeState(false);
         props.onCollapseTree();
     }
 
@@ -54,8 +46,8 @@ function TreeNode(props: GraphicalNodeProps) {
                 <div
                     style = {styles.labelContainerStyle}
                     // tslint:disable-next-line:no-empty
-                    onMouseLeave = {undoHoverNode}
-                    onMouseOver = {onHoverNode}
+                    onMouseLeave = {() => updateHoverNodeState(false)}
+                    onMouseOver = {() => updateHoverNodeState(true)}
                 >
                     {didHoverNode && props.node.position &&
                         <div
@@ -78,8 +70,8 @@ function TreeNode(props: GraphicalNodeProps) {
                 {props.node.hasDiagnostics && props.node.diagnostics.length &&
                     <div
                         style = {styles.iconStyle}
-                        onMouseLeave = {undoHoverWarning}
-                        onMouseOver = {onHoverWarning}
+                        onMouseLeave = {() => updateHoverWarningState(false)}
+                        onMouseOver = {() => updateHoverWarningState(true)}
                     >
                         <Icon
                             name = {GRAPHICAL_WARNING_ICON}

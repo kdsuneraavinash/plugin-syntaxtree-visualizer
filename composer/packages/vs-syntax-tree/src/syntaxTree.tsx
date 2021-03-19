@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dimmer, Icon, Label, Loader } from "semantic-ui-react";
 
 import DropdownTree from "./representations/dropdown-tree";
@@ -8,43 +8,35 @@ import { PrimaryProps, TreeGraph, TreeNodeObject } from "./resources/tree-interf
 import * as styles from "./styles/primary.styles";
 
 function SyntaxTree(props: PrimaryProps) {
+    const [responseStatus, setResponseStatus] = useState(true);
+    const [isDropdownView, setIsDropdownView] = useState(false);
+    const [hoverViewSwitch, setViewSwitchStatus] = useState(false);
+    const [hoverFullTreeSwitch, setFullTreeSwitchStatus] = useState(false);
     const [graphicalTree, setGraphicalTree] = useState<TreeGraph | undefined>(undefined);
     const [dropdownTree, setDropdownTree] = useState<TreeNodeObject[] | undefined>(undefined);
-    const [responseStatus, updateResponseStatus] = useState(true);
-    const [isDropdownView, updateIsDropdownView] = useState(false);
-    const [hoverViewSwitch, updateHoverViewSwitch] = useState(false);
-    const [hoverFullTreeSwitch, updateHoverFullTreeSwitch] = useState(false);
 
     useEffect(() => {
         props.renderTree().then((result) => {
             if (result.treeArray && result.treeGraph) {
-                updateResponseStatus(true);
+                setResponseStatus(true);
                 setGraphicalTree(result.treeGraph);
                 setDropdownTree(result.treeArray);
             } else {
-                updateResponseStatus(false);
+                setResponseStatus(false);
             }
         });
     }, [props]);
 
     function updateView() {
-        updateIsDropdownView(!isDropdownView);
+        setIsDropdownView(!isDropdownView);
     }
 
-    function onHoverViewMode() {
-        updateHoverViewSwitch(true);
+    function updateFullTreeSwitchStatus(status: boolean) {
+        setFullTreeSwitchStatus(status);
     }
 
-    function undoHoverViewMode() {
-        updateHoverViewSwitch(false);
-    }
-
-    function onHoverSwitchFullTree() {
-        updateHoverFullTreeSwitch(true);
-    }
-
-    function undoHoverSwitchFullTree() {
-        updateHoverFullTreeSwitch(false);
+    function updateViewSwitchStatus(status: boolean) {
+        setViewSwitchStatus(status);
     }
 
     return (
@@ -55,8 +47,8 @@ function SyntaxTree(props: PrimaryProps) {
                         {props.activatedCommand !== FULL_TREE_MODE &&
                             <div
                                 style = {styles.optionBlock}
-                                onMouseLeave = {undoHoverSwitchFullTree}
-                                onMouseOver = {onHoverSwitchFullTree}
+                                onMouseLeave = {() => updateFullTreeSwitchStatus(false)}
+                                onMouseOver = {() => updateFullTreeSwitchStatus(true)}
                             >
                                 <Button as = "div" labelPosition = "left" onClick = {() => props.switchFullTree()}>
                                     {hoverFullTreeSwitch &&
@@ -70,10 +62,11 @@ function SyntaxTree(props: PrimaryProps) {
                                 </Button>
                             </div>
                         }
+
                         <div
                             style = {styles.optionBlock}
-                            onMouseLeave = {undoHoverViewMode}
-                            onMouseOver = {onHoverViewMode}
+                            onMouseLeave = {() => updateViewSwitchStatus(false)}
+                            onMouseOver = {() => updateViewSwitchStatus(true)}
                         >
                             <Button as = "div" labelPosition = "left" onClick = {updateView}>
                                 {hoverViewSwitch &&
@@ -116,6 +109,7 @@ function SyntaxTree(props: PrimaryProps) {
                     </div>
                 </div>
             }
+
             {!responseStatus &&
                 <p style = {styles.errorStyle}> {ERROR_MESSAGE} </p>
             }

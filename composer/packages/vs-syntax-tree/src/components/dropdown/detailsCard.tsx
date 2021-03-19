@@ -11,7 +11,7 @@ function DropdownDetails(props: DetailsCardProp) {
             }}
         >
             <div style = {styles.detailsCardTitleStyle}>
-                <b> {props.title} </b>
+                {props.title}
             </div>
 
             <div style = {styles.detailsCardValueStyle}>

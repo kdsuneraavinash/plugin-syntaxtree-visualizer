@@ -21,7 +21,8 @@ export const MAP_TREE_GRAPH_METHOD = "fetchTreeGraph";
 export const ERROR_MESSAGE = "Oops! Something went wrong!";
 export const END_TOKEN = "EofToken";
 export const INVALID_TOKEN = "InvalidToken";
-export const INVALID_TOKEN_MESSAGE = "Invalid Token ";
+export const INVALID_TOKEN_MESSAGE = "Invalid Token '";
+export const TRAILING_QUOTATION = "'";
 export const MISSING = "Missing ";
 
 export const ERROR_NODE_COLOR = "#DB3247";

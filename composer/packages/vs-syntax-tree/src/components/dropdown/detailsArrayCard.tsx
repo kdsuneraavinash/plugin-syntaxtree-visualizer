@@ -8,7 +8,7 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
     return (
         <div style = {styles.detailsCardStyle}>
             <div style = {styles.detailsCardTitleStyle}>
-                <b> {props.title} </b>
+                {props.title}
             </div>
 
             {props.value &&

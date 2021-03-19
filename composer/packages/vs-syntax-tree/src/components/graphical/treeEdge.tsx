@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import { TreeEdgeProps } from "../../resources/tree-interfaces";
 import { treeEdgeStyles } from "../../styles/graphical-tree.styles";
