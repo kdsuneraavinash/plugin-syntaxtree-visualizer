@@ -13,7 +13,7 @@ Through this, developers can get an simplified representation of their code bloc
     - Copy a released Ballerina distribution to a new "extractedDistribution" folder in the project root
     - Run a ```./gradlew build``` from the project root
 
-> Building with Tests
+> Building without Tests
 * If you want to build the VSIX of the extension without the tests, you can run a ```./gradlew build -x test``` from the project root
 
 ### The capabilities of the VSCode extension come in 3 main forms.
