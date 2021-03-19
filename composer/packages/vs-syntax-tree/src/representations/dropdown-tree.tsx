@@ -28,6 +28,7 @@ function DropdownTree(props: DropdownTreeProps) {
                     treeLevel = {0}
                     onClick = {updateDetailedNode}
                     onCollapseTree = {props.onCollapseTree}
+                    onFindNode = {props.onFindNode}
                 />
             </div>
 
@@ -37,7 +38,7 @@ function DropdownTree(props: DropdownTreeProps) {
                 minWidth: 400
             }}>
                 {detailedNode &&
-                    <DropdownNodeDetails treeNode = {detailedNode} onFindNode = {props.onFindNode} />
+                    <DropdownNodeDetails treeNode = {detailedNode} />
                 }
             </div>
         </div>

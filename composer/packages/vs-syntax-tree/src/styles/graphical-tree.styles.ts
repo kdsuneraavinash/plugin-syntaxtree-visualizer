@@ -40,7 +40,7 @@ export const popupArrowStyle: CSSProperties = {
 };
 
 export const popupBodyStyle: CSSProperties = {
-    backgroundColor: "#FFFFCE",
+    backgroundColor: "#f5f5f0",
     borderRadius: 8,
     minHeight: 190,
     minWidth: 175,

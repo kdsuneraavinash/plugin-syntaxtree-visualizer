@@ -31,15 +31,13 @@ export const dropdownNodeStyle: CSSProperties = {
 export const dropdownArrowStyle: CSSProperties = {
     height: "100%",
     paddingLeft: "4px",
-    width: 35
+    width: 30
 };
 
 export const nodeLabelStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
     fontSize: 15,
-    paddingLeft: "25px",
-    paddingRight: "10px",
     textAlign: "left",
     width: "auto"
 };
@@ -84,13 +82,7 @@ export const detailsCardValueStyle: CSSProperties = {
     paddingRight: 10
 };
 
-export const warningIconStyle: CSSProperties = {
-    marginLeft: "10px",
+export const iconStyle: CSSProperties = {
+    marginLeft: "8px",
     width: "25px"
-};
-
-export const findNodeButtonStyle: CSSProperties = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center"
 };
