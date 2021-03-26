@@ -34,3 +34,6 @@ export const UNKNOWN_ERROR: string = "Unknown Error : Failed to start Ballerina 
 export const API_DESIGNER_NO_SERVICE: string = "There are no services available in current file. Please add a service and try again.";
 export const BAL_SOURCE_NOT_FOUND: string = "Ballerina Source file has not been detected.";
 export const SELECTION_NOT_FOUND: string = "Code block has not been detected for visualization.";
+export const COMMAND_NOT_FOUND = "command not found";
+export const NO_SUCH_FILE = "No such file or directory";
+export const ERROR = "Error:";

@@ -26,6 +26,7 @@ function DropdownTree(props: DropdownTreeProps) {
                 <DropdownNode
                     treeNode = {props.treeNode}
                     treeLevel = {0}
+                    detailedNode = {detailedNode ? detailedNode.nodeID : props.treeNode.nodeID}
                     onClick = {updateDetailedNode}
                     onCollapseTree = {props.onCollapseTree}
                     onFindNode = {props.onFindNode}

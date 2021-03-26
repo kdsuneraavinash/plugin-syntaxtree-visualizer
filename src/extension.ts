@@ -17,67 +17,18 @@
  * under the License.
  *
  */
-import { commands, ExtensionContext, Location, Uri, window, workspace } from 'vscode';
-import { ClientCapabilities, DidChangeConfigurationParams, DocumentSelector, ServerCapabilities, StaticFeature } from "vscode-languageclient";
+import { commands, ExtensionContext, window } from 'vscode';
 import { ballerinaExtInstance, ExtendedLangClient } from "./core";
 import { log } from "./utils";
 import { activate as activateSyntaxTree } from "./vs-syntax-tree";
 
-// TODO initializations should be contributions from each component
-function onBeforeInit(langClient: ExtendedLangClient) {
-    class TraceLogsFeature implements StaticFeature {
-        fillClientCapabilities(capabilities: ClientCapabilities): void {
-            capabilities.experimental = capabilities.experimental || {};
-            capabilities.experimental.introspection = true;
-        }
-        initialize(capabilities: ServerCapabilities, documentSelector: DocumentSelector | undefined): void {}
-    }
-
-    class ShowFileFeature implements StaticFeature {
-        fillClientCapabilities(capabilities: ClientCapabilities): void {
-            capabilities.experimental = capabilities.experimental || {};
-            capabilities.experimental.showTextDocument = true;
-        }
-        initialize(capabilities: ServerCapabilities, documentSelector: DocumentSelector | undefined): void {
-        }
-    }
-
-    class SyntaxHighlightingFeature implements StaticFeature {
-        fillClientCapabilities(capabilities: ClientCapabilities): void {
-            capabilities.experimental = capabilities.experimental || {};
-            capabilities.experimental.semanticSyntaxHighlighter = false;
-        }
-        initialize(capabilities: ServerCapabilities, documentSelector: DocumentSelector | undefined): void {
-        }
-    }
-
-    langClient.registerFeature(new TraceLogsFeature());
-    langClient.registerFeature(new ShowFileFeature());
-    langClient.registerFeature(new SyntaxHighlightingFeature());
-}
+export function onBeforeInit(langClient: ExtendedLangClient) {}
 
 export function activate(context: ExtensionContext): Promise<any> {
     ballerinaExtInstance.setContext(context);
     return ballerinaExtInstance.init(onBeforeInit).then(() => {
         // start the features.
         activateSyntaxTree(ballerinaExtInstance);
-
-        ballerinaExtInstance.onReady().then(() => {
-            const langClient = <ExtendedLangClient>ballerinaExtInstance.langClient;
-            // Send initial configuration without 'ballerina' field to support older SDK versions below 1.2.0
-            if (!ballerinaExtInstance.isNewConfigChangeSupported) {
-                const args: DidChangeConfigurationParams = {
-                    settings: workspace.getConfiguration("ballerina"),
-                };
-                langClient.sendNotification("workspace/didChangeConfiguration", args);
-            }
-            // Register showTextDocument listener
-            langClient.onNotification("window/showTextDocument", (location: Location) => {
-                if (location.uri !== undefined) {
-                    window.showTextDocument(Uri.parse(location.uri.toString()), { selection: location.range });
-                }
-            });
-        });
     }).catch((e) => {
         log("Failed to activate Ballerina extension. " + (e.message ? e.message : e));
         // When plugins fails to start, provide a warning upon each command execution

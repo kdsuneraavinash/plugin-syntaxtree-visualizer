@@ -51,7 +51,10 @@ function TreeNode(props: GraphicalNodeProps) {
                 >
                     {didHoverNode && props.node.position &&
                         <div
-                            style = {styles.iconStyle}
+                            style = {{
+                                ...styles.iconStyle,
+                                cursor: "pointer"
+                            }}
                             onClick = {props.onFindNode}
                         >
                             <Icon

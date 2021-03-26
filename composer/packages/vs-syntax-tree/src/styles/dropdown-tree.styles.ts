@@ -24,8 +24,8 @@ export const dropdownNodeStyle: CSSProperties = {
     cursor: "default",
     display: "flex",
     flexDirection: "row",
-    height: 40,
-    lineHeight: "40px"
+    lineHeight: "40px",
+    minHeight: 40
 };
 
 export const dropdownArrowStyle: CSSProperties = {
@@ -84,6 +84,6 @@ export const detailsCardValueStyle: CSSProperties = {
 };
 
 export const iconStyle: CSSProperties = {
-    marginLeft: "8px",
-    width: "25px"
+    marginLeft: 8,
+    width: 20
 };

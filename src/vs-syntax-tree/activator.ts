@@ -71,12 +71,9 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
             }));
         }
     })
-    .catch((e) => {
-        if (!ballerinaExtInstance.isValidBallerinaHome()) {
-            ballerinaExtInstance.showMessageInvalidBallerinaHome();
-        } else {
-            ballerinaExtInstance.showPluginActivationError();
-        }
+    .catch((e) => { 
+        console.log(e);           
+        ballerinaExtInstance.showPluginActivationError();
     });
 }
 
