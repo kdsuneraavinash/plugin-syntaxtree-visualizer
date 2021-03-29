@@ -96,15 +96,15 @@ export function getComposerURI(): string {
 }
 
 export function getComposerPath(): string {
-    return process.env.COMPOSER_DEBUG === "true"
-        ? process.env.COMPOSER_DEV_HOST as string
+    return process.env.COMPOSERDEBUG === "true"
+        ? process.env.COMPOSERDEV_HOST as string
         : getComposerURI();
 }
 
 export function getComposerJSFiles(): string[] {
     return [
         join(getComposerPath(), 'composer.js'),
-        process.env.COMPOSER_DEBUG === "true" ? 'http://localhost:8097' : '' // For React Dev Tools
+        process.env.COMPOSERDEBUG === "true" ? 'http://localhost:8097' : '' // For React Dev Tools
     ];
 }
 

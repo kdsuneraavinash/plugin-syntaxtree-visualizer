@@ -7,5 +7,5 @@ export interface BallerinaPluginConfig extends WorkspaceConfiguration {
 }
 
 export function getPluginConfig() : BallerinaPluginConfig {
-    return workspace.getConfiguration('ballerina');
+    return workspace.getConfiguration('ballerinaCompilerTools');
 }

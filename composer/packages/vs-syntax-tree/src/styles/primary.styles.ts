@@ -11,9 +11,9 @@ export const optionsContainer: CSSProperties = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
-    minWidth: "450px",
-    padding: "12px",
-    paddingRight: "20px",
+    minWidth: 450,
+    padding: 12,
+    paddingRight: 20,
     position: "fixed",
     right: 0,
     top: 0,
@@ -21,12 +21,12 @@ export const optionsContainer: CSSProperties = {
     zIndex: 10
 };
 
-export const optionBlock: CSSProperties = {
-    marginRight: "10px"
-};
-
 export const errorStyle: CSSProperties = {
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 10
+};
+
+export const optionBlock: CSSProperties = {
+    marginRight: 10
 };

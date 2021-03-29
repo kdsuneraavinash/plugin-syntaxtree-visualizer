@@ -13,10 +13,10 @@
             "--extensionDevelopmentPath=${workspaceFolder}"
         ],
         "env": {
-            "LS_EXTENSIONS_PATH":  "",
-            "LSDEBUG": "false",
-            "COMPOSER_DEBUG": "false",
-            "COMPOSER_DEV_HOST": "http://localhost:9000"
+            "LSEXTENSIONS_PATH":  "",
+            "SERVER_DEBUG": "false",
+            "COMPOSERDEBUG": "false",
+            "COMPOSERDEV_HOST": "http://localhost:9000"
         },
         "outFiles": [
             "${workspaceFolder}/dist/**/*.js"
@@ -29,9 +29,9 @@
         "request": "launch",
         "runtimeExecutable": "${execPath}",
         "env": {
-            "LS_EXTENSIONS_PATH":  "",
-            "LSDEBUG": "false",
-            "COMPOSER_DEBUG": "false"
+            "LSEXTENSIONS_PATH":  "",
+            "SERVER_DEBUG": "false",
+            "COMPOSERDEBUG": "false"
         },
         "args": [
             "--extensionDevelopmentPath=${workspaceFolder}",
@@ -41,15 +41,5 @@
             "${workspaceFolder}/out/test/**/*.js"
         ],
         "preLaunchTask": "npm: test-compile"
-    },
-    {
-        "type": "node",
-        "request": "launch",
-        "name": "Server",
-        "cwd": "${workspaceFolder}",
-        "program": "${workspaceFolder}/src/debugger/index.js",
-        "args": [ "--server=4711" ],
-        "outFiles": [ "${workspaceFolder}/out/src/debugger/**/*.js" ],
-    },
-    ]
+    }]
 }
