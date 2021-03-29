@@ -40,7 +40,7 @@ const any = require('promise.any');
 const SWAN_LAKE_REGEX = /(s|S)wan( |-)(l|L)ake/g;
 const PREV_REGEX = /1\.2\.[0-9]+/g;
 
-export const EXTENSION_ID = 'ballerinaCompilerTools.ballerinacompilertools';
+export const EXTENSION_ID = 'ballerina.ballerinacompilertools';
 
 export interface ConstructIdentifier {
     sourceRoot?: string;
@@ -89,7 +89,7 @@ export class BallerinaExtension {
         this.context = context;
     }
 
-    init(onBeforeInit: Function): Promise<void> {
+    init(): Promise<void> {
         try {
             // Register pre init handlers.
             this.registerPreInitHandlers();
@@ -114,7 +114,7 @@ export class BallerinaExtension {
                     const { home } = this.autoDetectBallerinaHome();
                     this.ballerinaHome = home;
                 }
-                log(`Plugin version: ${pluginVersion}\nBallerina version: ${ballerinaVersion}`);
+                log(`Ballerina Compiler Tools Plugin version: ${pluginVersion}\nBallerina version: ${ballerinaVersion}`);
 
                 if (ballerinaVersion.match(SWAN_LAKE_REGEX)) {
                     this.isSwanLake = true;
@@ -133,9 +133,8 @@ export class BallerinaExtension {
                 let serverOptions: ServerOptions;
                 serverOptions = getServerOptions(this.ballerinaCmd);
 
-                this.langClient = new ExtendedLangClient('ballerina-compiler-tools', 'BallerinaCompiler Tools LS Client', serverOptions,
+                this.langClient = new ExtendedLangClient('ballerinaCompilerTools', 'BallerinaCompiler Tools LS Client', serverOptions,
                     this.clientOptions, false);
-                onBeforeInit(this.langClient);
 
                 // Following was put in to handle server startup failures.
                 const disposeDidChange = this.langClient.onDidChangeState(stateChangeEvent => {
@@ -167,7 +166,7 @@ export class BallerinaExtension {
 
     onReady(): Promise<void> {
         if (!this.langClient) {
-            return Promise.reject('BallerinaExtension is not initialized');
+            return Promise.reject('Ballerina Compiler Tools Extension is not initialized');
         }
 
         return this.langClient.onReady();

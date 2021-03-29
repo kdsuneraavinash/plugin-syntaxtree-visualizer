@@ -65,7 +65,12 @@ function TreeNode(props: GraphicalNodeProps) {
                             />
                         </div>
                     }
-                    <div onClick = {props.node.ifParent ? onClickNode : () => {}}>
+                    <div 
+                        onClick = {props.node.ifParent ? onClickNode : () => {}}
+                        style = {{
+                            cursor: props.node.ifParent ? "pointer" : "default"
+                        }}
+                    >
                         {props.node.label}
                     </div>
                 </div>

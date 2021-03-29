@@ -103,7 +103,8 @@ function DropdownNode(props: DropdownNodeProps) {
 
                 <div style = {{
                     ...styles.iconStyle,
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    marginRight: 4
                 }}>
                     {hoverStatus && props.treeNode.position &&
                         <Icon

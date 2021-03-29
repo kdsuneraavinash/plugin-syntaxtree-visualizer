@@ -69,7 +69,7 @@ export const detailsArrayValueBlock: CSSProperties = {
 
 export const detailsCardTitleStyle: CSSProperties = {
     fontWeight: "bold",
-    height: "45px",
+    height: 45,
     lineHeight: "45px",
     minWidth: 150
 };
@@ -77,7 +77,7 @@ export const detailsCardTitleStyle: CSSProperties = {
 export const detailsCardValueStyle: CSSProperties = {
     flexGrow: 1,
     lineHeight: "45px",
-    minHeight: "45px",
+    minHeight: 45,
     overflowWrap: "anywhere",
     paddingLeft: 15,
     paddingRight: 10

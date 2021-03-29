@@ -18,15 +18,13 @@
  *
  */
 import { commands, ExtensionContext, window } from 'vscode';
-import { ballerinaExtInstance, ExtendedLangClient } from "./core";
+import { ballerinaExtInstance } from "./core";
 import { log } from "./utils";
 import { activate as activateSyntaxTree } from "./vs-syntax-tree";
 
-export function onBeforeInit(langClient: ExtendedLangClient) {}
-
 export function activate(context: ExtensionContext): Promise<any> {
     ballerinaExtInstance.setContext(context);
-    return ballerinaExtInstance.init(onBeforeInit).then(() => {
+    return ballerinaExtInstance.init().then(() => {
         // start the features.
         activateSyntaxTree(ballerinaExtInstance);
     }).catch((e) => {

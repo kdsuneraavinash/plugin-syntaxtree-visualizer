@@ -25,12 +25,12 @@ export const INSTALL_BALLERINA: string = "Unable to auto detect ballerina in you
     " If not, please install Ballerina or configure `" + BALLERINA_HOME + "` in settings.";
 export const INSTALL_NEW_BALLERINA: string = " version of Ballerina VSCode extension only supports Ballerina v1.0.0-beta or later. If you just installed a new Ballerina version, you may need to restart VSCode. If not, please download and install the latest version or point `" + BALLERINA_HOME + "` in settings to a latest Ballerina distribution.";
 export const DOWNLOAD_BALLERINA: string = "https://ballerina.io/downloads/";
-export const CONFIG_CHANGED: string = "Ballerina plugin configuration changed. Please restart vscode for changes to take effect.";
-export const OLD_BALLERINA_VERSION: string ="Your Ballerina version does not match the Ballerina vscode plugin version. Some features may not work properly. Please download the latest Ballerina distribution.";
+export const CONFIG_CHANGED: string = "Ballerina Compiler Tools plugin configuration changed. Please restart vscode for changes to take effect.";
+export const OLD_BALLERINA_VERSION: string ="Your Ballerina version does not match the Ballerina VSCode plugin version. Some features may not work properly. Please download the latest Ballerina distribution.";
 export const OLD_PLUGIN_VERSION: string ="Your Ballerina vscode plugin version does not match your Ballerina version. Some features may not work properly. Please update the Ballerina vscode plugin.";
 export const MISSING_SERVER_CAPABILITY: string = "Your version of Ballerina platform distribution does not support this feature. Please update to the latest Ballerina platform";
 export const INVALID_FILE: string = "The current file is not a valid ballerina file. Please open a ballerina file and try again.";
-export const UNKNOWN_ERROR: string = "Unknown Error : Failed to start Ballerina Plugin.";
+export const UNKNOWN_ERROR: string = "Unknown Error : Failed to start Ballerina Compiler Tools Plugin.";
 export const API_DESIGNER_NO_SERVICE: string = "There are no services available in current file. Please add a service and try again.";
 export const BAL_SOURCE_NOT_FOUND: string = "Ballerina Source file has not been detected.";
 export const SELECTION_NOT_FOUND: string = "Code block has not been detected for visualization.";

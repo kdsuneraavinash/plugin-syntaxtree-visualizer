@@ -11,8 +11,8 @@ export const nodeContainerStyle: CSSProperties = {
     flexDirection: "row",
     justifyContent: "space-around",
     lineHeight: "50px",
-    paddingLeft: "3px",
-    paddingRight: "3px",
+    paddingLeft: 3,
+    paddingRight: 3,
     position: "absolute"
 };
 
