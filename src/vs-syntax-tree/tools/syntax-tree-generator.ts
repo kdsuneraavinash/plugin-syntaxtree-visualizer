@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 /**
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -18,7 +18,6 @@
  *
  */
 import * as _ from "lodash";
-
 import { LAYOUT_OPTIONS, LOCATE_TREE_VIEW } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
 import { mapSyntaxGraph } from "./syntax-graph-mapper";

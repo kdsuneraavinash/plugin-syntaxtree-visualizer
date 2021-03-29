@@ -1,7 +1,7 @@
 {
   "name": "@ballerina/visualize-syntax-tree",
   "version": "2.0.0-Alpha-SNAPSHOT",
-  "description": "Generates a syntax tree for .bal source files",
+  "description": "Renders a syntax tree for .bal source files",
   "main": "lib/index.js",
   "scripts": {
     "prepublishOnly": "npm run build",
