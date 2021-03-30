@@ -20,11 +20,11 @@
 
 import {
     commands, ConfigurationChangeEvent, Extension, ExtensionContext,
-    extensions, OutputChannel, Uri, WebviewPanel, window, workspace
+    extensions, OutputChannel, Uri, window, workspace
 } from "vscode";
 import {
     COMMAND_NOT_FOUND, CONFIG_CHANGED, DOWNLOAD_BALLERINA, ERROR, INSTALL_BALLERINA,
-    INSTALL_NEW_BALLERINA, INVALID_FILE, INVALID_HOME_MSG,  MISSING_SERVER_CAPABILITY,
+    INSTALL_NEW_BALLERINA, INVALID_FILE, INVALID_HOME_MSG,
     NO_SUCH_FILE, OLD_BALLERINA_VERSION, OLD_PLUGIN_VERSION, UNKNOWN_ERROR
 } from "./messages";
 import * as path from "path";
@@ -40,7 +40,7 @@ const any = require("promise.any");
 const SWAN_LAKE_REGEX = /(s|S)wan( |-)(l|L)ake/g;
 const PREV_REGEX = /1\.2\.[0-9]+/g;
 
-export const EXTENSION_ID = "ballerina.ballerinacompilertools";
+export const EXTENSION_ID = "ballerina.ballerinacompilertoolkit";
 
 export interface ConstructIdentifier {
     sourceRoot?: string;
@@ -62,25 +62,20 @@ export class BallerinaExtension {
     public langClient?: ExtendedLangClient;
     public context?: ExtensionContext;
 
-    private webviewPanels: {
-        [name: string]: WebviewPanel;
-    };
-
     constructor() {
         this.ballerinaHome = "";
         this.ballerinaCmd = "";
-        this.webviewPanels = {};
         this.isSwanLake = false;
         this.is12x = false;
         // Load the extension
         this.extension = extensions.getExtension(EXTENSION_ID)!;
         this.clientOptions = {
             documentSelector: [{ scheme: "file", language: "ballerina" }],
-            synchronize: { configurationSection: "ballerinaCompilerTools" },
+            synchronize: { configurationSection: "ballerinaCompilerToolkit" },
             outputChannel: getOutputChannel(),
             revealOutputChannelOn: RevealOutputChannelOn.Never,
             initializationOptions: {
-                skipExecuteCommandProvider: true
+                enableLightWeightMode: true
             }
         };
     }
@@ -133,7 +128,7 @@ export class BallerinaExtension {
                 let serverOptions: ServerOptions;
                 serverOptions = getServerOptions(this.ballerinaCmd);
 
-                this.langClient = new ExtendedLangClient("ballerinaCompilerTools", "BallerinaCompiler Tools LS Client",
+                this.langClient = new ExtendedLangClient("ballerinaCompilerToolkit", "Ballerina Compiler Toolkit LS Client",
                     serverOptions, this.clientOptions, false);
 
                 // Following was put in to handle server startup failures.
@@ -153,7 +148,7 @@ export class BallerinaExtension {
             }, (reason) => {
                 throw new Error(reason);
             }).catch(e => {
-                const msg = `Error when checking ballerina version. ${e.message}`;
+                const msg = `Error when checking ballerina version. \n ${e.message}`;
                 throw new Error(msg);
             });
         } catch (ex) {
@@ -378,15 +373,6 @@ export class BallerinaExtension {
         });
     }
 
-    showMessageServerMissingCapability(): any {
-        const download: string = "Download";
-        window.showErrorMessage(MISSING_SERVER_CAPABILITY, download).then((selection) => {
-            if (download === selection) {
-                commands.executeCommand("vscode.open", Uri.parse(DOWNLOAD_BALLERINA));
-            }
-        });
-    }
-
     showMessageInvalidFile(): any {
         window.showErrorMessage(INVALID_FILE);
     }
@@ -455,22 +441,6 @@ export class BallerinaExtension {
 
     public overrideBallerinaHome(): boolean {
         return <boolean>workspace.getConfiguration().get(OVERRIDE_BALLERINA_HOME);
-    }
-
-    public addWebviewPanel(name: string, panel: WebviewPanel) {
-        this.webviewPanels[name] = panel;
-
-        panel.onDidDispose(() => {
-            delete this.webviewPanels[name];
-        });
-    }
-
-    public getWebviewPanels() {
-        return this.webviewPanels;
-    }
-
-    public getID(): string {
-        return this.extension.id;
     }
 
     public getVersion(): string {

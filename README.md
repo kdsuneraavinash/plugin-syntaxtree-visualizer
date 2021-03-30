@@ -1,4 +1,4 @@
-# The Ballerina Syntax Tree Visualizer
+# The Ballerina Compiler Toolkit
 
 > To generate the syntax trees for any Ballerina source code
 

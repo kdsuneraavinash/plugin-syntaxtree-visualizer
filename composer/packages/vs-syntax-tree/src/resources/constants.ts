@@ -7,7 +7,7 @@ export const PRIMARY_COLOR = "teal";
 export const SECONDARY_COLOR = "grey";
 export const TOKEN_COLOR = "#7f7f7f";
 export const WARNING_COLOR = "red";
-export const DROPDOWN_COLOR = "black";
+export const DEFAULT_DROPDOWN_COLOR = "black";
 
 export const MINUTIAE = "minutiae";
 export const NODE_KIND = "Kind";

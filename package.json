@@ -1,6 +1,6 @@
 {
-    "name": "ballerinacompilertools",
-    "displayName": "Ballerina Compiler Tools",
+    "name": "ballerinacompilertoolkit",
+    "displayName": "Ballerina Compiler Toolkit",
     "description": "VSCode Compiler Tools for Ballerina",
     "version": "2.0.0-Alpha-SNAPSHOT",
     "publisher": "ballerina",
@@ -23,7 +23,7 @@
     ],
     "activationEvents": [
         "onLanguage:ballerina",
-        "onCommand:ballerinaCompilerTools.visualizeSyntaxTree"
+        "onCommand:ballerinaCompilerToolkit.visualizeSyntaxTree"
     ],
     "contributes": {
         "languages": [
@@ -42,23 +42,28 @@
             "type": "object",
             "title": "Ballerina Compiler Tools",
             "properties": {
-                "ballerinaCompilerTools.plugin.dev.mod": {
+                "ballerinaCompilerToolkit.plugin.dev.mod": {
                     "type": "boolean",
                     "default": false,
                     "description": "Enable plugin development mode"
                 },
-                "ballerinaCompilerTools.home": {
+                "ballerinaCompilerToolkit.home": {
                     "type": "string",
                     "default": "",
                     "description": "Specifies the path to the ballerina home directory"
+                },
+                "ballerinaCompilerToolkit.debugLog": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable printing debug messages on to the Ballerina Compiler Toolkitoutput channel."
                 }
             }
         },
         "commands": [
             {
-                "command": "ballerinaCompilerTools.visualizeSyntaxTree",
+                "command": "ballerinaCompilerToolkit.visualizeSyntaxTree",
                 "title": "Syntax Tree Visualizer",
-                "category": "Ballerina Compiler Tools"
+                "category": "Ballerina Compiler Toolkit"
             }
         ]
     },

@@ -1,90 +1,5 @@
-import { ExtendedLangClient } from "src/core/extended-language-client";
-import {
-    commands, Position, Range, Selection, TextEditor,
-    Uri, ViewColumn, WebviewPanel, window
-} from "vscode";
+import { WebviewPanel } from "vscode";
 import { WebViewMethod, WebViewRPCMessage } from "./model";
-
-const getLangClientMethods = (langClient: ExtendedLangClient): WebViewMethod[] => {
-    return [
-    {
-        methodName: "revealRange",
-        handler: (args: any[], webViewPanel) => {
-            const params = JSON.parse(args[0]);
-            const revealRangeInEditor = (editor: TextEditor) => {
-                const { start, end } = params.range;
-                const startPosition = new Position(start.line - 1, start.character - 1);
-                const endPosition = new Position(end.line - 1, end.character - 1);
-                editor.revealRange(new Range(startPosition, endPosition));
-                editor.selection = new Selection(startPosition, endPosition);
-                // Following is a hack tempPanel is created so the editor has two columns
-                // webViewPanel.reveal does not move to column TWO if its not already there
-                // TODO: Report to vscode as a bug
-                const tempPanel = window.createWebviewPanel(
-                    "temp",
-                    "TEMP",
-                    { viewColumn: ViewColumn.Two, preserveFocus: true }
-                );
-                webViewPanel.reveal(ViewColumn.Two);
-                setTimeout(() => {
-                    tempPanel.dispose();
-                }, 0);
-            };
-            const activeTextEditor = window.activeTextEditor;
-            const visibleTextEditors = window.visibleTextEditors;
-            const findByDocUri = (editor: TextEditor) => editor.document.uri.toString()
-                === params.textDocumentIdentifier.uri;
-            const foundVisibleEditor = visibleTextEditors.find(findByDocUri);
-
-            if (activeTextEditor && findByDocUri(activeTextEditor)) {
-                revealRangeInEditor(activeTextEditor);
-            } else if (foundVisibleEditor) {
-                revealRangeInEditor(foundVisibleEditor);
-                return Promise.resolve();
-            } else {
-                return window.showTextDocument(Uri.parse(params.textDocumentIdentifier.uri)
-                    , {
-                        viewColumn: ViewColumn.One
-                    })
-                    .then((textEditor) => {
-                        revealRangeInEditor(textEditor);
-                    });
-            }
-        }
-    },
-    {
-        methodName: "goToSource",
-        handler: (args: any[]) => {
-            const activeEditor = window.activeTextEditor;
-            if (activeEditor) {
-                // TODO
-            }
-            return Promise.resolve();
-        }
-    }
-    ];
-};
-
-const undoRedoMethods = [{
-    methodName: "undo",
-    handler: (args: any[]) => {
-        commands.executeCommand("workbench.action.focusPreviousGroup")
-            .then(() => {
-                commands.executeCommand("undo");
-            });
-    }
-},
-{
-    methodName: "redo",
-    handler: (args: any[]) => {
-        commands.executeCommand("workbench.action.focusPreviousGroup")
-            .then(() => {
-                commands.executeCommand("redo");
-            });
-
-    }
-}
-];
 
 export class WebViewRPCHandler {
 
@@ -136,11 +51,10 @@ export class WebViewRPCHandler {
 
     static create(
         webViewPanel: WebviewPanel,
-        langClient: ExtendedLangClient,
         methods: Array<WebViewMethod> = [])
         : WebViewRPCHandler {
         return new WebViewRPCHandler(
-            [...methods, ...getLangClientMethods(langClient), ...undoRedoMethods],
+            methods,
             webViewPanel);
     }
 

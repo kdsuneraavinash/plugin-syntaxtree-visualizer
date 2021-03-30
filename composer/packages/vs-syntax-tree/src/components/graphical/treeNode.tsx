@@ -63,7 +63,6 @@ function TreeNode(props: GraphicalNodeProps) {
             >
                 <div
                     style = {styles.labelContainerStyle}
-                    // tslint:disable-next-line:no-empty
                     onMouseLeave = {() => updateHoverNodeState(false)}
                     onMouseOver = {() => updateHoverNodeState(true)}
                 >
@@ -83,12 +82,7 @@ function TreeNode(props: GraphicalNodeProps) {
                             />
                         </div>
                     }
-                    <div 
-                        onClick = {props.node.ifParent ? onClickNode : () => {}}
-                        style = {{
-                            cursor: props.node.ifParent ? "pointer" : "default"
-                        }}
-                    >
+                    <div onClick = {props.node.ifParent ? onClickNode : () => {}}>
                         {props.node.label}
                     </div>
                 </div>
@@ -101,8 +95,8 @@ function TreeNode(props: GraphicalNodeProps) {
                     >
                         <Icon
                             name = {GRAPHICAL_WARNING_ICON}
-                            color = {WARNING_COLOR}
                             size = {LARGE_ICON}
+                            color = {WARNING_COLOR}
                         />
                     </div>
                 }

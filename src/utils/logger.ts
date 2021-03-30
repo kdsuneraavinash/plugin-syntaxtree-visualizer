@@ -19,8 +19,8 @@
  */
 import * as vscode from "vscode";
 
-const outputChannel = vscode.window.createOutputChannel("Ballerina Compiler Tools");
-const logLevelDebug: boolean = vscode.workspace.getConfiguration("ballerinaCompilerTools").get("debugLog") === true;
+const outputChannel = vscode.window.createOutputChannel("Ballerina Compiler Toolkit");
+const logLevelDebug: boolean = vscode.workspace.getConfiguration("ballerinaCompilerToolkit").get("debugLog") === true;
 
 function withNewLine(value: string) {
     if (!value.endsWith("\n")) {
