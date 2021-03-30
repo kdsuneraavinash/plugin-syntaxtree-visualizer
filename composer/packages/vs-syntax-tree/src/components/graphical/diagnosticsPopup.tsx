@@ -53,8 +53,8 @@ function Diagnostics(props: GraphicalDetailsProps) {
                     ...styles.diagnosticsBodyStyle,
                     left: props.node.x + props.node.width - 40,
                     top: isBottomNode ? props.node.y - 10 : props.node.y + props.node.height + 10,
-                    transform: isBottomNode ? (isEdgeNode ? "translate(-80%, -100%)" : "translate(-10%, -100%)") :
-                        (isEdgeNode ? "translateX(-80%)" : "translateX(-10%)")
+                    transform: isBottomNode ? (isEdgeNode ? "translate(-80%, -100%)" : "translate(-10%, -100%)")
+                        : (isEdgeNode ? "translateX(-80%)" : "translateX(-10%)")
                 }}
             >
                 <p> <b>This block contains :</b></p> <hr/>

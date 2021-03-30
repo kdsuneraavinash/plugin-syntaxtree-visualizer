@@ -7,15 +7,15 @@ export const containerStyle: CSSProperties = {
     marginLeft: 10,
     marginRight: 10,
     maxHeight: "90vh",
-    minWidth: "800px",
+    minWidth: 800,
     overflow: "auto"
 };
 
 export const sideDividerStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
-    margin: "15px",
-    minHeight: "300px",
+    margin: 15,
+    minHeight: 300,
     overflow: "auto"
 };
 
@@ -28,18 +28,23 @@ export const dropdownNodeStyle: CSSProperties = {
     minHeight: 40
 };
 
-export const dropdownArrowStyle: CSSProperties = {
-    height: "100%",
-    paddingLeft: "4px",
-    width: 30
-};
-
 export const nodeLabelStyle: CSSProperties = {
     display: "flex",
     flexDirection: "row",
     fontSize: 15,
     minWidth: 30,
     textAlign: "left"
+};
+
+export const dropdownArrowStyle: CSSProperties = {
+    height: "100%",
+    paddingLeft: 4,
+    width: 30
+};
+
+export const iconStyle: CSSProperties = {
+    marginLeft: 8,
+    width: 20
 };
 
 export const detailsBlockStyle: CSSProperties = {
@@ -81,9 +86,4 @@ export const detailsCardValueStyle: CSSProperties = {
     overflowWrap: "anywhere",
     paddingLeft: 15,
     paddingRight: 10
-};
-
-export const iconStyle: CSSProperties = {
-    marginLeft: 8,
-    width: 20
 };

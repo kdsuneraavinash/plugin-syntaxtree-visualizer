@@ -1,9 +1,9 @@
 export const EXTENSION_NAME = "Ballerina Syntax Tree Visualizer";
 export const EXTENSION_ID = "visualizeSyntaxTree";
 
-export const FULL_TREE_VISUALIZER_COMMAND = "ballerinaCompilerTools.visualizeSyntaxTree";
-export const SUBTREE_VISUALIZER_COMMAND = "ballerinaCompilerTools.codeBlock.visualizeSyntaxTree";
-export const LOCATE_NODE_COMMAND = "ballerinaCompilerTools.codeBlock.locateTreeNode";
+export const FULL_TREE_VISUALIZER_COMMAND = "ballerinaCompilerToolkit.visualizeSyntaxTree";
+export const SUBTREE_VISUALIZER_COMMAND = "ballerinaCompilerToolkit.codeBlock.visualizeSyntaxTree";
+export const LOCATE_NODE_COMMAND = "ballerinaCompilerToolkit.codeBlock.locateTreeNode";
 
 export const SUBTREE_VISUALIZER_TITLE = "Visualize Sub Syntax Tree";
 export const LOCATE_NODE_TITLE = "Locate Node on Syntax Tree";

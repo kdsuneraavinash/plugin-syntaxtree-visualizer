@@ -25,6 +25,13 @@ import { ERROR_NODE_COLOR,
 import { TreeNode } from "../resources/interfaces";
 import { checkNodePath, nodeEdges, nodeMembers } from "./syntax-tree-generator";
 
+/**
+ * Handles the collapsible property of the tree object and maps out the
+ * graph for the graphical tree representation
+ * @param targetArray - the graphical or dropdown tree object
+ * @param nodeID - the ID of the node that is to be collapsed
+ * @param isGraphical - whether the tree is in graphical or dropdown mode
+ */
 export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphical: boolean) {
     for (let i = 0; i < targetArray.length; i++) {
         if (targetArray[i].nodeID === nodeID) {
@@ -37,8 +44,8 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
 
         if (isGraphical) {
             const position = toInteger(targetArray[i].nodeID.replace(/\D/g, ""));
-            const ifParent : boolean = targetArray[i].nodeID.charAt(0) === "p";
-            let isNodePath : boolean = false;
+            const ifParent: boolean = targetArray[i].nodeID.charAt(0) === "p";
+            let isNodePath: boolean = false;
             let diagnostics: any[] = [];
 
             if (!targetArray[i].didCollapse && ifParent) {
@@ -65,7 +72,7 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                 ifParent,
                 isCollapsible: targetArray[i].didCollapse ? false : (ifParent ? true : false),
                 isNodePath,
-                nodeColor: targetArray[i].errorNode ? ERROR_NODE_COLOR : 
+                nodeColor: targetArray[i].errorNode ? ERROR_NODE_COLOR :
                     (ifParent ? (checkNodePath ? PATH_NODE_COLOR : PARENT_NODE_COLOR) : TOKEN_COLOR),
                 position: targetArray[i].position
             });
@@ -75,7 +82,7 @@ export function mapSyntaxGraph(targetArray: TreeNode[], nodeID: string, isGraphi
                     id: `e${targetArray[i].nodeID}`,
                     sources: [targetArray[i].parentID],
                     targets: [targetArray[i].nodeID],
-                    isNodePath: isNodePath
+                    isNodePath
                 });
             }
         }

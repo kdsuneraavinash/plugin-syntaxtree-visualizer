@@ -24,6 +24,7 @@
 // Ballerina tools distribution will be copied to following location by maven
 import * as fs from 'fs';
 import * as path from 'path';
+import { killPortProcess } from 'kill-port-process';
 
 const TEST_RESOURCES = __dirname + '/../../extractedDistribution/';
 const PLATFORM_PREFIX = /jballerina-tools-/;
@@ -31,10 +32,17 @@ const PLATFORM_PREFIX = /jballerina-tools-/;
 
 function findBallerinaDistribution() {
     const directories = fs.readdirSync(TEST_RESOURCES);
-    if (directories.length !== 1) {
-        throw new Error("Unable to find ballerina distribution in test resources.");
+    if (directories.length === 1) {
+        return directories[0];
     }
-    return directories[0];
+    if (directories.length > 1) {
+        directories.forEach(directory => {
+            if (directory.startsWith('ballerina')) {
+                return directory;
+            }
+        }); 
+    }
+    throw new Error("Unable to find ballerina distribution in test resources.");
 }
 
 export function getBallerinaHome(): string {
@@ -50,4 +58,18 @@ export function getBallerinaCmd(): string {
 
 export function getBallerinaVersion() {
     return findBallerinaDistribution().replace(PLATFORM_PREFIX, '').replace('\n', '').trim();
+}
+
+export function getBBEPath(): any {
+    return path.join(__dirname + '/../../resources/templates/');
+}
+
+export function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function killPort(port: number) {
+    (async () => {
+        await killPortProcess(port);
+    })();
 }

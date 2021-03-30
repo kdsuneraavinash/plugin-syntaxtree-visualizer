@@ -44,13 +44,25 @@ export class CodeActionProvider implements vscode.CodeActionProvider {
     }
 }
 
-export function postWebviewMessage (syntaxTreePanel: vscode.WebviewPanel) {
+/**
+ * Posts the update command to the webview if changes have undergone
+ * in the source file for which the syntax tree is rendered.
+ * The update command will re-render the syntax tree for the new source.
+ * @param syntaxTreePanel
+ */
+export function postWebviewMessage(syntaxTreePanel: vscode.WebviewPanel) {
     syntaxTreePanel.webview.postMessage({
         command: "update",
         activatedCommand: FULL_TREE_VIEW
     });
 }
 
+/**
+ * Locates and selects the range of code corresponding to the tree node
+ * for which the locate was called.
+ * @param editor
+ * @param position
+ */
 export function findNode(editor: vscode.TextEditor, position: any) {
     vscode.window.showTextDocument(editor.document, {
         viewColumn: vscode.ViewColumn.One

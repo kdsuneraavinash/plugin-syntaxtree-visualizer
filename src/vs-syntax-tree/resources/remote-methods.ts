@@ -1,5 +1,5 @@
-import * as vscode from "vscode";
 import ELK from "elkjs/lib/elk.bundled";
+import * as vscode from "vscode";
 
 import { ExtendedLangClient } from "../../core";
 import { WebViewMethod } from "../../utils";

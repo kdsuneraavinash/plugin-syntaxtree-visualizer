@@ -14,7 +14,7 @@
         /* Strict Type-Checking Option */
         "strict": true, /* enable all strict type-checking options */
         /* Additional Checks */
-        "noUnusedLocals": true, /* Report errors on unused locals. */
+        "noUnusedLocals": true,
         "baseUrl": ".",
         "paths": {},
         "jsx": "react",
@@ -23,14 +23,14 @@
         "moduleResolution": "node",
         "skipLibCheck": true
     },
-    "include": [
-        "src",
-        "test"
-    ],
     "exclude": [
         "node_modules",
         ".vscode-test",
         "target",
         "extractedDistribution"
+    ],
+    "include": [
+        "src",
+        "test"
     ]
 }

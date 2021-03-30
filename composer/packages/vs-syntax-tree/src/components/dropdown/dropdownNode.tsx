@@ -19,10 +19,9 @@
  */
 import React, { useEffect, useState } from "react";
 import { Icon } from "semantic-ui-react";
-
 import { COLLAPSED_ARROW_ICON,
          COLLAPSIBLE_ARROW_ICON,
-         DROPDOWN_COLOR,
+         DEFAULT_DROPDOWN_COLOR,
          DROPDOWN_LOCATE_ICON,
          DROPDOWN_WARNING_ICON,
          LARGE_ICON,
@@ -69,12 +68,12 @@ function DropdownNode(props: DropdownNodeProps) {
                     marginLeft: props.treeLevel * 35
                 }}
             >
-                <div style ={styles.dropdownArrowStyle}>
+                <div style = {styles.dropdownArrowStyle}>
                     {!ifCollapsible &&
                         <Icon
                             name = {NON_COLLAPSIBLE_ICON}
                             size = {SMALL_ICON}
-                            color = {props.treeNode.errorNode ? WARNING_COLOR : DROPDOWN_COLOR}
+                            color = {props.treeNode.errorNode ? WARNING_COLOR : DEFAULT_DROPDOWN_COLOR}
                         />
                     }
 
@@ -82,7 +81,7 @@ function DropdownNode(props: DropdownNodeProps) {
                         <Icon
                             name = {COLLAPSED_ARROW_ICON}
                             size = {LARGE_ICON}
-                            color = {props.treeNode.errorNode ? WARNING_COLOR : DROPDOWN_COLOR}
+                            color = {props.treeNode.errorNode ? WARNING_COLOR : DEFAULT_DROPDOWN_COLOR}
                             onClick = {ifCollapsible ? () => props.onCollapseTree(props.treeNode.nodeID, false)
                                 : () => {}}
                         />
@@ -92,7 +91,7 @@ function DropdownNode(props: DropdownNodeProps) {
                         <Icon
                             name = {COLLAPSIBLE_ARROW_ICON}
                             size = {LARGE_ICON}
-                            color = {props.treeNode.errorNode ? WARNING_COLOR : DROPDOWN_COLOR}
+                            color = {props.treeNode.errorNode ? WARNING_COLOR : DEFAULT_DROPDOWN_COLOR}
                             onClick = {ifCollapsible ? () => props.onCollapseTree(props.treeNode.nodeID, false)
                                 : () => {}}
                         />
@@ -102,7 +101,7 @@ function DropdownNode(props: DropdownNodeProps) {
                 <div
                     style = {{
                         ...styles.nodeLabelStyle,
-                        color: props.treeNode.errorNode ? WARNING_COLOR : DROPDOWN_COLOR,
+                        color: props.treeNode.errorNode ? WARNING_COLOR : DEFAULT_DROPDOWN_COLOR,
                         fontWeight: props.treeNode.isNodePath ? "bold" : "normal"
                     }}
                     onClick = {onClickNode}
@@ -110,7 +109,7 @@ function DropdownNode(props: DropdownNodeProps) {
                     {props.treeNode.value.length > 25 ? props.treeNode.kind : props.treeNode.value}
 
                     {ifCollapsible && !props.treeNode.didCollapse && props.treeNode.diagnostics &&
-                        props.treeNode.diagnostics.length > 0 &&
+                    props.treeNode.diagnostics.length > 0 &&
                         <div style = {styles.iconStyle}>
                             <Icon
                                 name = {DROPDOWN_WARNING_ICON}

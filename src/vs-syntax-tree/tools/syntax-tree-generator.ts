@@ -29,6 +29,12 @@ export let nodeEdges: any[];
 export let syntaxTreeObj: TreeNode[];
 let graphicalTreeObj: TreeNode[];
 
+/**
+ * Maps the retrieved JSON object to the tree object that is to be mapped
+ * @param responseTree - the retrieved JSON object from the LS
+ * @param activatedCommand - the currently activated command
+ * @returns the mapped out syntax tree objects
+ */
 export function retrieveGraph(responseTree: any, activatedCommand: string) {
     syntaxTreeObj = [];
     checkNodePath = activatedCommand === LOCATE_TREE_VIEW ? true : false;
@@ -37,6 +43,13 @@ export function retrieveGraph(responseTree: any, activatedCommand: string) {
     return updateSyntaxTree("", true);
 }
 
+/**
+ * Updates the tree object based on the collapsibility property
+ * @param nodeID  - the ID of the node that needs to be collapsed
+ * @param isGraphical - if the current tree is in graphical representation mode
+ * @returns the mapped graph object required to find the graphical tree
+ * position coordinates
+ */
 export function updateSyntaxTree(nodeID: string, isGraphical: boolean) {
     if (isGraphical) {
         nodeEdges = []; nodeMembers = [];
@@ -46,6 +59,10 @@ export function updateSyntaxTree(nodeID: string, isGraphical: boolean) {
     return setGraph();
 }
 
+/**
+ * Maps the tree object to the graph required to find positions of the graphical
+ * tree nodes and edges
+ */
 function setGraph() {
     const treeGraph = {
         id: "root",

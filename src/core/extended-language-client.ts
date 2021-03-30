@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 /**
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -18,11 +18,11 @@
  *
  */
 
+import { Selection, Uri } from "vscode";
 import { LanguageClient } from "vscode-languageclient";
-import { Uri, Selection } from "vscode";
 
 export interface BallerinaSyntaxTree {
-    kind: String;
+    kind: string;
     topLevelNodes: any[];
 }
 
@@ -44,33 +44,52 @@ export interface GetSyntaxTreeByRangeRequest {
 }
 
 export class ExtendedLangClient extends LanguageClient {
+    /**
+     * Method to retrieve a syntax tree for a source file from the LS
+     * @param uri - the URI of the source file for which the tree is retrieved
+     * @returns the mapped syntax tree JSON object
+     */
     getSyntaxTree(uri: Uri): Thenable<BallerinaSyntaxTreeResponse> {
         const req: GetSyntaxTreeRequest = {
             documentIdentifier: {
                 uri: uri.toString()
             }
         };
-        
+
         return this.sendRequest("ballerinaDocument/syntaxTree", req);
     }
 
-    getSyntaxTreeByRange(uri: Uri, lineRange: Selection): Thenable<BallerinaSyntaxTreeResponse>{
+    /**
+     * Method to retrieve the sub syntax trees relevant to a particular range
+     * @param uri - the URI of the source file to which the range belongs
+     * @param lineRange - the range for which the subtree has to be retrieved
+     * @returns the mapped syntax tree of the corresponding code for the range parsed
+     */
+    getSyntaxTreeByRange(uri: Uri, lineRange: Selection): Thenable<BallerinaSyntaxTreeResponse> {
         const req: GetSyntaxTreeByRangeRequest = {
             documentIdentifier: {
                 uri: uri.toString()
             },
-            lineRange: lineRange
+            lineRange
         };
 
         return this.sendRequest("ballerinaDocument/syntaxTreeByRange", req);
     }
 
-    getSyntaxNodePath(uri: Uri, lineRange: Selection): Thenable<BallerinaSyntaxTreeResponse>{
+    /**
+     * Method to retrieve the mapped syntax tree JSON object that points out the path
+     * to the node belonging to the particular range
+     * @param uri - the URI of the source file for which the tree is retrieved
+     * @param lineRange - the range of the node that has to be located
+     * @returns the mapped syntax tree JSON object that includes the path to the node
+     * belonging to the range parsed
+     */
+    getSyntaxNodePath(uri: Uri, lineRange: Selection): Thenable<BallerinaSyntaxTreeResponse> {
         const req: GetSyntaxTreeByRangeRequest = {
             documentIdentifier: {
                 uri: uri.toString()
             },
-            lineRange: lineRange
+            lineRange
         };
 
         return this.sendRequest("ballerinaDocument/syntaxTreeLocate", req);

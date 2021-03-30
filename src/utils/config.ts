@@ -1,4 +1,4 @@
-import { WorkspaceConfiguration, workspace } from 'vscode';
+import { workspace, WorkspaceConfiguration } from "vscode";
 
 export interface BallerinaPluginConfig extends WorkspaceConfiguration {
     home?: string;
@@ -6,6 +6,6 @@ export interface BallerinaPluginConfig extends WorkspaceConfiguration {
     classpath?: string;
 }
 
-export function getPluginConfig() : BallerinaPluginConfig {
-    return workspace.getConfiguration('ballerinaCompilerTools');
+export function getPluginConfig(): BallerinaPluginConfig {
+    return workspace.getConfiguration("ballerinaCompilerToolkit");
 }
