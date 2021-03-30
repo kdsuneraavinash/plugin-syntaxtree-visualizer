@@ -17,7 +17,7 @@
  * under the License.
  *
  */
-import { commands, ExtensionContext, window } from 'vscode';
+import { commands, ExtensionContext, window } from "vscode";
 import { ballerinaExtInstance } from "./core";
 import { log } from "./utils";
 import { activate as activateSyntaxTree } from "./vs-syntax-tree";

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /**
  * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
@@ -17,14 +17,14 @@
  * under the License.
  *
  */
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
 const outputChannel = vscode.window.createOutputChannel("Ballerina Compiler Tools");
-const logLevelDebug: boolean = vscode.workspace.getConfiguration('ballerinaCompilerTools').get('debugLog') === true;
+const logLevelDebug: boolean = vscode.workspace.getConfiguration("ballerinaCompilerTools").get("debugLog") === true;
 
 function withNewLine(value: string) {
-    if (!value.endsWith('\n')) {
-        return value+='\n';
+    if (!value.endsWith("\n")) {
+        return value += "\n";
     }
     return value;
 }
@@ -39,7 +39,7 @@ export function debug(value: string) : void {
 }
 
 // This function will log the value to the Ballerina output channel
-export function log(value: string) : void {
+export function log(value: string): void {
     const output = withNewLine(value);
     console.log(output);
     outputChannel.append(output);

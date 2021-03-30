@@ -22,6 +22,10 @@ import { INVALID_TOKEN } from "../resources/constant-resources";
 import { TreeNode } from "../resources/interfaces";
 import { checkNodePath } from "./syntax-tree-generator";
 
+/**
+ * The method to assign propeties for the self-made nodes
+ * @param node - the node for which properties need to be assigned
+ */
 export function assignProperties(node: TreeNode | any) {
     let preceedingNode: number | any = -1;
 

@@ -25,6 +25,15 @@ import { assignProperties } from "./syntax-tree-mapper-utils";
 let treeNode: any;
 let nodeCount: number = -1;
 
+/**
+ * Recursively maps the syntax tree JSON object to a tree object that includes
+ * the parent-child relationship all the nodes that need to be rendered
+ * @param nodeObj - the tree object 
+ * @param parentObj - the parent of the parsed tree object
+ * @param treeLevel - the level of the tree
+ * @param foundNodeBlock - the node block to handle the path highlighting for the locate mode
+ * @returns 
+ */
 export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLevel: number, foundNodeBlock: boolean) {
     for (const props in nodeObj) {
         if (props === "source") {
@@ -44,13 +53,14 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                                 children: [],
                                 errorNode: true,
                                 diagnostics: [{
-                                    message: INVALID_TOKEN_MESSAGE + nodeObj[props].leadingMinutiae[element].minutiae + TRAILING_QUOTATION
+                                    message: INVALID_TOKEN_MESSAGE + nodeObj[props].leadingMinutiae[element].minutiae
+                                        + TRAILING_QUOTATION
                                 }]
                             });
                         }
                     }
                 }
-                
+
                 const isMissing = nodeObj[props].isMissing;
 
                 parentObj.children.push({
@@ -85,11 +95,8 @@ export function mapSyntaxTree(nodeObj: JSON, parentObj: TreeNode | any, treeLeve
                 };
 
                 let currentBlockStatus: boolean;
-                if (checkNodePath && nodeObj[props].isNodePath) {
-                    currentBlockStatus = nodeObj[props].isLocatedNode ? true : foundNodeBlock;
-                } else {
-                    currentBlockStatus = foundNodeBlock;
-                }
+                currentBlockStatus = (checkNodePath && nodeObj[props].isNodePath && nodeObj[props].isLocatedNode) ?
+                                        true : foundNodeBlock;
 
                 if (!props.match(/^[0-9]+$/)) {
                     const parentNode: any = {

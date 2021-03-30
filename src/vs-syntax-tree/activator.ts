@@ -38,6 +38,12 @@ let activeTextEditor: vscode.TextEditor;
 let syntaxTreePanel: vscode.WebviewPanel;
 let hasOpenWebview: boolean = false;
 
+/**
+ * Activates the Ballerina Syntax Tree Visualizer extension by
+ * registering the command (for full tree visualization) and
+ * the two code actions (for subtree visualization and locate option)
+ * @param ballerinaExtInstance
+ */
 export function activate(ballerinaExtInstance: BallerinaExtension) {
     const context = <vscode.ExtensionContext> ballerinaExtInstance.context;
     const langClient = <ExtendedLangClient> ballerinaExtInstance.langClient;
@@ -70,30 +76,19 @@ export function activate(ballerinaExtInstance: BallerinaExtension) {
             }));
         }
     })
-    .catch((e) => { 
-        console.log(e);           
+    .catch((e) => {
+        console.log(e);
         ballerinaExtInstance.showPluginActivationError();
     });
 }
 
-function createSyntaxTreePanel(langClient: ExtendedLangClient) {
-    syntaxTreePanel = vscode.window.createWebviewPanel(
-        EXTENSION_ID,
-        EXTENSION_NAME,
-        {
-            viewColumn: vscode.ViewColumn.Beside
-        },
-        getCommonWebViewOptions()
-    );
-    hasOpenWebview = true;
-    syntaxTreePanel.onDidDispose(() => {
-        hasOpenWebview = false;
-    });
-
-    WebViewRPCHandler.create(syntaxTreePanel, langClient, getRemoteMethods(langClient));
-}
-
-function activateCommand (langClient: ExtendedLangClient, command: string) {
+/**
+ * Upon invoking the commands,
+ * validates the open source file and ranges (if available)
+ * @param langClient
+ * @param command
+ */
+function activateCommand(langClient: ExtendedLangClient, command: string) {
     if (!vscode.window.activeTextEditor ||
         !vscode.window.activeTextEditor.document.fileName.endsWith(".bal")) {
         vscode.window.showWarningMessage(EXTENSION_NAME, ": ", BAL_SOURCE_NOT_FOUND);
@@ -111,6 +106,36 @@ function activateCommand (langClient: ExtendedLangClient, command: string) {
                         command);
 }
 
+/**
+ * Takes the client instance and creates the webview panel and registers
+ * with the RPCHandler
+ * @param langClient
+ */
+function createSyntaxTreePanel(langClient: ExtendedLangClient) {
+    syntaxTreePanel = vscode.window.createWebviewPanel(
+        EXTENSION_ID,
+        EXTENSION_NAME,
+        {
+            viewColumn: vscode.ViewColumn.Beside
+        },
+        getCommonWebViewOptions()
+    );
+    hasOpenWebview = true;
+    syntaxTreePanel.onDidDispose(() => {
+        hasOpenWebview = false;
+    });
+
+    WebViewRPCHandler.create(syntaxTreePanel, langClient, getRemoteMethods(langClient));
+}
+
+/**
+ * Invokes the rendering of the content on the webview panel.
+ * And registers the listeners for sourcefile changes and
+ * messages from the webview if an open webview is available.
+ * @param activeEditor
+ * @param blockRange
+ * @param activatedCommand
+ */
 function visualizeSyntaxTree(activeEditor: vscode.TextEditor,
                              blockRange: vscode.Selection,
                              activatedCommand: string) {

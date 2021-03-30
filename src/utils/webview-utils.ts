@@ -1,15 +1,15 @@
-import { Uri, ExtensionContext, WebviewOptions, WebviewPanelOptions } from "vscode";
 import { join } from "path";
+import { ExtensionContext, Uri, WebviewOptions, WebviewPanelOptions } from "vscode";
 import { ballerinaExtInstance } from "../core";
 
 export function getWebViewResourceRoot(): string {
     return join((ballerinaExtInstance.context as ExtensionContext).extensionPath,
-        'resources');
+        "resources");
 }
 
 export function getNodeModulesRoot(): string {
     return join((ballerinaExtInstance.context as ExtensionContext).extensionPath,
-        'node_modules');
+        "node_modules");
 }
 
 export function getCommonWebViewOptions(): Partial<WebviewOptions & WebviewPanelOptions> {
@@ -17,7 +17,7 @@ export function getCommonWebViewOptions(): Partial<WebviewOptions & WebviewPanel
         enableScripts: true,
         retainContextWhenHidden: true,
         localResourceRoots: [
-            Uri.file(join((ballerinaExtInstance.context as ExtensionContext).extensionPath, 'resources', 'jslibs')),
+            Uri.file(join((ballerinaExtInstance.context as ExtensionContext).extensionPath, "resources", "jslibs")),
             Uri.file(getWebViewResourceRoot()),
             Uri.file(getNodeModulesRoot())
         ],
@@ -25,7 +25,7 @@ export function getCommonWebViewOptions(): Partial<WebviewOptions & WebviewPanel
 }
 
 export function getVSCodeResourceURI(filePath: string): string {
-    return 'vscode-resource:' + filePath;
+    return "vscode-resource:" + filePath;
 }
 
 export interface WebViewOptions {
@@ -50,12 +50,12 @@ export function getLibraryWebViewContent(options: WebViewOptions) {
     const nodeModulesRoot = getVSCodeResourceURI(getNodeModulesRoot());
     const externalScripts = jsFiles
         ? jsFiles.map(jsFile =>
-            '<script charset="UTF-8" onload="loadedScript();" src="' + jsFile + '"></script>').join('\n')
-        : '';
+            '<script charset="UTF-8" onload="loadedScript();" src="' + jsFile + '"></script>').join("\n")
+        : "";
     const externalStyles = cssFiles
         ? cssFiles.map(cssFile =>
-            '<link rel="stylesheet" type="text/css" href="' + cssFile + '" />').join('\n')
-        : '';
+            '<link rel="stylesheet" type="text/css" href="' + cssFile + '" />').join("\n")
+        : "";
 
     return `
             <!DOCTYPE html>
@@ -76,7 +76,7 @@ export function getLibraryWebViewContent(options: WebViewOptions) {
                     ${styles}
                 </style>
             </head>
-            
+
             <body class="${bodyCss}">
                 ${body}
                 <script>
@@ -92,7 +92,7 @@ export function getLibraryWebViewContent(options: WebViewOptions) {
 }
 
 export function getComposerURI(): string {
-    return getVSCodeResourceURI(join((ballerinaExtInstance.context as ExtensionContext).extensionPath, 'resources', 'jslibs'));
+    return getVSCodeResourceURI(join((ballerinaExtInstance.context as ExtensionContext).extensionPath, "resources", "jslibs"));
 }
 
 export function getComposerPath(): string {
@@ -103,14 +103,14 @@ export function getComposerPath(): string {
 
 export function getComposerJSFiles(): string[] {
     return [
-        join(getComposerPath(), 'composer.js'),
-        process.env.COMPOSERDEBUG === "true" ? 'http://localhost:8097' : '' // For React Dev Tools
+        join(getComposerPath(), "composer.js"),
+        process.env.COMPOSERDEBUG === "true" ? "http://localhost:8097" : "" // For React Dev Tools
     ];
 }
 
 export function getComposerCSSFiles(): string[] {
     return [
-        join(getComposerPath(), 'themes', 'ballerina-default.min.css')
+        join(getComposerPath(), "themes", "ballerina-default.min.css")
     ];
 }
 

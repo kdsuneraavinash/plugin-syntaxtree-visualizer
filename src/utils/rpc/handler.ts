@@ -1,11 +1,14 @@
-import { WebViewMethod, WebViewRPCMessage } from './model';
-import { Position, Range, Selection, window, Uri, TextEditor, ViewColumn, commands, WebviewPanel } from 'vscode';
-import { ExtendedLangClient } from 'src/core/extended-language-client';
+import { ExtendedLangClient } from "src/core/extended-language-client";
+import {
+    commands, Position, Range, Selection, TextEditor,
+    Uri, ViewColumn, WebviewPanel, window
+} from "vscode";
+import { WebViewMethod, WebViewRPCMessage } from "./model";
 
 const getLangClientMethods = (langClient: ExtendedLangClient): WebViewMethod[] => {
-    return [    
+    return [
     {
-        methodName: 'revealRange',
+        methodName: "revealRange",
         handler: (args: any[], webViewPanel) => {
             const params = JSON.parse(args[0]);
             const revealRangeInEditor = (editor: TextEditor) => {
@@ -18,8 +21,8 @@ const getLangClientMethods = (langClient: ExtendedLangClient): WebViewMethod[] =
                 // webViewPanel.reveal does not move to column TWO if its not already there
                 // TODO: Report to vscode as a bug
                 const tempPanel = window.createWebviewPanel(
-                    'temp',
-                    'TEMP',
+                    "temp",
+                    "TEMP",
                     { viewColumn: ViewColumn.Two, preserveFocus: true }
                 );
                 webViewPanel.reveal(ViewColumn.Two);
@@ -50,7 +53,7 @@ const getLangClientMethods = (langClient: ExtendedLangClient): WebViewMethod[] =
         }
     },
     {
-        methodName: 'goToSource',
+        methodName: "goToSource",
         handler: (args: any[]) => {
             const activeEditor = window.activeTextEditor;
             if (activeEditor) {
@@ -63,20 +66,20 @@ const getLangClientMethods = (langClient: ExtendedLangClient): WebViewMethod[] =
 };
 
 const undoRedoMethods = [{
-    methodName: 'undo',
+    methodName: "undo",
     handler: (args: any[]) => {
-        commands.executeCommand('workbench.action.focusPreviousGroup')
+        commands.executeCommand("workbench.action.focusPreviousGroup")
             .then(() => {
-                commands.executeCommand('undo');
+                commands.executeCommand("undo");
             });
     }
 },
 {
-    methodName: 'redo',
+    methodName: "redo",
     handler: (args: any[]) => {
-        commands.executeCommand('workbench.action.focusPreviousGroup')
+        commands.executeCommand("workbench.action.focusPreviousGroup")
             .then(() => {
-                commands.executeCommand('redo');
+                commands.executeCommand("redo");
             });
 
     }

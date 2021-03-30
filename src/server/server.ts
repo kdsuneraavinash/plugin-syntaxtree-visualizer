@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /**
  * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
@@ -17,17 +17,17 @@
  * under the License.
  *
  */
-import * as path from 'path';
-import { debug } from '../utils/logger';
-import { ExecutableOptions, ServerOptions } from 'vscode-languageclient';
+import * as path from "path";
+import { ExecutableOptions, ServerOptions } from "vscode-languageclient";
+import { debug } from "../utils/logger";
 
 export function getServerOptions(ballerinaCmd: string): ServerOptions {
     debug(`Using Ballerina CLI command '${ballerinaCmd}' for Language server.`);
-    let cmd = ballerinaCmd;
-    let args = ["start-language-server"];
+    const cmd = ballerinaCmd;
+    const args = ["start-language-server"];
 
-    let opt: ExecutableOptions = {};
-    opt.env = Object.assign({}, process.env);
+    const opt: ExecutableOptions = {};
+    opt.env = {...process.env};
     if (process.env.LSEXTENSIONS_PATH !== "") {
         if (opt.env.BALLERINA_CLASSPATH_EXT) {
             opt.env.BALLERINA_CLASSPATH_EXT += path.delimiter + process.env.LSEXTENSIONS_PATH;
@@ -36,14 +36,14 @@ export function getServerOptions(ballerinaCmd: string): ServerOptions {
         }
     }
     if (process.env.SERVER_DEBUG === "true") {
-        debug('Language Server is starting in debug mode.');
-        let debugPort = 5005;
+        debug("Language Server is starting in debug mode.");
+        const debugPort = 5005;
         opt.env.BAL_JAVA_DEBUG = debugPort;
         opt.env.BAL_DEBUG_OPTS = "-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=" + debugPort + ",quiet=y";
     }
 
     if (process.env.LS_CUSTOM_CLASSPATH) {
-        args.push('--classpath', process.env.LS_CUSTOM_CLASSPATH);
+        args.push("--classpath", process.env.LS_CUSTOM_CLASSPATH);
     }
 
     return {
