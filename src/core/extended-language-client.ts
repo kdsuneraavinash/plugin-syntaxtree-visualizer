@@ -18,8 +18,8 @@
  *
  */
 
-import { Selection, Uri } from "vscode";
-import { LanguageClient } from "vscode-languageclient";
+import {Selection, Uri} from "vscode";
+import {LanguageClient} from "vscode-languageclient";
 
 export interface BallerinaSyntaxTree {
     kind: string;
@@ -28,6 +28,12 @@ export interface BallerinaSyntaxTree {
 
 export interface BallerinaSyntaxTreeResponse {
     syntaxTree?: BallerinaSyntaxTree;
+}
+
+export interface BallerinaSyntaxApiQuoteResponse {
+    source?: string,
+    code?: string,
+    parseSuccess?: boolean,
 }
 
 export interface GetSyntaxTreeRequest {
@@ -41,6 +47,13 @@ export interface GetSyntaxTreeByRangeRequest {
         uri: string
     };
     lineRange: Selection;
+}
+
+export interface GetSyntaxApiQuoteRequest {
+    documentIdentifier: {
+        uri: string;
+    };
+    ignoreMinutiae: boolean,
 }
 
 export class ExtendedLangClient extends LanguageClient {
@@ -93,5 +106,21 @@ export class ExtendedLangClient extends LanguageClient {
         };
 
         return this.sendRequest("ballerinaDocument/syntaxTreeLocate", req);
+    }
+
+    /**
+     * Method to retrieve a syntax api quote response from the LS
+     * @param uri - the URI of the source file for which the tree is retrieved
+     * @returns the syntax api quote response
+     */
+    getSyntaxApiQuote(uri: Uri): Thenable<BallerinaSyntaxApiQuoteResponse> {
+        const req: GetSyntaxApiQuoteRequest = {
+            documentIdentifier: {
+                uri: uri.toString()
+            },
+            ignoreMinutiae: false,
+        };
+
+        return this.sendRequest("ballerinaDocument/syntaxApiQuote", req);
     }
 }
