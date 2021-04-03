@@ -21,12 +21,14 @@ import { commands, ExtensionContext, window } from "vscode";
 import { ballerinaExtInstance } from "./core";
 import { log } from "./utils";
 import { activate as activateSyntaxTree } from "./vs-syntax-tree";
+import { activate as activateApiQuoter } from "./vs-api-quoter";
 
 export function activate(context: ExtensionContext): Promise<any> {
     ballerinaExtInstance.setContext(context);
     return ballerinaExtInstance.init().then(() => {
         // start the features.
         activateSyntaxTree(ballerinaExtInstance);
+        activateApiQuoter(ballerinaExtInstance);
     }).catch((e) => {
         log("Failed to activate Ballerina extension. " + (e.message ? e.message : e));
         // When plugins fails to start, provide a warning upon each command execution
