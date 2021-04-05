@@ -18,10 +18,10 @@
  *
  */
 import * as path from "path";
-import { ExecutableOptions, ServerOptions } from "vscode-languageclient";
+import { Executable, ExecutableOptions } from "vscode-languageclient";
 import { debug } from "../utils/logger";
 
-export function getServerOptions(ballerinaCmd: string): ServerOptions {
+export function getServerOptions(ballerinaCmd: string): Executable {
     debug(`Using Ballerina CLI command '${ballerinaCmd}' for Language server.`);
     const cmd = ballerinaCmd;
     const args = ["start-language-server"];

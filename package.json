@@ -40,7 +40,7 @@
         ],
         "configuration": {
             "type": "object",
-            "title": "Ballerina Compiler Tools",
+            "title": "Ballerina Compiler Toolkit",
             "properties": {
                 "ballerinaCompilerToolkit.plugin.dev.mod": {
                     "type": "boolean",
@@ -84,7 +84,6 @@
         "@types/vscode": "^1.54.0",
         "dom-parser": "^0.1.6",
         "elkjs": "^0.7.0",
-        "glob": "^7.1.3",
         "js-base64": "^2.5.1",
         "lodash": "^4.17.11",
         "mousetrap": "^1.6.3",
@@ -108,7 +107,6 @@
         "glob": "^7.1.6",
         "istanbul": "^0.4.5",
         "js-yaml": "^3.14.1",
-        "kill-port-process": "2.3.0",
         "mocha": "^5.2.0",
         "remap-istanbul": "^0.13.0",
         "source-map-support": "^0.5.19",

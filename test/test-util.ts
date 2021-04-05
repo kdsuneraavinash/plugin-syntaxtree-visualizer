@@ -24,7 +24,6 @@
 // Ballerina tools distribution will be copied to following location by maven
 import * as fs from 'fs';
 import * as path from 'path';
-import { killPortProcess } from 'kill-port-process';
 
 const TEST_RESOURCES = __dirname + '/../../extractedDistribution/';
 const PLATFORM_PREFIX = /jballerina-tools-/;
@@ -58,18 +57,4 @@ export function getBallerinaCmd(): string {
 
 export function getBallerinaVersion() {
     return findBallerinaDistribution().replace(PLATFORM_PREFIX, '').replace('\n', '').trim();
-}
-
-export function getBBEPath(): any {
-    return path.join(__dirname + '/../../resources/templates/');
-}
-
-export function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-export function killPort(port: number) {
-    (async () => {
-        await killPortProcess(port);
-    })();
 }

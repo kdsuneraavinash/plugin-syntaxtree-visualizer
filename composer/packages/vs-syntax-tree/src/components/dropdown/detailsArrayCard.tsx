@@ -46,8 +46,8 @@ function DropdownArrayDetails(props: DetailsArrayCardProp) {
                             return <div key = {id}
                                         style = {styles.detailsCardValueStyle}
                                    >
-                                - {item.message}
-                            </div>;
+                                        - {item.message}
+                                    </div>;
                         }
                     })}
                 </div>

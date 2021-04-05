@@ -109,7 +109,7 @@ function DropdownNode(props: DropdownNodeProps) {
                     {props.treeNode.value.length > 25 ? props.treeNode.kind : props.treeNode.value}
 
                     {ifCollapsible && !props.treeNode.didCollapse && props.treeNode.diagnostics &&
-                    props.treeNode.diagnostics.length > 0 &&
+                        props.treeNode.diagnostics.length > 0 &&
                         <div style = {styles.iconStyle}>
                             <Icon
                                 name = {DROPDOWN_WARNING_ICON}

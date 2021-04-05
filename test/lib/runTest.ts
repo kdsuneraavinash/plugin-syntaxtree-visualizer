@@ -17,12 +17,12 @@
  *
  */
 
-import * as cp from 'child_process';
+import * as cp from "child_process";
 
-const downloadAndUnzipVSCode = require('vscode-test').downloadAndUnzipVSCode;
+const downloadAndUnzipVSCode = require("vscode-test").downloadAndUnzipVSCode;
 type StringLiteralUnion<T extends U, U = string> = T | (U & {});
-type DownloadVersion = StringLiteralUnion<'insiders' | 'stable'>;
-type DownloadPlatform = StringLiteralUnion<'darwin' | 'win32-archive' | 'win32-x64-archive' | 'linux-x64'>;
+type DownloadVersion = StringLiteralUnion<"insiders" | "stable">;
+type DownloadPlatform = StringLiteralUnion<"darwin" | "win32-archive" | "win32-x64-archive" | "linux-x64">;
 
 export interface TestOptions {
 	/**
@@ -107,9 +107,9 @@ export async function runTests(options: TestOptions): Promise<number> {
 	}
 
 	let args = [
-		'--no-sandbox',
-		'--extensionDevelopmentPath=' + options.extensionDevelopmentPath,
-		'--extensionTestsPath=' + options.extensionTestsPath
+		"--no-sandbox",
+		"--extensionDevelopmentPath=" + options.extensionDevelopmentPath,
+		"--extensionTestsPath=" + options.extensionTestsPath
 	];
 
 	if (options.launchArgs) {
@@ -129,16 +129,16 @@ async function innerRunTests(
 		const fullEnv = Object.assign({}, process.env, testRunnerEnv);
 		const cmd = cp.spawn(executable, args, { env: fullEnv });
 
-		cmd.stdout.on('data', function (data) {
+		cmd.stdout.on("data", function (data) {
 			console.log(data.toString());
 		});
 
-		cmd.stderr.on('data', function (data) {
+		cmd.stderr.on("data", function (data) {
 			console.error(data.toString());
 		});
 
-		cmd.on('error', function (data) {
-			console.log('Test error: ' + data.toString());
+		cmd.on("error", function (data) {
+			console.log("Test error: " + data.toString());
 		});
 
 		let finished = false;
@@ -154,10 +154,10 @@ async function innerRunTests(
 			} else {
 				reject(code);
 			}
-			console.log('Done\n');
+			console.log("Done\n");
 		}
 
-		cmd.on('close', onProcessClosed);
-		cmd.on('exit', onProcessClosed);
+		cmd.on("close", onProcessClosed);
+		cmd.on("exit", onProcessClosed);
 	});
 }
