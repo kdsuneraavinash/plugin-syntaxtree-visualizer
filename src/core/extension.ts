@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -18,27 +18,26 @@
  *
  */
 
+import { AssertionError } from "assert";
+import { exec, spawnSync } from "child_process";
+import * as path from "path";
 import {
     commands, ConfigurationChangeEvent, Extension, ExtensionContext,
     extensions, OutputChannel, Uri, window, workspace
 } from "vscode";
+import { LanguageClientOptions, RevealOutputChannelOn, ServerOptions, State as LS_STATE } from "vscode-languageclient";
+import { getServerOptions } from "../server/server";
+import { getOutputChannel, log } from "../utils/index";
+import { ExtendedLangClient } from "./extended-language-client";
 import {
     COMMAND_NOT_FOUND, CONFIG_CHANGED, DOWNLOAD_BALLERINA, ERROR, INSTALL_BALLERINA,
     INSTALL_NEW_BALLERINA, INVALID_FILE, INVALID_HOME_MSG,
     NO_SUCH_FILE, OLD_BALLERINA_VERSION, OLD_PLUGIN_VERSION, UNKNOWN_ERROR
 } from "./messages";
-import * as path from "path";
-import { exec, spawnSync } from "child_process";
-import { LanguageClientOptions, RevealOutputChannelOn, ServerOptions, State as LS_STATE} from "vscode-languageclient";
-import { getServerOptions } from "../server/server";
-import { ExtendedLangClient } from "./extended-language-client";
-import { getOutputChannel, log } from "../utils/index";
-import { AssertionError } from "assert";
-import { BALLERINA_HOME, OVERRIDE_BALLERINA_HOME } from "./preferences";
+import { BAL_HOME, OVERRIDE_BAL_HOME } from "./preferences";
 const any = require("promise.any");
 
 const SWAN_LAKE_REGEX = /(s|S)wan( |-)(l|L)ake/g;
-const PREV_REGEX = /1\.2\.[0-9]+/g;
 
 export const EXTENSION_ID = "ballerina.ballerinacompilertoolkit";
 
@@ -55,18 +54,18 @@ export interface ConstructIdentifier {
 export class BallerinaExtension {
     public ballerinaHome: string;
     public ballerinaCmd: string;
+    public ballerinaVersion: string;
     public isSwanLake: boolean;
-    public is12x: boolean;
     public extension: Extension<any>;
-    private clientOptions: LanguageClientOptions;
     public langClient?: ExtendedLangClient;
     public context?: ExtensionContext;
+    private clientOptions: LanguageClientOptions;
 
     constructor() {
         this.ballerinaHome = "";
         this.ballerinaCmd = "";
+        this.ballerinaVersion = "";
         this.isSwanLake = false;
-        this.is12x = false;
         // Load the extension
         this.extension = extensions.getExtension(EXTENSION_ID)!;
         this.clientOptions = {
@@ -91,9 +90,10 @@ export class BallerinaExtension {
 
             // Check if ballerina home is set.
             if (this.overrideBallerinaHome()) {
-                if (!this.overrideBallerinaHome()) {
+                if (!this.getConfiguredBallerinaHome()) {
+                    const message = "Trying to get ballerina version without setting ballerina home.";
                     throw new AssertionError({
-                        message: "Trying to get ballerina version without setting ballerina home."
+                        message
                     });
                 }
 
@@ -103,52 +103,52 @@ export class BallerinaExtension {
 
             // Validate the ballerina version.
             const pluginVersion = this.extension.packageJSON.version.split("-")[0];
-            return this.getBallerinaVersion(this.ballerinaHome, this.overrideBallerinaHome()).then(ballerinaVersion => {
-                ballerinaVersion = ballerinaVersion.split("-")[0];
+            return this.getBallerinaVersion(this.ballerinaHome, this.overrideBallerinaHome()).then((runtimeVersion) => {
+                this.ballerinaVersion = runtimeVersion.split("-")[0];
                 if (!this.overrideBallerinaHome()) {
                     const { home } = this.autoDetectBallerinaHome();
                     this.ballerinaHome = home;
                 }
-                log(`Ballerina Compiler Tools Plugin version: ${pluginVersion}\nBallerina version: ${ballerinaVersion}`);
+                log(`Plugin version: ${pluginVersion}\nBallerina version: ${this.ballerinaVersion}`);
 
-                if (ballerinaVersion.match(SWAN_LAKE_REGEX)) {
+                if (this.ballerinaVersion.match(SWAN_LAKE_REGEX)) {
                     this.isSwanLake = true;
-                } else if (ballerinaVersion.match(PREV_REGEX)) {
-                    this.is12x = true;
                 }
 
-                if (!this.isSwanLake && !this.is12x) {
+                if (!this.isSwanLake) {
                     this.showMessageOldBallerina();
+                    const message = `Ballerina version ${this.ballerinaVersion} is not supported.
+                        Please use a compatible VSCode extension version.`;
                     throw new AssertionError({
-                        message: `Ballerina version ${ballerinaVersion} is not supported. Please use a compatible VSCode extension version.`
+                        message
                     });
                 }
 
                 // if Home is found load Language Server.
                 let serverOptions: ServerOptions;
                 serverOptions = getServerOptions(this.ballerinaCmd);
-
-                this.langClient = new ExtendedLangClient("ballerinaCompilerToolkit", "Ballerina Compiler Toolkit LS Client",
+                this.langClient = new ExtendedLangClient("ballerina-compiler-toolkit", "Ballerina Compiler Toolkit LS Client",
                     serverOptions, this.clientOptions, false);
 
                 // Following was put in to handle server startup failures.
-                const disposeDidChange = this.langClient.onDidChangeState(stateChangeEvent => {
+                const disposeDidChange = this.langClient.onDidChangeState((stateChangeEvent) => {
                     if (stateChangeEvent.newState === LS_STATE.Stopped) {
-                        log("Couldn't establish language server connection.");
+                        const message = "Couldn't establish language server connection.";
+                        log(message);
                         this.showPluginActivationError();
                     }
                 });
 
                 const disposable = this.langClient.start();
 
-                this.langClient.onReady().then(fulfilled => {
+                this.langClient.onReady().then(() => {
                     disposeDidChange.dispose();
                     this.context!.subscriptions.push(disposable);
                 });
             }, (reason) => {
                 throw new Error(reason);
             }).catch(e => {
-                const msg = `Error when checking ballerina version. \n ${e.message}`;
+                const msg = `Error when checking ballerina version. ${e.message}`;
                 throw new Error(msg);
             });
         } catch (ex) {
@@ -161,7 +161,7 @@ export class BallerinaExtension {
 
     onReady(): Promise<void> {
         if (!this.langClient) {
-            return Promise.reject("Ballerina Compiler Tools Extension is not initialized");
+            return Promise.reject("Ballerina Compiler Toolkit is not initialized");
         }
 
         return this.langClient.onReady();
@@ -171,15 +171,14 @@ export class BallerinaExtension {
         // message to display on Unknown errors.
         // ask to enable debug logs.
         // we can ask the user to report the issue.
-
         window.showErrorMessage(UNKNOWN_ERROR);
     }
 
     registerPreInitHandlers(): any {
         // We need to restart VSCode if we change plugin configurations.
         workspace.onDidChangeConfiguration((params: ConfigurationChangeEvent) => {
-            if (params.affectsConfiguration(BALLERINA_HOME) ||
-                params.affectsConfiguration(OVERRIDE_BALLERINA_HOME)) {
+            if (params.affectsConfiguration(BAL_HOME) ||
+                params.affectsConfiguration(OVERRIDE_BAL_HOME)) {
                 this.showMsgAndRestart(CONFIG_CHANGED);
             }
         });
@@ -192,53 +191,6 @@ export class BallerinaExtension {
                 commands.executeCommand("workbench.action.reloadWindow");
             }
         });
-    }
-
-    /**
-     * Compares plugin's versions with the used ballerina distribution's version
-     * Uses only the major and minor versions according to the semver spec.
-     * First two numbers will be used when version string is not semver (eg. 0.990-r1)
-     * Returns 1 if plugin version is higher than ballerina's; -1 if plugin version is lower
-     * than ballerina's; 0 if the versions match.
-     *
-     * @returns {number}
-     */
-    compareVersions(pluginVersion: string, ballerinaVersion: string, comparePatchVer: boolean = false): number {
-        const toInt = (i: string) => {
-            return parseInt(i, 10);
-        };
-        const numMatchRegexp = /\d+/g;
-
-        const [pluginMajor, pluginMinor, pluginPatch] = pluginVersion.match(numMatchRegexp)!.map(toInt);
-        const [ballerinaMajor, ballerinaMinor, ballerinaPatch] = ballerinaVersion.match(numMatchRegexp)!.map(toInt);
-
-        if (pluginMajor > ballerinaMajor) {
-            return 1;
-        }
-
-        if (pluginMajor < ballerinaMajor) {
-            return -1;
-        }
-
-        if (pluginMinor > ballerinaMinor) {
-            return 1;
-        }
-
-        if (pluginMinor < ballerinaMinor) {
-            return -1;
-        }
-
-        if (comparePatchVer) {
-            if (pluginPatch > ballerinaPatch) {
-                return 1;
-            }
-
-            if (pluginPatch < ballerinaPatch) {
-                return -1;
-            }
-        }
-
-        return 0;
     }
 
     async getBallerinaVersion(ballerinaHome: string, overrideBallerinaHome: boolean): Promise<string> {
@@ -261,10 +213,10 @@ export class BallerinaExtension {
                     return;
                 }
 
-                if (stdout.length === 0
-                        || stdout.startsWith(ERROR)
-                        || stdout.includes(NO_SUCH_FILE)
-                        || stdout.includes(COMMAND_NOT_FOUND)) {
+                if (stdout.length === 0 ||
+                    stdout.startsWith(ERROR) ||
+                    stdout.includes(NO_SUCH_FILE) ||
+                    stdout.includes(COMMAND_NOT_FOUND)) {
                     reject(stdout);
                     return;
                 }
@@ -281,10 +233,10 @@ export class BallerinaExtension {
                     return;
                 }
 
-                if (stdout.length === 0
-                        || stdout.startsWith(ERROR)
-                        || stdout.includes(NO_SUCH_FILE)
-                        || stdout.includes(COMMAND_NOT_FOUND)) {
+                if (stdout.length === 0 ||
+                    stdout.startsWith(ERROR) ||
+                    stdout.includes(NO_SUCH_FILE) ||
+                    stdout.includes(COMMAND_NOT_FOUND)) {
                     reject(stdout);
                     return;
                 }
@@ -331,7 +283,9 @@ export class BallerinaExtension {
         const download: string = "Download";
         const openSettings: string = "Open Settings";
         const viewLogs: string = "View Logs";
-        window.showWarningMessage(ballerinaExtInstance.getVersion() + INSTALL_NEW_BALLERINA, download, openSettings, viewLogs).then((selection) => {
+        window.showWarningMessage(
+            ballerinaExtInstance.getVersion() + INSTALL_NEW_BALLERINA, download, openSettings, viewLogs
+        ).then((selection) => {
             if (openSettings === selection) {
                 commands.executeCommand("workbench.action.openGlobalSettings");
             }
@@ -394,7 +348,7 @@ export class BallerinaExtension {
      * @memberof BallerinaExtension
      */
     getConfiguredBallerinaHome(): string {
-        return <string>workspace.getConfiguration().get(BALLERINA_HOME);
+        return <string> workspace.getConfiguration().get(BAL_HOME);
     }
 
     autoDetectBallerinaHome(): { home: string, isOldBallerinaDist: boolean, isBallerinaNotFound: boolean } {
@@ -440,7 +394,7 @@ export class BallerinaExtension {
     }
 
     public overrideBallerinaHome(): boolean {
-        return <boolean>workspace.getConfiguration().get(OVERRIDE_BALLERINA_HOME);
+        return <boolean>workspace.getConfiguration().get(OVERRIDE_BAL_HOME);
     }
 
     public getVersion(): string {

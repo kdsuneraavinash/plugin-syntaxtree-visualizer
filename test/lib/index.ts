@@ -17,4 +17,4 @@
  *
  */
 
-export { runTests } from './runTest';
+export { runTests } from "./runTest";
