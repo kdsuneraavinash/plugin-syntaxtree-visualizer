@@ -1,2 +1,2 @@
-export const BALLERINA_HOME = "ballerinaCompilerToolkit.home";
-export const OVERRIDE_BALLERINA_HOME = "ballerinaCompilerToolkit.plugin.dev.mod";
+export const BAL_HOME = "ballerinaCompilerToolkit.home";
+export const OVERRIDE_BAL_HOME = "ballerinaCompilerToolkit.plugin.dev.mod";

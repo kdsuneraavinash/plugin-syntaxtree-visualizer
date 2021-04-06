@@ -18,10 +18,10 @@
  *
  */
 import * as path from "path";
-import { ExecutableOptions, ServerOptions } from "vscode-languageclient";
+import { Executable, ExecutableOptions } from "vscode-languageclient";
 import { debug } from "../utils/logger";
 
-export function getServerOptions(ballerinaCmd: string): ServerOptions {
+export function getServerOptions(ballerinaCmd: string): Executable {
     debug(`Using Ballerina CLI command '${ballerinaCmd}' for Language server.`);
     const cmd = ballerinaCmd;
     const args = ["start-language-server"];
@@ -39,7 +39,7 @@ export function getServerOptions(ballerinaCmd: string): ServerOptions {
         debug("Language Server is starting in debug mode.");
         const debugPort = 5005;
         opt.env.BAL_JAVA_DEBUG = debugPort;
-        opt.env.BAL_DEBUG_OPTS = "-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=" + debugPort + ",quiet=y";
+        opt.env.BAL_DEBUG_OPTS = "-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=" + debugPort + ",quiet=y";
     }
 
     if (process.env.LS_CUSTOM_CLASSPATH) {

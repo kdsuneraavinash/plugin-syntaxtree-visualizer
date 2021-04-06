@@ -92,7 +92,7 @@ function SyntaxTree(props: PrimaryProps) {
                                         {isDropdownView ? SWITCH_GRAPHICAL : SWITCH_DROPDOWN}
                                     </Label>
                                 }
-                                <Button color="teal" icon>
+                                <Button icon color = "teal">
                                     {isDropdownView ? <Icon name = "chart area" /> : <Icon name = "bars" />}
                                 </Button>
                             </Button>
